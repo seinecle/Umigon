@@ -1,0 +1,11 @@
+text	feature		To somebody in particular
+hey			
+u	end of sentence		
+ready for	plus question mark in the next 10 words		
+you		
+your			
+join	IsFirstLetterCapitalized	
+learn	isFirstTermOfStatus		
+spread the word		
+check out	IsFirstLetterCapitalized	
+watch	isFirstTermOfStatus

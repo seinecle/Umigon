@@ -1,0 +1,85 @@
+text	feature	
+i love 		
+i liked		
+enjoy!		
+worth a read	isPrecededByANegation	
+scorching response to		
+perfect Christmas present		
+perfect present	isPrecededByANegation	
+congrats to		
+great 	isPrecededByANegation	
+amusing	isPrecededByANegation	
+nice	isPrecededByANegation	
+wow		
+impressive	isPrecededByANegation	
+i am so happy		
+cool	isPrecededByANegation	
+interesting	isPrecededByANegation	
+cute	isPrecededByANegation	
+awsome	isPrecededByANegation	
+awesome	isPrecededByANegation	
+amazing	isPrecededByANegation	
+is a livesaver		
+brilliant	isPrecededByANegation	
+love it	isPrecededByANegation	
+i'm happy		
+i am happy		
+i am very happy		
+i'm very happy		
+has something for everyone		
+we're honored		
+we are honored		
+funny	isPrecededByANegation	
+mind blown		
+mind blowing	isPrecededByANegation	
+mindblown		
+mindblowing	isPrecededByANegation	
+i liked		
+the easiest way to	isPrecededByANegation	
+seamless	isPrecededByANegation	
+thanks	isPrecededByANegation	
+racing with ideas		
+:-)	isContainedInTweet	
+;-)	isContainedInTweet	
+:)	isContainedInTweet	
+;)	isContainedInTweet	
+...:-)	isContainedInTweet	
+...;-)	isContainedInTweet	
+...:)	isContainedInTweet	
+...;)	isContainedInTweet	
+big fan	isPrecededByANegation	
+admire	isPrecededByANegation	
+love	isPrecededByANegation	
+lol		
+popular	isPrecededByANegation	
+proud	isPrecededByANegation	
+that worked		
+fave	isPrecededByANegation	
+hottest	isPrecededByANegation	
+have you covered		
+has you covered		
+glad	isPrecededByANegation	
+lovely	isPrecededByANegation	
+win	isPrecededByANegation	
+jolly	isPrecededByANegation	
+one of the few	isPrecededByANegation	
+acceptable	isPrecededByANegation	
+wonderful		
+woohoo		
+excited	isPrecededByANegation		
+successful	isPrecededByANegation		
+nice	isPrecededByANegation		
+leveraging	isPrecededByANegation	
+enhance	isPrecededByANegation	
+enhancing	isPrecededByANegation	
+enhances	isPrecededByANegation	
+safer	isPrecededByANegation	
+inspiring	isPrecededByANegation
+lightning fast	isPrecededByANegation	
+best	isPrecededByANegation	
+beautiful	isPrecededByANegation	
+valuable	isPrecededByANegation	
+harnessed	isPrecededByANegation	
+harnesses	isPrecededByANegation	
+crazy about	isPrecededByANegation	
+excite	isPrecededByANegation	

@@ -1,0 +1,31 @@
+text		feature		
+#fail		hashtag		
+revolting				
+to flawed to				
+-but		when following a positive opinion		
+years behind				
+fuck				
+should not			
+risky				
+screw you				
+horrible				
+scumbag				
+takes forever		
+took forever		
+not an acceptable		
+fucking		
+:(	isContainedInTweet	
+:-(	isContainedInTweet	
+unfortunate		
+disappointing		
+ignored	isAllCaps	
+not	isAllCaps	
+horribly	isContainedInTweet
+sucks	isContainedInTweet
+not the way		
+regret		
+ugly		
+headache		
+hateful		
+unfortunately		
+desperate		

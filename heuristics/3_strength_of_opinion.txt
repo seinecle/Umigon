@@ -1,0 +1,15 @@
+text	feature	feature explanation			
+!		end of sentence and / or immediately preceded by a negative / positive opinion			
+sobering					
+mindblown		hashtag			
+wtf		also separated by spaces			
+really	isFollowedByAnOpinion	plus negative or positive opinion			
+man,		beginning of sentence			
+simply	isFollowedByAnOpinion	plus negative or positive opinion			
+omg		also separated by spaces			
+how	isFollowedByAnOpinion	followed by a positive or negative opinion			
+super	isFollowedByAnOpinion	followed by a positive or negative opinion			
+v	isFollowedByAnOpinion				
+fucking	isFollowedByAnOpinion	
+genius	isFollowedByAnOpinion	
+geniusly	isFollowedByAnOpinion	

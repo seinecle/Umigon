@@ -1,0 +1,16 @@
+text	feature
+offer ends	
+get #free	
+get a #free	
+get a free	
+win	isPrecededByANegation	
+grab a deal		
+deals	isContainedInHashTag	
+deal	isContainedInHashTag	
+hot deal		
+hottest deal		
+hot deal		
+hottest deals		
+last chance to claim		
+it's free		
+specials		
