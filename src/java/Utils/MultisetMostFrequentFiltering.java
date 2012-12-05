@@ -23,7 +23,7 @@ public class MultisetMostFrequentFiltering<L> {
 
     }
 
-    Multiset<L> keepMostfrequent(int n) {
+    public Multiset<L> keepMostfrequent(int n) {
         multiset = Multisets.copyHighestCountFirst(multiset);
         Iterator<L> multisetIterator;
         multisetIterator = multiset.elementSet().iterator();

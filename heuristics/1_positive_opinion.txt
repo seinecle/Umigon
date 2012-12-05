@@ -60,7 +60,6 @@ have you covered
 has you covered		
 glad	isPrecededByANegation	
 lovely	isPrecededByANegation	
-win	isPrecededByANegation	
 jolly	isPrecededByANegation	
 one of the few	isPrecededByANegation	
 acceptable	isPrecededByANegation	

@@ -6,6 +6,9 @@ package Twitter;
 
 import Classifier.HeuristicLevel1;
 import Classifier.HeuristicsLoader;
+import com.cybozu.labs.langdetect.Detector;
+import com.cybozu.labs.langdetect.DetectorFactory;
+import com.cybozu.labs.langdetect.LangDetectException;
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.Morphia;
 import com.mongodb.Mongo;
@@ -26,7 +29,7 @@ public class TweetLoader {
     private String string;
     public static HeuristicsLoader Hloader;
 
-    public static void main(String args[]) throws UnknownHostException, FileNotFoundException, IOException {
+    public static void main(String args[]) throws UnknownHostException, FileNotFoundException, IOException, LangDetectException {
 
 
         Hloader = new HeuristicsLoader();

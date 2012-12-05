@@ -40,6 +40,7 @@ public class HeuristicsLoader {
 
     public void load() throws FileNotFoundException, IOException {
 
+        
         File folder = new File("D:\\Docs Pro Clement\\NetBeansProjects\\TwitterCollection\\heuristics\\");
         System.out.println("folder is: " + folder.getCanonicalPath());
         File[] arrayFiles = folder.listFiles();
