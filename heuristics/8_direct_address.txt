@@ -9,3 +9,10 @@ learn	isFirstTermOfStatus
 spread the word		
 check out	IsFirstLetterCapitalized	
 watch	isFirstTermOfStatus
+you're		
+you've		
+meet	isFirstTermOfStatus		
+don't miss	IsFirstLetterCapitalized	
+apply	IsFirstLetterCapitalized	
+apply now		
+find out	IsFirstLetterCapitalized	

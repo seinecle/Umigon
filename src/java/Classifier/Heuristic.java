@@ -5,6 +5,12 @@
 package Classifier;
 
 import Twitter.TweetLoader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -18,27 +24,36 @@ public class Heuristic {
         isNextWordAnOpinion
     }
     private String term;
-    private String feature1;
+    private Set<String> features;
     private int map;
-    private String punctuation = "!?.'\",()-";
-    private String punctuationRegex = "[\\!\\?\\.'\\\\\",\\(\\)\\-]";
+    private String punctuation = "!?.'\",()-|=";
+    private String punctuationRegex = "[\\!\\?\\.'\\\\\",\\(\\)\\-\\|=]";
 
     public Heuristic(String term) {
         this.term = term;
+        this.features = new HashSet();
     }
 
-    public Heuristic(String term, String feature1, int map) {
+    public Heuristic(String term, int map) {
         this.term = term;
-        this.feature1 = feature1;
         this.map = map;
+        this.features = new HashSet();
     }
 
     public String getTerm() {
         return term;
     }
 
-    public String getFeature1() {
-        return feature1;
+    public void addFeature(String feature) {
+        features.add(feature);
+//        if (this.getTerm().equals("hateful")) {
+//            System.out.println("feature added to hateful: \"" + feature + "\"");
+//        }
+
+    }
+
+    public Set<String> getFeature1() {
+        return features;
     }
 
     public int getMap() {
@@ -72,27 +87,38 @@ public class Heuristic {
         return true;
     }
 
-    public boolean checkFeatures(String status, String term) {
-        this.term = term;
-//        System.out.println("term: " + term);
-//        System.out.println("feature: " + this.feature1);
+    public boolean checkFeatures(String status, String termOrig) {
+
+//        if (termOrig.equals("GOLD")) {
+//            System.out.println("term: " + term);
+//        }
         boolean res;
-        if (feature1 == null || feature1.isEmpty()) {
+        if (features == null || features.isEmpty()) {
 //            System.out.println("no feature, returning true");
             return true;
         }
-        if (feature1.equals("isNextWordAnOpinion")) {
+//        System.out.println("features:");
+//        for (String feature : features) {
+//            System.out.println("feature: \"" + feature + "\"");
+//        }
+
+
+        if (features.contains("isNextWordAnOpinion")) {
             res = isFollowedByAnOpinion(status);
-        } else if (feature1.equals("isFirstTermOfStatus")) {
+        } else if (features.contains("isFirstTermOfStatus")) {
             res = isFirstTermOfStatus(status);
-        } else if (feature1.equals("isContainedInTweet")) {
+        } else if (features.contains("isContainedInTweet")) {
             res = isContainedInTweet(status);
-        } else if (feature1.equals("isPrecededByANegation")) {
+        } else if (features.contains("isQuestionMarkAtEndOfStatus")) {
+            res = isQuestionMarkAtEndOfStatus(status);
+        } else if (features.contains("isNotAllCaps")) {
+            res = isNotAllCaps(termOrig);
+        } else if (features.contains("isPrecededByANegation")) {
             res = !isPrecededByANegation(status);
-        } else if (feature1.equals("isFirstLetterCapitalized")) {
+        } else if (features.contains("isFirstLetterCapitalized")) {
             res = isFirstLetterCapitalized();
-        } else if (feature1.equals("isAllCaps")) {
-            res = isAllCaps();
+        } else if (features.contains("isAllCaps")) {
+            res = isAllCaps(termOrig);
         } else {
 //            System.out.println("returning false here!");
             res = false;
@@ -121,11 +147,42 @@ public class Heuristic {
         return (StringUtils.isAllUpperCase(StringUtils.left(term, 1))) ? true : false;
     }
 
-    public boolean isAllCaps() {
-        return (StringUtils.isAllUpperCase(term)) ? true : false;
+    public boolean isQuestionMarkAtEndOfStatus(String status) {
+//        if (term.equals("Is") & status.contains("service model")) {
+//            System.out.println("here!");
+//        }
+        List<String> terms = new ArrayList();
+        Collections.addAll(terms, status.split(" "));
+        StringBuilder sb = new StringBuilder();
+        boolean cleanEnd = false;
+        ListIterator<String> termsIterator = terms.listIterator(terms.size());
+        while (termsIterator.hasPrevious() & !cleanEnd) {
+            String string = termsIterator.previous();
+            if (!cleanEnd && (string.contains("/") || string.startsWith("#") || string.startsWith("@") || string.equals("\\|") || string.equals("") || string.contains("via") || string.equals("..."))) {
+                continue;
+            } else {
+                cleanEnd = true;
+            }
+            sb.insert(0, string);
+        }
+        status = sb.toString().trim();
+        if (status.length() == 0) {
+            return false;
+        } else {
+            return ("?".equals(String.valueOf(status.charAt(status.length() - 1)))) ? true : false;
+        }
+    }
+
+    public boolean isAllCaps(String termOrig) {
+        return (StringUtils.isAllUpperCase(termOrig)) ? true : false;
+    }
+
+    public boolean isNotAllCaps(String termOrig) {
+        return (StringUtils.isAllUpperCase(termOrig)) ? false : true;
     }
 
     public boolean isPrecededByANegation(String status) {
+        term = term.toLowerCase();
         int indexTerm = StringUtils.indexOf(status, term);
         String[] temp = StringUtils.left(status.replaceAll(punctuationRegex, " ").toLowerCase(), indexTerm).split(" ");
 //        if (term.equals("successful.") & status.contains("for any")) {
@@ -192,14 +249,30 @@ public class Heuristic {
     }
 
     public boolean isFirstTermOfStatus(String status) {
-        String termStripped = StringUtils.strip(term, punctuation);
+        String termStripped = StringUtils.strip(term, punctuation).toLowerCase();
+        term = term.toLowerCase();
         status = StringUtils.strip(status.toLowerCase().trim(), punctuation);
-//        System.out.println("term: " + term);
+        String[] terms = status.split(" ");
+        StringBuilder sb = new StringBuilder();
+        boolean cleanStart = false;
+        for (String currTerm : terms) {
+            if (!cleanStart & (currTerm.startsWith("RT") || currTerm.startsWith("@"))) {
+                continue;
+            } else {
+                cleanStart = true;
+            }
+            sb.append(currTerm).append(" ");
+            if (cleanStart) {
+                break;
+            }
+        }
+        status = sb.toString().trim();
         return (status.startsWith(term) || status.startsWith(termStripped)) ? true : false;
     }
 
     public boolean isContainedInTweet(String status) {
         String termStripped = StringUtils.strip(term);
+        term = term.toLowerCase();
         return (status.toLowerCase().trim().contains(term) || status.toLowerCase().trim().contains(termStripped)) ? true : false;
     }
 }

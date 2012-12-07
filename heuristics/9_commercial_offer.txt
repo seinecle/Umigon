@@ -1,12 +1,11 @@
 text	feature
 offer ends	
-get #free	
-get a #free	
+#free		
 get a free	
 win	isPrecededByANegation	
 grab a deal		
-deals	isContainedInHashTag	
-deal	isContainedInHashTag	
+#deals	isContainedInHashTag	
+#deal	isContainedInHashTag	
 hot deal		
 hottest deal		
 hot deal		
@@ -14,3 +13,9 @@ hottest deals
 last chance to claim		
 it's free		
 specials		
+giving away		
+on sale		
+save up to		
+make it happen with		
+gifts ideas		
+gift ideas		

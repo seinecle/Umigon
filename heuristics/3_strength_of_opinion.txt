@@ -1,5 +1,4 @@
 text	feature	feature explanation			
-!		end of sentence and / or immediately preceded by a negative / positive opinion			
 sobering					
 mindblown		hashtag			
 wtf		also separated by spaces			
@@ -13,3 +12,12 @@ v	isFollowedByAnOpinion
 fucking	isFollowedByAnOpinion	
 genius	isFollowedByAnOpinion	
 geniusly	isFollowedByAnOpinion	
+aww		
+awww		
+awwww		
+so	isFollowedByAnOpinion	
+incredibly	isFollowedByAnOpinion	
+completely	isFollowedByAnOpinion	
+always	isFollowedByAnOpinion
+exactly	isFollowedByAnOpinion
+ultra	isFollowedByAnOpinion

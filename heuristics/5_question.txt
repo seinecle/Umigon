@@ -21,3 +21,8 @@ how	isFirstTermOfStatus
 thoughts?		
 wat	isFirstTermOfStatus		
 ideas?		
+wait	isFirtTermOfStatus,isQuestionMarkAtEndOfStatus		
+should	isFirtTermOfStatus,isQuestionMarkAtEndOfStatus	
+is	isFirtTermOfStatus,isQuestionMarkAtEndOfStatus	
+whom	isFirstLetterCapitalized	
+what	isFirstLetterCapitalized,isQuestionMarkAtEndOfStatus		

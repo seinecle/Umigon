@@ -10,7 +10,7 @@ package Classifier;
  */
 public class Categories {
 
-    private final static String[] categories = {"positive tone", "negative tone", "strong tone", "time related info", "question asked", "first person speaks", "humorous or light", "direct address","commercial offer"};
+    private final static String[] categories = {"positive tone", "negative tone", "strong tone", "time related info", "question asked", "first person speaks", "humorous or light", "direct address","commercial offer","dry fact"};
 
     public static String[] get() {
         return categories;

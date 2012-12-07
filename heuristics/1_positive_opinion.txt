@@ -1,6 +1,6 @@
 text	feature	
-i love 		
-i liked		
+love 	isPrecededByANegation	
+liked		
 enjoy!		
 worth a read	isPrecededByANegation	
 scorching response to		
@@ -12,7 +12,6 @@ amusing	isPrecededByANegation
 nice	isPrecededByANegation	
 wow		
 impressive	isPrecededByANegation	
-i am so happy		
 cool	isPrecededByANegation	
 interesting	isPrecededByANegation	
 cute	isPrecededByANegation	
@@ -21,11 +20,7 @@ awesome	isPrecededByANegation
 amazing	isPrecededByANegation	
 is a livesaver		
 brilliant	isPrecededByANegation	
-love it	isPrecededByANegation	
-i'm happy		
-i am happy		
-i am very happy		
-i'm very happy		
+happy	isPrecededByANegation	
 has something for everyone		
 we're honored		
 we are honored		
@@ -34,10 +29,10 @@ mind blown
 mind blowing	isPrecededByANegation	
 mindblown		
 mindblowing	isPrecededByANegation	
-i liked		
 the easiest way to	isPrecededByANegation	
 seamless	isPrecededByANegation	
 thanks	isPrecededByANegation	
+thank you	isPrecededByANegation	
 racing with ideas		
 :-)	isContainedInTweet	
 ;-)	isContainedInTweet	
@@ -50,7 +45,7 @@ racing with ideas
 big fan	isPrecededByANegation	
 admire	isPrecededByANegation	
 love	isPrecededByANegation	
-lol		
+lol	IsNotAllCaps	
 popular	isPrecededByANegation	
 proud	isPrecededByANegation	
 that worked		
@@ -82,3 +77,20 @@ harnessed	isPrecededByANegation
 harnesses	isPrecededByANegation	
 crazy about	isPrecededByANegation	
 excite	isPrecededByANegation	
+celebrate	isPrecededByANegation	
+welcome	isPrecededByANegation	
+smart	isPrecededByANegation	
+cohesive	isPrecededByANegation	
+among the top		
+merry	isPrecededByANegation	
+thank	isPrecededByANegation	
+thx	isPrecededByANegation	
+leg up		
+ftw		
+always a pleasure		
+gold	isPrecededByANegation,isAllCaps	
+care about	isPrecededByANegation	
+stunningly		
+stunning	isPrecededByANegation	
+good read	isPrecededByANegation	
+funny	isPrecededByANegation	

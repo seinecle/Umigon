@@ -40,9 +40,9 @@ public class HeuristicsLoader {
 
     public void load() throws FileNotFoundException, IOException {
 
-        
+
         File folder = new File("D:\\Docs Pro Clement\\NetBeansProjects\\TwitterCollection\\heuristics\\");
-        System.out.println("folder is: " + folder.getCanonicalPath());
+//        System.out.println("folder is: " + folder.getCanonicalPath());
         File[] arrayFiles = folder.listFiles();
         mapHeuristics = new HashMap();
         setNegations = new HashSet();
@@ -60,18 +60,30 @@ public class HeuristicsLoader {
         for (File file : arrayFiles) {
             br = new BufferedReader(new FileReader(file));
             br.readLine();
+            if (!file.getName().contains("_")) {
+                continue;
+            }
             int map = Integer.parseInt(StringUtils.left(file.getName(), file.getName().indexOf("_")));
 
 
             while ((string = br.readLine()) != null) {
 //                System.out.println("string: "+string);
                 String term = string.split("\t", -1)[0].trim();
-                String feature = string.split("\t", -1)[1].trim();
+                String featuresString = string.split("\t", -1)[1].trim();
+                String[] features;
 //                if (term.equals("I was wondering")){
 //                    System.out.println("HERE!!!!");
 //                }
 //                System.out.println("feature: "+feature);
-                heuristic = new Heuristic(term, feature, map);
+                heuristic = new Heuristic(term, map);
+                if (featuresString != null) {
+                    features = featuresString.split(",");
+                    for (String feature : features) {
+                        if (!feature.equals("")) {
+                            heuristic.addFeature(feature);
+                        }
+                    }
+                }
                 mapHeuristics.put(term, heuristic);
                 if (map == 0) {
                     setNegations.add(term);
@@ -117,17 +129,18 @@ public class HeuristicsLoader {
 
             }
         }
-        System.out.println("total number heuristics: " + mapHeuristics.keySet().size());
+        System.out.println("total number heuristics used: " + mapHeuristics.keySet().size());
         System.out.println("--------------------------------------------");
 
-        System.out.println("humor_or_light: " + mapH4.keySet().size());
-        System.out.println("time: " + mapH8.keySet().size());
-        System.out.println("question: " + mapH6.keySet().size());
+        System.out.println("humor or light: " + mapH7.keySet().size());
+        System.out.println("time related: " + mapH4.keySet().size());
+        System.out.println("question: " + mapH5.keySet().size());
         System.out.println("positive tone: " + mapH1.keySet().size());
         System.out.println("negative tone: " + mapH2.keySet().size());
-        System.out.println("direct address: " + mapH5.keySet().size());
-        System.out.println("self turned: " + mapH7.keySet().size());
+        System.out.println("direct address: " + mapH8.keySet().size());
+        System.out.println("self turned: " + mapH6.keySet().size());
         System.out.println("strength of opinion: " + mapH3.keySet().size());
+        System.out.println("commercial offer: " + mapH9.keySet().size());
 
     }
 
@@ -210,8 +223,6 @@ public class HeuristicsLoader {
     public void setMapH9(Map<String, Heuristic> mapH9) {
         this.mapH9 = mapH9;
     }
-    
-    
 
     public Set<String> getSetNegations() {
         return setNegations;

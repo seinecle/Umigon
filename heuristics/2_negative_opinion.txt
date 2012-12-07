@@ -18,10 +18,12 @@ fucking
 :-(	isContainedInTweet	
 unfortunate		
 disappointing		
+disappointed		
 ignored	isAllCaps	
 not	isAllCaps	
 horribly	isContainedInTweet
 sucks	isContainedInTweet
+suck		
 not the way		
 regret		
 ugly		
@@ -29,3 +31,42 @@ headache
 hateful		
 unfortunately		
 desperate		
+incompetents		
+incompetent		
+dodgy		
+toxic		
+now only if		
+if only		
+scam		
+fraud		
+worst		
+passing the buck		
+passed the buck		
+strange		
+alarming		
+accused of		
+outraged		
+junk		
+lame		
+can't get		
+doubt it		
+never again		
+worse		
+disgusted		
+disgusting		
+fuming		
+wasted time		
+waste my time		
+waste our time		
+incompatible	isAllCaps	
+sad		
+fails me		
+mess		
+no, no		
+no no		
+still waiting		
+really?		
+never	isAllCaps	
+awful		
+right wing		
+left wing		
