@@ -33,7 +33,8 @@ import org.apache.commons.lang3.StringUtils;
  * C is true: return 322
  * 
  * 
- * Why is it interesting? In this example, simple digits are returned. These digits can be mapped to complex objects in a map (or in a dictionary as you would say in Python).
+ * Why is it interesting? In this example, simple digits are returned.
+ * These digits can be mapped to complex objects in a map (or in a dictionary as you would say in Python).
  * So that this class provides a bridge between complex rules set in combination and complex outcomes.
  * 
  */
