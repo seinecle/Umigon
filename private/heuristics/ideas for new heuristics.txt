@@ -1,9 +1,0 @@
-for each tweet classified,
-put each n-gram of this tweet in a multi-map of the form:
-this n-gram, the category the tweet has been attributed to.
-
-Count a tweet retweeted several times just once
-
-use this map to:
-- maybe filter out the terms in newly arrived tweets, leaving only new terms, that are then more likely to provide more info
-- check: are these ngrams actually predictive of the category of the tweet?
