@@ -14,6 +14,26 @@ import org.apache.commons.lang3.StringUtils;
 /**
  *
  * @author C. Levallois
+ * 
+ * This class interprets conditions written in human-readable format, and returns the outcome
+ * 
+ * example below: human-written rule: 
+ * 
+ *          A?(B?(321:C?(322:355)):122) 
+ * 
+ * => letters are true / false conditions
+ * => digits are outcomes
+ * => reads like: "is A true? if not, returns 122. Else, is B true? if not evaluate C. Else, return 121. Etc...
+ *
+ * in the example below, we imagine that A, C D are true, while B is false.
+ * 
+ * This class evaluates the expression and returns 322
+ * 
+ * => because:
+ * Is A true? Yes, so evaluate B. Is B true? No, so skip "321" (the result if B was true), and evaluate C. Is C true? Yes, so return 322.
+ * 
+ * 
+ * 
  */
 public class Interpreter {
 
@@ -30,7 +50,6 @@ public class Interpreter {
     }
 
     public static Integer interprete(String rule, Map<String, Boolean> heuristics) {
-        Integer res = null;
         StringBuilder sb = null;
         String token = null;
         String punct = "";
@@ -43,6 +62,7 @@ public class Interpreter {
         int closedParent = 0;
         int currParentCount = 0;
         
+        // for debugging purposes
         for (Entry entry: heuristics.entrySet()){
             System.out.println(entry.getKey()+": "+entry.getValue());
         }
@@ -133,8 +153,6 @@ public class Interpreter {
                 sb = null;
             }
 
-
-//            return Integer.parseInt(token);
         }
         System.out.println("some mistake must have happened in the interpreter: returning -99");
         return -99;
