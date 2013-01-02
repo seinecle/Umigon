@@ -25,8 +25,11 @@ public class Heuristic {
     }
     private String term;
     private Set<String> features;
+    private String parametersFeature1;
     private int map;
+    private int codeCategories[];
     private String punctuation = "!?.'\",()-|=";
+    1
     private String punctuationRegex = "[\\!\\?\\.'\\\\\",\\(\\)\\-\\|=]";
 
     public Heuristic(String term) {
@@ -49,7 +52,6 @@ public class Heuristic {
 //        if (this.getTerm().equals("hateful")) {
 //            System.out.println("feature added to hateful: \"" + feature + "\"");
 //        }
-
     }
 
     public Set<String> getFeature1() {
@@ -58,6 +60,22 @@ public class Heuristic {
 
     public int getMap() {
         return map;
+    }
+
+    public String getParametersFeature1() {
+        return parametersFeature1;
+    }
+
+    public void setParametersFeature1(String parametersFeature1) {
+        this.parametersFeature1 = parametersFeature1;
+    }
+
+    public int[] getCodeCategories() {
+        return codeCategories;
+    }
+
+    public void setCodeCategories(int[] codeCategories) {
+        this.codeCategories = codeCategories;
     }
 
     @Override
@@ -87,15 +105,14 @@ public class Heuristic {
         return true;
     }
 
-    public boolean checkFeatures(String status, String termOrig) {
-
+    public int checkFeatures(String status, String termOrig) {
+        int codeCategory;
 //        if (termOrig.equals("GOLD")) {
 //            System.out.println("term: " + term);
 //        }
-        boolean res;
         if (features == null || features.isEmpty()) {
 //            System.out.println("no feature, returning true");
-            return true;
+            return this.codeCategories[0];
         }
 //        System.out.println("features:");
 //        for (String feature : features) {
@@ -104,30 +121,32 @@ public class Heuristic {
 
 
         if (features.contains("isNextWordAnOpinion")) {
-            res = isFollowedByAnOpinion(status);
+            codeCategory = isFollowedByAnOpinion(status);
         } else if (features.contains("isFirstTermOfStatus")) {
-            res = isFirstTermOfStatus(status);
+            codeCategory = isFirstTermOfStatus(status);
+        } else if (features.contains("isPrecededBySpecificTerm")) {
+            codeCategory = isPrecededBySpecificTerm(status);
         } else if (features.contains("isContainedInTweet")) {
-            res = isContainedInTweet(status);
+            codeCategory = isContainedInTweet(status);
         } else if (features.contains("isQuestionMarkAtEndOfStatus")) {
-            res = isQuestionMarkAtEndOfStatus(status);
+            codeCategory = isQuestionMarkAtEndOfStatus(status);
         } else if (features.contains("isNotAllCaps")) {
-            res = isNotAllCaps(termOrig);
+            codeCategory = isNotAllCaps(termOrig);
         } else if (features.contains("isPrecededByANegation")) {
-            res = !isPrecededByANegation(status);
+            codeCategory = !isPrecededByANegation(status);
         } else if (features.contains("isFirstLetterCapitalized")) {
-            res = isFirstLetterCapitalized();
+            codeCategory = isFirstLetterCapitalized();
         } else if (features.contains("isAllCaps")) {
-            res = isAllCaps(termOrig);
+            codeCategory = isAllCaps(termOrig);
         } else {
 //            System.out.println("returning false here!");
-            res = false;
+            codeCategory = Integer.parseInt(this.codeCategories[0]);
         }
 //        System.out.println("end of check feature, res is: " + res);
         return res;
     }
 
-    public boolean isFollowedByAnOpinion(String status) {
+    public int isFollowedByAnOpinion(String status) {
         String temp = status.substring(status.indexOf(term)).trim();
         temp = temp.split(" ")[1];
         return (TweetLoader.Hloader.getMapH2().keySet().contains(temp)
@@ -145,6 +164,17 @@ public class Heuristic {
 
     public boolean isFirstLetterCapitalized() {
         return (StringUtils.isAllUpperCase(StringUtils.left(term, 1))) ? true : false;
+    }
+
+    public boolean isPrecededBySpecificTerm(String status) {
+        String temp = status.substring(0, status.indexOf(term)).trim();
+        String[] terms = this.parametersFeature1.split("|");
+        for (String candidate : terms) {
+            if (temp.contains(candidate)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isQuestionMarkAtEndOfStatus(String status) {

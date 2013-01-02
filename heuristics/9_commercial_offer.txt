@@ -1,7 +1,7 @@
-text	feature
-offer ends	
+text	feature	
+offer ends		
 #free		
-get a free	
+get a free		
 win	isPrecededByANegation	
 grab a deal		
 #deals	isContainedInHashTag	
@@ -19,3 +19,5 @@ save up to
 make it happen with		
 gifts ideas		
 gift ideas		
+2win		
+free	isAllCaps	

@@ -1,4 +1,3 @@
-text	feature	feature description
 new	isTermFirstOfStatus	beginning of sentence + url
 coming out		plus future term (tomorrow, tonight…)
 will begin		

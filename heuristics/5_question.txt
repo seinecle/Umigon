@@ -9,8 +9,8 @@ i was wondering
 i am wondering		
 have you		
 why	isFirstTermOfStatus	
-which is	isFirstLetterCapitalized
-is it	isFirstTermOfStatus
+which is	isFirstLetterCapitalized	
+is it	isFirstTermOfStatus	
 what is		
 what's		
 what have		
@@ -24,5 +24,4 @@ ideas?
 wait	isFirtTermOfStatus,isQuestionMarkAtEndOfStatus		
 should	isFirtTermOfStatus,isQuestionMarkAtEndOfStatus	
 is	isFirtTermOfStatus,isQuestionMarkAtEndOfStatus	
-whom	isFirstLetterCapitalized	
-what	isFirstLetterCapitalized,isQuestionMarkAtEndOfStatus		
+can	isFirtTermOfStatus	

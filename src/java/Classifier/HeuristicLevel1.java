@@ -4,6 +4,7 @@
  */
 package Classifier;
 
+import TextCleaning.StatusCleaner;
 import Twitter.Tweet;
 import Twitter.TweetLoader;
 import Utils.Clock;
@@ -50,32 +51,40 @@ public class HeuristicLevel1 {
         String nGramOrig;
         String nGram;
         int count = 0;
+        String lang;
         Heuristic heuristic;
         Clock heuristicsClock = new Clock("starting the analysis of tweets");
         while (setTweetsIterator.hasNext()) {
             tweet = setTweetsIterator.next();
+            if (tweet.getText().isEmpty()) {
+                continue;
+            }
+
+
+
             detector = DetectorFactory.create();
             detector.append(tweet.getText());
-            String lang = detector.detect();
-            setLangDetected.add(lang);
-            if (!lang.equals("en")) {
+            try {
+                lang = detector.detect();
+                setLangDetected.add(lang);
+                if (!lang.equals("en")) {
+                    continue;
+                }
+            } catch (LangDetectException e) {
+                System.out.println("tweet without language detected: " + tweet.getText());
                 continue;
             }
 
 //            System.out.println("curr tweet: " + tweet.toString());
             status = tweet.getText();
-            status = status.replace("...", " ");
-//            System.out.println(status);
-            status = status.replaceAll("http[^ ]*", " ");
-            status = status.replaceAll("\".*\"", " ");
-            status = status.replaceAll("http.*[\r|\n]*", " ");
-            status = status.replaceAll(" +", " ");
+            status = StatusCleaner.clean(status);
 //            System.out.println(status);
 //            System.out.println("lang: " + lang);
 
-            if (SentenceLevelRules.containsPercentage(status)) {
-                tweet.addToSetCategories(10);
-            }
+
+
+            SentenceLevelRules sentenceRules = new SentenceLevelRules(tweet, status);
+            tweet = sentenceRules.applyRules();
 
 
             nGrams = new NGramFinder(status).runIt(4, true);
@@ -93,12 +102,12 @@ public class HeuristicLevel1 {
                 if (TweetLoader.Hloader.getMapH1().keySet().contains(nGram)) {
 //                    System.out.println("positive detected");
                     heuristic = TweetLoader.Hloader.getMapH1().get(nGram);
-                    boolean result = (heuristic.checkFeatures(status, nGramOrig)) ? tweet.addToSetCategories(1) : tweet.addToSetCategories(2);
+                    boolean result = (heuristic.checkFeatures(status, nGramOrig)) ? tweet.addToSetCategories(11) : tweet.addToSetCategories(12);
 //                    System.out.println("res in H:" + result);
                 } else if (TweetLoader.Hloader.getMapH1().keySet().contains(nGramStripped)) {
 //                    System.out.println("positive detected");
                     heuristic = TweetLoader.Hloader.getMapH1().get(nGramStripped);
-                    boolean result = (heuristic.checkFeatures(status, nGramOrig)) ? tweet.addToSetCategories(1) : tweet.addToSetCategories(2);
+                    boolean result = (heuristic.checkFeatures(status, nGramOrig)) ? tweet.addToSetCategories(11) : tweet.addToSetCategories(12);
 //                    System.out.println("res in HStripped:" + result);
 
                 }
@@ -107,10 +116,10 @@ public class HeuristicLevel1 {
 //                    System.out.println("nGram: " + nGram);
                     heuristic = TweetLoader.Hloader.getMapH2().get(nGram);
                     if (heuristic.checkFeatures(status, nGramOrig)) {
-                        tweet.addToSetCategories(2);
+                        tweet.addToSetCategories(12);
                     }
                     if (heuristic.isAllCaps(nGramOrig)) {
-                        tweet.addToSetCategories(3);
+                        tweet.addToSetCategories(22);
                     }
                 } else if (TweetLoader.Hloader.getMapH2().keySet().contains(nGramStripped)) {
 //                    System.out.println("negative detected!");
@@ -118,22 +127,22 @@ public class HeuristicLevel1 {
 
                     heuristic = TweetLoader.Hloader.getMapH2().get(nGramStripped);
                     if (heuristic.checkFeatures(status, StringUtils.strip(nGramOrig, punctuation))) {
-                        tweet.addToSetCategories(2);
+                        tweet.addToSetCategories(12);
                     }
                     if (heuristic.isAllCaps(StringUtils.strip(nGramOrig, punctuation))) {
-                        tweet.addToSetCategories(3);
+                        tweet.addToSetCategories(22);
                     }
 
                 }
                 if (TweetLoader.Hloader.getMapH3().keySet().contains(nGram)) {
                     heuristic = TweetLoader.Hloader.getMapH3().get(nGram);
                     if (heuristic.checkFeatures(status, nGramOrig)) {
-                        tweet.addToSetCategories(3);
+                        tweet.addToSetCategories(22);
                     }
                 } else if (TweetLoader.Hloader.getMapH3().keySet().contains(nGramStripped)) {
                     heuristic = TweetLoader.Hloader.getMapH3().get(nGramStripped);
                     if (heuristic.checkFeatures(status, nGramOrig)) {
-                        tweet.addToSetCategories(3);
+                        tweet.addToSetCategories(22);
                     }
                 }
 
@@ -240,7 +249,7 @@ public class HeuristicLevel1 {
         while (multisetCategoriesIterator.hasNext()) {
             Integer integer = multisetCategoriesIterator.next();
             String example = mapExample.get(integer);
-            System.out.println(Categories.get()[integer - 1] + ", " + multisetCategories.count(integer) + "x");
+            System.out.println(Categories.get(integer) + ", " + multisetCategories.count(integer) + "x");
             System.out.println("Example 1: \"" + example + "\n");
             System.out.println("****");
         }

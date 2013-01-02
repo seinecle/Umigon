@@ -1,4 +1,4 @@
-text	feature	
+﻿text	feature	
 love 	isPrecededByANegation	
 liked		
 enjoy!		
@@ -68,7 +68,7 @@ enhance	isPrecededByANegation
 enhancing	isPrecededByANegation	
 enhances	isPrecededByANegation	
 safer	isPrecededByANegation	
-inspiring	isPrecededByANegation
+inspiring	isPrecededByANegation	
 lightning fast	isPrecededByANegation	
 best	isPrecededByANegation	
 beautiful	isPrecededByANegation	
@@ -94,3 +94,17 @@ stunningly
 stunning	isPrecededByANegation	
 good read	isPrecededByANegation	
 funny	isPrecededByANegation	
+efficient	isPrecededByANegation	
+cost effective	isPrecededByANegation	
+high quality	isPrecededByANegation	
+to life	isPrecededBySpecificTerm	brings|bring|brought
+haha		
+honored	isPrecededByANegation	
+needs	isPrecededBySpecificTerm	meet|meets
+☺		
+well done		
+♥		
+kudos		
+futuristic		
+sleek		
+slick		

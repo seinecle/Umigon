@@ -21,8 +21,8 @@ disappointing
 disappointed		
 ignored	isAllCaps	
 not	isAllCaps	
-horribly	isContainedInTweet
-sucks	isContainedInTweet
+horribly	isContainedInTweet	
+sucks	isContainedInTweet	
 suck		
 not the way		
 regret		
@@ -70,3 +70,11 @@ never	isAllCaps
 awful		
 right wing		
 left wing		
+please	isAllCaps	
+nightmare		
+failure		
+poor service		
+error		
+errors		
+shite		
+garbage		

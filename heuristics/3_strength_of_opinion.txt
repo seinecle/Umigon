@@ -18,6 +18,6 @@ awwww
 so	isFollowedByAnOpinion	
 incredibly	isFollowedByAnOpinion	
 completely	isFollowedByAnOpinion	
-always	isFollowedByAnOpinion
-exactly	isFollowedByAnOpinion
-ultra	isFollowedByAnOpinion
+always	isFollowedByAnOpinion	
+exactly	isFollowedByAnOpinion	
+ultra	isFollowedByAnOpinion	

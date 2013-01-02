@@ -37,6 +37,7 @@ public class HeuristicsLoader {
     Map<String, Heuristic> mapH8;
     Map<String, Heuristic> mapH9;
     Set<String> setNegations;
+    Set<String> setTimeTokens;
 
     public void load() throws FileNotFoundException, IOException {
 
@@ -65,12 +66,32 @@ public class HeuristicsLoader {
             }
             int map = Integer.parseInt(StringUtils.left(file.getName(), file.getName().indexOf("_")));
 
-
+            System.out.println("loading " + file.getName());
+            int countLines = 0;
+            String parametersFeature1 = null;
+            String[] features;
+            String term = null;
+            String featuresString = null;
+            String[] codeCategoriesFeature1Temp = null;
+            int[] codeCategoriesFeature1 = null;
             while ((string = br.readLine()) != null) {
 //                System.out.println("string: "+string);
-                String term = string.split("\t", -1)[0].trim();
-                String featuresString = string.split("\t", -1)[1].trim();
-                String[] features;
+                countLines++;
+                try {
+//                System.out.println("string: "+string);
+                    term = string.split("\t", -1)[0].trim();
+                    featuresString = string.split("\t", -1)[1].trim();
+
+                    parametersFeature1 = string.split("\t", -1)[2].trim();
+                    codeCategoriesFeature1Temp = string.split("\t", -1)[3].trim().split("|");
+                    int counter = 0;
+                    for (String cc : codeCategoriesFeature1Temp) {
+                        codeCategoriesFeature1[counter] = Integer.parseInt(cc);
+                        counter++;
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("error loading file " + file.getName() + ", line " + countLines);
+                }
 //                if (term.equals("I was wondering")){
 //                    System.out.println("HERE!!!!");
 //                }
@@ -81,9 +102,11 @@ public class HeuristicsLoader {
                     for (String feature : features) {
                         if (!feature.equals("")) {
                             heuristic.addFeature(feature);
+                            heuristic.setParametersFeature1(parametersFeature1);
                         }
                     }
                 }
+                heuristic.setCodeCategories(codeCategoriesFeature1);
                 mapHeuristics.put(term, heuristic);
                 if (map == 0) {
                     setNegations.add(term);
@@ -125,6 +148,11 @@ public class HeuristicsLoader {
                     mapH9.put(term, heuristic);
                     continue;
                 }
+                if (map == 10) {
+                    setTimeTokens.add(term);
+                    continue;
+                }
+
 
 
             }

@@ -125,7 +125,7 @@ public class Tweet {
         while (setCategoriesIterator.hasNext()) {
             int cat = setCategoriesIterator.next();
 //            System.out.println("cat: "+cat);
-            sb.append(Categories.get()[cat - 1]);
+            sb.append(Categories.get(cat));
             sb.append(" -- ");
         }
 
