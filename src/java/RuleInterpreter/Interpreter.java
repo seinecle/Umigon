@@ -23,16 +23,18 @@ import org.apache.commons.lang3.StringUtils;
  * 
  * => letters are true / false conditions
  * => digits are outcomes
- * => reads like: "is A true? if not, returns 122. Else, is B true? if not evaluate C. Else, return 121. Etc...
+ * => reads like: "is A true? if so, evaluate B. If not, return 122. Is B true? if so, return 321. If not, evaluate C. Etc...
  *
  * in the example below, we imagine that A, C D are true, while B is false.
  * 
- * This class evaluates the expression and returns 322
+ * This class evaluates the expression:
+ * A is true => evaluate B
+ * B is false: skip 321, go and evaluate C
+ * C is true: return 322
  * 
- * => because:
- * Is A true? Yes, so evaluate B. Is B true? No, so skip "321" (the result if B was true), and evaluate C. Is C true? Yes, so return 322.
  * 
- * 
+ * Why is it interesting? In this example, simple digits are returned. These digits can be mapped to complex objects in a map (or in a dictionary as you would say in Python).
+ * So that this class provides a bridge between complex rules set in combination and complex outcomes.
  * 
  */
 public class Interpreter {
