@@ -1,4 +1,4 @@
-Omegan
+Umigon
 ======
 
 Topic detection in Twitter
