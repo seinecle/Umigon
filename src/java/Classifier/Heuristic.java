@@ -7,10 +7,14 @@ package Classifier;
 import Twitter.TweetLoader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
+import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -24,58 +28,19 @@ public class Heuristic {
         isNextWordAnOpinion
     }
     private String term;
-    private Set<String> features;
-    private String parametersFeature1;
-    private int map;
-    private int codeCategories[];
+    private TreeMap<String, Set<String>> mapFeatures;
+    private String rule;
     private String punctuation = "!?.'\",()-|=";
-    1
     private String punctuationRegex = "[\\!\\?\\.'\\\\\",\\(\\)\\-\\|=]";
 
-    public Heuristic(String term) {
+    public Heuristic(String term, TreeMap<String, Set<String>> mapFeatures, String rule) {
         this.term = term;
-        this.features = new HashSet();
-    }
-
-    public Heuristic(String term, int map) {
-        this.term = term;
-        this.map = map;
-        this.features = new HashSet();
+        this.mapFeatures = mapFeatures;
+        this.rule = rule;
     }
 
     public String getTerm() {
         return term;
-    }
-
-    public void addFeature(String feature) {
-        features.add(feature);
-//        if (this.getTerm().equals("hateful")) {
-//            System.out.println("feature added to hateful: \"" + feature + "\"");
-//        }
-    }
-
-    public Set<String> getFeature1() {
-        return features;
-    }
-
-    public int getMap() {
-        return map;
-    }
-
-    public String getParametersFeature1() {
-        return parametersFeature1;
-    }
-
-    public void setParametersFeature1(String parametersFeature1) {
-        this.parametersFeature1 = parametersFeature1;
-    }
-
-    public int[] getCodeCategories() {
-        return codeCategories;
-    }
-
-    public void setCodeCategories(int[] codeCategories) {
-        this.codeCategories = codeCategories;
     }
 
     @Override
@@ -106,47 +71,59 @@ public class Heuristic {
     }
 
     public int checkFeatures(String status, String termOrig) {
-        int codeCategory;
+
+        HashMap<String, Boolean> conditions = new HashMap();
+        boolean outcome;
+
 //        if (termOrig.equals("GOLD")) {
 //            System.out.println("term: " + term);
 //        }
-        if (features == null || features.isEmpty()) {
-//            System.out.println("no feature, returning true");
-            return this.codeCategories[0];
+        if (mapFeatures == null || mapFeatures.isEmpty()) {
+//            System.out.println("no feature, returning a simple digit");
+            return Integer.parseInt(rule);
+        }
+        int count = 0;
+        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        for (Entry<String, Set<String>> feature : mapFeatures.entrySet()) {
+            count++;
+            if (feature.getKey().contains("isNextWordAnOpinion")) {
+                outcome = isFollowedByAnOpinion(status);
+                conditions.put(CharUtils.toString(alphabet.charAt(count)), outcome);
+            } else if (feature.getKey().contains("isFirstTermOfStatus")) {
+                outcome = isFirstTermOfStatus(status);
+                conditions.put(CharUtils.toString(alphabet.charAt(count)), outcome);
+            } else if (feature.getKey().contains("isPrecededBySpecificTerm")) {
+                outcome = isPrecededBySpecificTerm(status);
+            } else if (feature.getKey().contains("isContainedInTweet")) {
+                outcome = isContainedInTweet(status);
+                conditions.put(CharUtils.toString(alphabet.charAt(count)), outcome);
+            } else if (feature.getKey().contains("isQuestionMarkAtEndOfStatus")) {
+                outcome = isQuestionMarkAtEndOfStatus(status);
+                conditions.put(CharUtils.toString(alphabet.charAt(count)), outcome);
+            } else if (feature.getKey().contains("isNotAllCaps")) {
+                outcome = isNotAllCaps(termOrig);
+                conditions.put(CharUtils.toString(alphabet.charAt(count)), outcome);
+            } else if (feature.getKey().contains("isPrecededByANegation")) {
+                outcome = !isPrecededByANegation(status);
+                conditions.put(CharUtils.toString(alphabet.charAt(count)), outcome);
+            } else if (feature.getKey().contains("isFirstLetterCapitalized")) {
+                outcome = isFirstLetterCapitalized();
+                conditions.put(CharUtils.toString(alphabet.charAt(count)), outcome);
+            } else if (feature.getKey().contains("isAllCaps")) {
+                outcome = isAllCaps(termOrig);
+                conditions.put(CharUtils.toString(alphabet.charAt(count)), outcome);
+            }
         }
 //        System.out.println("features:");
 //        for (String feature : features) {
 //            System.out.println("feature: \"" + feature + "\"");
 //        }
 
-
-        if (features.contains("isNextWordAnOpinion")) {
-            codeCategory = isFollowedByAnOpinion(status);
-        } else if (features.contains("isFirstTermOfStatus")) {
-            codeCategory = isFirstTermOfStatus(status);
-        } else if (features.contains("isPrecededBySpecificTerm")) {
-            codeCategory = isPrecededBySpecificTerm(status);
-        } else if (features.contains("isContainedInTweet")) {
-            codeCategory = isContainedInTweet(status);
-        } else if (features.contains("isQuestionMarkAtEndOfStatus")) {
-            codeCategory = isQuestionMarkAtEndOfStatus(status);
-        } else if (features.contains("isNotAllCaps")) {
-            codeCategory = isNotAllCaps(termOrig);
-        } else if (features.contains("isPrecededByANegation")) {
-            codeCategory = !isPrecededByANegation(status);
-        } else if (features.contains("isFirstLetterCapitalized")) {
-            codeCategory = isFirstLetterCapitalized();
-        } else if (features.contains("isAllCaps")) {
-            codeCategory = isAllCaps(termOrig);
-        } else {
-//            System.out.println("returning false here!");
-            codeCategory = Integer.parseInt(this.codeCategories[0]);
-        }
-//        System.out.println("end of check feature, res is: " + res);
         return res;
     }
 
-    public int isFollowedByAnOpinion(String status) {
+    public boolean isFollowedByAnOpinion(String status) {
         String temp = status.substring(status.indexOf(term)).trim();
         temp = temp.split(" ")[1];
         return (TweetLoader.Hloader.getMapH2().keySet().contains(temp)

@@ -9,10 +9,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -36,13 +38,15 @@ public class HeuristicsLoader {
     Map<String, Heuristic> mapH7;
     Map<String, Heuristic> mapH8;
     Map<String, Heuristic> mapH9;
+    Map<String, Heuristic> mapH10;
+    Map<String, Heuristic> mapH11;
     Set<String> setNegations;
     Set<String> setTimeTokens;
 
     public void load() throws FileNotFoundException, IOException {
 
 
-        File folder = new File("D:\\Docs Pro Clement\\NetBeansProjects\\TwitterCollection\\heuristics\\");
+        File folder = new File("D:\\Docs Pro Clement\\NetBeansProjects\\Umigon\\private\\heuristics\\");
 //        System.out.println("folder is: " + folder.getCanonicalPath());
         File[] arrayFiles = folder.listFiles();
         mapHeuristics = new HashMap();
@@ -57,6 +61,8 @@ public class HeuristicsLoader {
         mapH7 = new HashMap();
         mapH8 = new HashMap();
         mapH9 = new HashMap();
+        mapH10 = new HashMap();
+        mapH11 = new HashMap();
 
         for (File file : arrayFiles) {
             br = new BufferedReader(new FileReader(file));
@@ -71,23 +77,39 @@ public class HeuristicsLoader {
             String parametersFeature1 = null;
             String[] features;
             String term = null;
-            String featuresString = null;
-            String[] codeCategoriesFeature1Temp = null;
-            int[] codeCategoriesFeature1 = null;
+            String featureString = null;
+            String feature = null;
+            String rule = null;
+            String fields[];
+            String parameters;
+            String[] parametersArray;
+            TreeMap<String, Set<String>> mapFeatures = new TreeMap();
             while ((string = br.readLine()) != null) {
 //                System.out.println("string: "+string);
                 countLines++;
+                fields = string.split("\t", -1);
+                int count = 0;
                 try {
-//                System.out.println("string: "+string);
-                    term = string.split("\t", -1)[0].trim();
-                    featuresString = string.split("\t", -1)[1].trim();
+                    for (String field : fields) {
+                        count++;
+                        if (fields[fields.length - 1].equals(field)) {
+                            rule = field;
+                            continue;
+                        } else {
+                            if (count == 1) {
+                                term = field;
+                            } else {
+                                featureString = field;
+                                if (featureString.contains("///")) {
+                                    parametersArray = StringUtils.substringAfter(featureString, "///").split("|");
+                                    feature = StringUtils.substringBefore(featureString, "///");
+                                    mapFeatures.put(feature, new HashSet(Arrays.asList(parametersArray)));
+                                } else {
+                                    mapFeatures.put(featureString, null);
+                                }
+                            }
+                        }
 
-                    parametersFeature1 = string.split("\t", -1)[2].trim();
-                    codeCategoriesFeature1Temp = string.split("\t", -1)[3].trim().split("|");
-                    int counter = 0;
-                    for (String cc : codeCategoriesFeature1Temp) {
-                        codeCategoriesFeature1[counter] = Integer.parseInt(cc);
-                        counter++;
                     }
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.println("error loading file " + file.getName() + ", line " + countLines);
@@ -96,7 +118,7 @@ public class HeuristicsLoader {
 //                    System.out.println("HERE!!!!");
 //                }
 //                System.out.println("feature: "+feature);
-                heuristic = new Heuristic(term, map);
+                heuristic = new Heuristic(term, mapFeatures,rule);
                 if (featuresString != null) {
                     features = featuresString.split(",");
                     for (String feature : features) {
@@ -112,44 +134,64 @@ public class HeuristicsLoader {
                     setNegations.add(term);
                     continue;
                 }
+                //positive
                 if (map == 1) {
                     mapH1.put(term, heuristic);
                     continue;
                 }
+                //negative
                 if (map == 2) {
                     mapH2.put(term, heuristic);
                     continue;
                 }
+                //strong
                 if (map == 3) {
                     mapH3.put(term, heuristic);
                     continue;
                 }
+                //time
                 if (map == 4) {
                     mapH4.put(term, heuristic);
                     continue;
                 }
+                //question
                 if (map == 5) {
                     mapH5.put(term, heuristic);
                     continue;
                 }
+                //subjective
                 if (map == 6) {
                     mapH6.put(term, heuristic);
                     continue;
                 }
+                //address
                 if (map == 7) {
                     mapH7.put(term, heuristic);
                     continue;
                 }
+                //humor
                 if (map == 8) {
                     mapH8.put(term, heuristic);
                     continue;
                 }
+                //commercial offer
                 if (map == 9) {
                     mapH9.put(term, heuristic);
                     continue;
                 }
+                //negations
                 if (map == 10) {
                     setTimeTokens.add(term);
+                    continue;
+                }
+                //hints difficulty
+                if (map == 11) {
+                    mapH11.put(term, heuristic);
+                    continue;
+                }
+                //time indications
+                if (map == 12) {
+                    mapH12.put(term, heuristic);
                     continue;
                 }
 
