@@ -26,7 +26,7 @@ public class ExcelToCsv {
 
     public static void echoAsCSV(Sheet sheet) throws IOException {
         Row row;
-        for (int i = 0; i < sheet.getLastRowNum(); i++) {
+        for (int i = 0; i <= sheet.getLastRowNum(); i++) {
             row = sheet.getRow(i);
             for (int j = 0; j < row.getLastCellNum(); j++) {
                 bw.write("" + row.getCell(j) + "\t");
@@ -44,7 +44,7 @@ public class ExcelToCsv {
         Workbook wb = WorkbookFactory.create(inp);
 
         for (int i = 0; i < wb.getNumberOfSheets(); i++) {
-            bw = new BufferedWriter(new FileWriter("private/heuristics/"+i + "_" + wb.getSheetAt(i).getSheetName()+".txt"));
+            bw = new BufferedWriter(new FileWriter("private/heuristics/"+ wb.getSheetAt(i).getSheetName()+".txt"));
             System.out.println(wb.getSheetAt(i).getSheetName());
             echoAsCSV(wb.getSheetAt(i));
             bw.close();

@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Classifier;
+package Heuristics;
 
+import Heuristics.Heuristic;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,6 +41,7 @@ public class HeuristicsLoader {
     Map<String, Heuristic> mapH9;
     Map<String, Heuristic> mapH10;
     Map<String, Heuristic> mapH11;
+    Map<String, Heuristic> mapH12;
     Set<String> setNegations;
     Set<String> setTimeTokens;
 
@@ -51,7 +53,7 @@ public class HeuristicsLoader {
         File[] arrayFiles = folder.listFiles();
         mapHeuristics = new HashMap();
         setNegations = new HashSet();
-
+        setTimeTokens = new HashSet();
         mapH1 = new HashMap();
         mapH2 = new HashMap();
         mapH4 = new HashMap();
@@ -63,6 +65,7 @@ public class HeuristicsLoader {
         mapH9 = new HashMap();
         mapH10 = new HashMap();
         mapH11 = new HashMap();
+        mapH12 = new HashMap();
 
         for (File file : arrayFiles) {
             br = new BufferedReader(new FileReader(file));
@@ -71,69 +74,55 @@ public class HeuristicsLoader {
                 continue;
             }
             int map = Integer.parseInt(StringUtils.left(file.getName(), file.getName().indexOf("_")));
-
+            if (map == 0) {
+                continue;
+            }
+            System.out.println("map: " + map);
             System.out.println("loading " + file.getName());
-            int countLines = 0;
-            String parametersFeature1 = null;
-            String[] features;
+            System.out.println("folder is: " + folder.getCanonicalPath());
+
             String term = null;
-            String featureString = null;
-            String feature = null;
+            String featureString;
+            String feature;
             String rule = null;
             String fields[];
-            String parameters;
             String[] parametersArray;
-            TreeMap<String, Set<String>> mapFeatures = new TreeMap();
+            String field0;
+            String field1;
+            String field2;
+            TreeMap<String, Set<String>> mapFeatures;
             while ((string = br.readLine()) != null) {
-//                System.out.println("string: "+string);
-                countLines++;
                 fields = string.split("\t", -1);
-                int count = 0;
-                try {
-                    for (String field : fields) {
-                        count++;
-                        if (fields[fields.length - 1].equals(field)) {
-                            rule = field;
-                            continue;
-                        } else {
-                            if (count == 1) {
-                                term = field;
-                            } else {
-                                featureString = field;
-                                if (featureString.contains("///")) {
-                                    parametersArray = StringUtils.substringAfter(featureString, "///").split("|");
-                                    feature = StringUtils.substringBefore(featureString, "///");
-                                    mapFeatures.put(feature, new HashSet(Arrays.asList(parametersArray)));
-                                } else {
-                                    mapFeatures.put(featureString, null);
-                                }
-                            }
-                        }
+                mapFeatures = new TreeMap();
 
-                    }
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    System.out.println("error loading file " + file.getName() + ", line " + countLines);
+                //sometimes the heuristics is just a term, not followed by a feature or a rule
+                //in this case put a null value to these fields
+                field0 = fields[0];
+                field1 = (fields.length < 2) ? null : fields[1];
+                field2 = (fields.length < 3) ? null : fields[2];
+
+                term = field0;
+                featureString = field1;
+                rule = field2;
+
+                //parse the "feature" field to disentangle the feature from the parameters
+                //this parsing rule will be extended to allow for multiple features
+                if (featureString.contains("///")) {
+                    parametersArray = StringUtils.substringAfter(featureString, "///").split("|");
+                    feature = StringUtils.substringBefore(featureString, "///");
+                    mapFeatures.put(feature, new HashSet(Arrays.asList(parametersArray)));
+                } else if (featureString != null) {
+                    mapFeatures.put(featureString, null);
                 }
+
+
 //                if (term.equals("I was wondering")){
 //                    System.out.println("HERE!!!!");
 //                }
 //                System.out.println("feature: "+feature);
-                heuristic = new Heuristic(term, mapFeatures,rule);
-                if (featuresString != null) {
-                    features = featuresString.split(",");
-                    for (String feature : features) {
-                        if (!feature.equals("")) {
-                            heuristic.addFeature(feature);
-                            heuristic.setParametersFeature1(parametersFeature1);
-                        }
-                    }
-                }
-                heuristic.setCodeCategories(codeCategoriesFeature1);
+
+                heuristic = new Heuristic(term, mapFeatures, rule);
                 mapHeuristics.put(term, heuristic);
-                if (map == 0) {
-                    setNegations.add(term);
-                    continue;
-                }
                 //positive
                 if (map == 1) {
                     mapH1.put(term, heuristic);
@@ -181,7 +170,7 @@ public class HeuristicsLoader {
                 }
                 //negations
                 if (map == 10) {
-                    setTimeTokens.add(term);
+                    setNegations.add(term);
                     continue;
                 }
                 //hints difficulty
@@ -191,26 +180,35 @@ public class HeuristicsLoader {
                 }
                 //time indications
                 if (map == 12) {
-                    mapH12.put(term, heuristic);
+                    setTimeTokens.add(term);
                     continue;
                 }
-
-
-
             }
         }
-        System.out.println("total number heuristics used: " + mapHeuristics.keySet().size());
-        System.out.println("--------------------------------------------");
 
-        System.out.println("humor or light: " + mapH7.keySet().size());
-        System.out.println("time related: " + mapH4.keySet().size());
-        System.out.println("question: " + mapH5.keySet().size());
-        System.out.println("positive tone: " + mapH1.keySet().size());
-        System.out.println("negative tone: " + mapH2.keySet().size());
-        System.out.println("direct address: " + mapH8.keySet().size());
-        System.out.println("self turned: " + mapH6.keySet().size());
-        System.out.println("strength of opinion: " + mapH3.keySet().size());
-        System.out.println("commercial offer: " + mapH9.keySet().size());
+        System.out.println(
+                "total number heuristics used: " + mapHeuristics.keySet().size());
+        System.out.println(
+                "--------------------------------------------");
+
+        System.out.println(
+                "positive tone: " + mapH1.keySet().size());
+        System.out.println(
+                "negative tone: " + mapH2.keySet().size());
+        System.out.println(
+                "strength of opinion: " + mapH3.keySet().size());
+        System.out.println(
+                "time related: " + mapH4.keySet().size());
+        System.out.println(
+                "question: " + mapH5.keySet().size());
+        System.out.println(
+                "self turned: " + mapH6.keySet().size());
+        System.out.println(
+                "humor or light: " + mapH8.keySet().size());
+        System.out.println(
+                "direct address: " + mapH7.keySet().size());
+        System.out.println(
+                "commercial offer: " + mapH9.keySet().size());
 
     }
 
@@ -292,6 +290,30 @@ public class HeuristicsLoader {
 
     public void setMapH9(Map<String, Heuristic> mapH9) {
         this.mapH9 = mapH9;
+    }
+
+    public Map<String, Heuristic> getMapH10() {
+        return mapH10;
+    }
+
+    public void setMapH10(Map<String, Heuristic> mapH10) {
+        this.mapH10 = mapH10;
+    }
+
+    public Map<String, Heuristic> getMapH11() {
+        return mapH11;
+    }
+
+    public void setMapH11(Map<String, Heuristic> mapH11) {
+        this.mapH11 = mapH11;
+    }
+
+    public Map<String, Heuristic> getMapH12() {
+        return mapH12;
+    }
+
+    public void setMapH12(Map<String, Heuristic> mapH12) {
+        this.mapH12 = mapH12;
     }
 
     public Set<String> getSetNegations() {

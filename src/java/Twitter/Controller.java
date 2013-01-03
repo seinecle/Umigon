@@ -4,7 +4,7 @@ package Twitter;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-import Classifier.HeuristicsLoader;
+import Heuristics.HeuristicsLoader;
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.Morphia;
 import com.mongodb.Mongo;

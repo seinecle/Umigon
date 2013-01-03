@@ -4,8 +4,10 @@
  */
 package Twitter;
 
-import Classifier.HeuristicLevel1;
-import Classifier.HeuristicsLoader;
+import Classifier.Categories;
+import Classifier.TweetLooper;
+import Heuristics.HeuristicsLoader;
+import Heuristics.ExcelToCsv;
 import com.cybozu.labs.langdetect.LangDetectException;
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.Morphia;
@@ -17,6 +19,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 /**
  *
@@ -32,7 +35,7 @@ public class TweetLoader {
     static private boolean analyzeNewlyArrivedTweets = false;
     static private boolean analyzeAllFromDisk = true;
 
-    public static void main(String args[]) throws UnknownHostException, FileNotFoundException, IOException, LangDetectException {
+    public static void main(String args[]) throws UnknownHostException, FileNotFoundException, IOException, LangDetectException, InvalidFormatException {
         System.out.println("OMEGAN - semantic analyzer for large twitter accounts");
         Mongo m;
         Morphia morphia;
@@ -42,9 +45,19 @@ public class TweetLoader {
         morphiaLocal = new Morphia();
         List<Tweet> listTweets;
         Set<Tweet> setTweets = new HashSet();
+        String[] newArgs = null;
+        
+        //converts excel file with heuristics into csv that Java can handle
+        ExcelToCsv.main(newArgs);
+        
+        //loads the heuristics from the csv files just created
         Hloader = new HeuristicsLoader();
         Hloader.load();
-        HeuristicLevel1 hl1;
+        
+        //loads Categories
+        Categories.populate();
+        
+        TweetLooper hl1;
 
         if (saveOnDisk || analyzeNewlyArrivedTweets) {
             m = new Mongo("alex.mongohq.com", 10056);
@@ -81,7 +94,7 @@ public class TweetLoader {
             setTweets.addAll(listTweets);
             System.out.println("------------------------------------------------");
             System.out.println("retrieving all tweets from disk (collected since Dec. 02, 2012): " + setTweets.size());
-            hl1 = new HeuristicLevel1(setTweets);
+            hl1 = new TweetLooper(setTweets);
             hl1.applyLevel1();
         }
 
@@ -90,7 +103,7 @@ public class TweetLoader {
             setTweets.addAll(listTweets);
             System.out.println("------------------------------------------------");
             System.out.println("retrieving newly arrived tweets from the cloud: " + setTweets.size());
-            hl1 = new HeuristicLevel1(setTweets);
+            hl1 = new TweetLooper(setTweets);
             hl1.applyLevel1();
 
         }

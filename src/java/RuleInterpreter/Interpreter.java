@@ -14,29 +14,29 @@ import org.apache.commons.lang3.StringUtils;
 /**
  *
  * @author C. Levallois
- * 
- * This class interprets conditions written in human-readable format, and returns the outcome
- * 
- * example below: human-written rule: 
- * 
- *          A?(B?(321:C?(322:355)):122) 
- * 
- * => letters are true / false conditions
- * => digits are outcomes
- * => reads like: "is A true? if so, evaluate B. If not, return 122. Is B true? if so, return 321. If not, evaluate C. Etc...
+ *
+ * This class interprets conditions written in human-readable format, and
+ * returns the outcome
+ *
+ * example below: human-written rule:
+ *
+ * A?(B?(321:C?(322:355)):122)
+ *
+ * => letters are true / false conditions => digits are outcomes => reads like:
+ * "is A true? if so, evaluate B. If not, return 122. Is B true? if so, return
+ * 321. If not, evaluate C. Etc...
  *
  * in the example below, we imagine that A, C D are true, while B is false.
- * 
- * This class evaluates the expression:
- * A is true => evaluate B
- * B is false: skip 321, go and evaluate C
- * C is true: return 322
- * 
- * 
- * Why is it interesting? In this example, simple digits are returned.
- * These digits can be mapped to complex objects in a map (or in a dictionary as you would say in Python).
- * So that this class provides a bridge between complex rules set in combination and complex outcomes.
- * 
+ *
+ * This class evaluates the expression: A is true => evaluate B B is false: skip
+ * 321, go and evaluate C C is true: return 322
+ *
+ *
+ * Why is it interesting? In this example, simple digits are returned. These
+ * digits can be mapped to complex objects in a map (or in a dictionary as you
+ * would say in Python). So that this class provides a bridge between complex
+ * rules set in combination and complex outcomes.
+ *
  */
 public class Interpreter {
 
@@ -52,7 +52,7 @@ public class Interpreter {
 
     }
 
-    public static Integer interprete(String rule, Map<String, Boolean> heuristics) {
+    public static String interprete(String rule, Map<String, Boolean> heuristics) {
         StringBuilder sb = null;
         String token = null;
         String punct = "";
@@ -64,13 +64,18 @@ public class Interpreter {
         int openParent = 0;
         int closedParent = 0;
         int currParentCount = 0;
-        
+
         // for debugging purposes
-        for (Entry entry: heuristics.entrySet()){
-            System.out.println(entry.getKey()+": "+entry.getValue());
+//        for (Entry entry : heuristics.entrySet()) {
+//            System.out.println(entry.getKey() + ": " + entry.getValue());
+//        }
+        //case when there is only one condition
+        if (heuristics.entrySet().size() < 2) {
+//            System.out.println("rule: " + rule);
+            return simpleInterpretation(rule, heuristics);
         }
 
-
+        //more complex conditions...
         Scanner s = new Scanner(rule);
         s.useDelimiter("");
         while (s.hasNext()) {
@@ -111,7 +116,7 @@ public class Interpreter {
             //if we are in a true condition, return the current token
             if (currBoolean & StringUtils.isNumeric(token)) {
                 System.out.println("token returned: " + token);
-                return Integer.parseInt(token);
+                return token;
             }
 
             //if we are in a false condition and we are not skipping, return the token just after the semicolon
@@ -120,7 +125,7 @@ public class Interpreter {
                     & StringUtils.isNumeric(token)) {
 //                System.out.println("curr sign: " + sign);
                 System.out.println("token returned: " + token);
-                return Integer.parseInt(token);
+                return token;
             }
 
             //after a condition is evaluated as false, continue to record the tokens but don't evaluate conditions until you find a closing bracket
@@ -158,7 +163,27 @@ public class Interpreter {
 
         }
         System.out.println("some mistake must have happened in the interpreter: returning -99");
-        return -99;
+        System.out.println("rule: " + rule);
+        for (Entry entry : heuristics.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
 
+        return "-99";
+
+    }
+
+    private static String simpleInterpretation(String rule, Map<String, Boolean> heuristics) {
+        String[] outcomes = rule.split("\\|");
+        if (!heuristics.values().isEmpty()) {
+            if (heuristics.values().iterator().next()) {
+                return outcomes[0];
+            } else if (outcomes.length > 1) {
+                return outcomes[1];
+            } else {
+                return null;
+            }
+        } else {
+            return rule;
+        }
     }
 }

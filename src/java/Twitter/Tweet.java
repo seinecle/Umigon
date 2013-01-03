@@ -33,7 +33,7 @@ public class Tweet {
     private long retweetCount;
     private List<String> hashtags;
     private List<String> mentions;
-    private Set<Integer> setCategories;
+    private Set<String> setCategories;
 
     public Tweet() {
         setCategories = new TreeSet();
@@ -112,19 +112,27 @@ public class Tweet {
         this.mentions = mentions;
     }
 
-    public Set<Integer> getSetCategories() {
+    public Set<String> getSetCategories() {
+        if (setCategories == null) {
+            setCategories = new HashSet();
+        }
+
         return setCategories;
     }
 
     public String getSetCategoriesToString() {
+        if (setCategories == null) {
+            setCategories = new HashSet();
+        }
         if (setCategories.isEmpty()) {
             return "NO CATEGORY";
         }
-        Iterator<Integer> setCategoriesIterator = setCategories.iterator();
+        Iterator<String> setCategoriesIterator = setCategories.iterator();
         StringBuilder sb = new StringBuilder();
+        String cat;
         while (setCategoriesIterator.hasNext()) {
-            int cat = setCategoriesIterator.next();
-//            System.out.println("cat: "+cat);
+            cat = setCategoriesIterator.next();
+//            System.out.println("cat: " + cat);
             sb.append(Categories.get(cat));
             sb.append(" -- ");
         }
@@ -132,14 +140,18 @@ public class Tweet {
         return sb.toString();
     }
 
-    public void setSetCategories(Set<Integer> setCategories) {
+    public void setSetCategories(Set<String> setCategories) {
         this.setCategories = setCategories;
     }
 
-    public boolean addToSetCategories(Integer category) {
+    public boolean addToSetCategories(String category) {
+        if (category == null) {
+            return true;
+        }
         if (setCategories == null) {
             setCategories = new HashSet();
         }
+
         return this.setCategories.add(category);
     }
 
