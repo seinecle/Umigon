@@ -4,7 +4,8 @@
  */
 package Heuristics;
 
-import Heuristics.Heuristic;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -42,8 +44,10 @@ public class HeuristicsLoader {
     Map<String, Heuristic> mapH10;
     Map<String, Heuristic> mapH11;
     Map<String, Heuristic> mapH12;
+    Map<String, Heuristic> mapH13;
     Set<String> setNegations;
     Set<String> setTimeTokens;
+    Set<String> setHashTags;
 
     public void load() throws FileNotFoundException, IOException {
 
@@ -66,6 +70,7 @@ public class HeuristicsLoader {
         mapH10 = new HashMap();
         mapH11 = new HashMap();
         mapH12 = new HashMap();
+        mapH13 = new HashMap();
 
         for (File file : arrayFiles) {
             br = new BufferedReader(new FileReader(file));
@@ -87,19 +92,22 @@ public class HeuristicsLoader {
             String rule = null;
             String fields[];
             String[] parametersArray;
+            String[] featuresArray;
+            Set<String> featuresSet;
+            Iterator<String> featuresSetIterator;
             String field0;
             String field1;
             String field2;
-            TreeMap<String, Set<String>> mapFeatures;
+            Multimap<String, Set<String>> mapFeatures;
             while ((string = br.readLine()) != null) {
                 fields = string.split("\t", -1);
-                mapFeatures = new TreeMap();
+                mapFeatures = HashMultimap.create();
 
                 //sometimes the heuristics is just a term, not followed by a feature or a rule
                 //in this case put a null value to these fields
-                field0 = fields[0];
-                field1 = (fields.length < 2) ? null : fields[1];
-                field2 = (fields.length < 3) ? null : fields[2];
+                field0 = fields[0].trim();
+                field1 = (fields.length < 2) ? null : fields[1].trim();
+                field2 = (fields.length < 3) ? null : fields[2].trim();
 
                 term = field0;
                 featureString = field1;
@@ -107,12 +115,25 @@ public class HeuristicsLoader {
 
                 //parse the "feature" field to disentangle the feature from the parameters
                 //this parsing rule will be extended to allow for multiple features
-                if (featureString.contains("///")) {
-                    parametersArray = StringUtils.substringAfter(featureString, "///").split("|");
-                    feature = StringUtils.substringBefore(featureString, "///");
-                    mapFeatures.put(feature, new HashSet(Arrays.asList(parametersArray)));
-                } else if (featureString != null) {
-                    mapFeatures.put(featureString, null);
+//                if (featureString.contains("+++")) {
+//                    System.out.println("featureString containing +++ " + featureString);
+//                }
+                featuresArray = featureString.split("\\+\\+\\+");
+                featuresSet = new HashSet(Arrays.asList(featuresArray));
+                featuresSetIterator = featuresSet.iterator();
+                while (featuresSetIterator.hasNext()) {
+                    featureString = featuresSetIterator.next();
+//                    System.out.println("featureString: " + featureString);
+//                    if (featureString.contains("///")) {
+//                        System.out.println("featureString containing ||| " + featureString);
+//                    }
+                    if (featureString.contains("///")) {
+                        parametersArray = StringUtils.substringAfter(featureString, "///").split("\\|");
+                        feature = StringUtils.substringBefore(featureString, "///");
+                        mapFeatures.put(feature, new HashSet(Arrays.asList(parametersArray)));
+                    } else {
+                        mapFeatures.put(featureString, null);
+                    }
                 }
 
 
@@ -181,6 +202,11 @@ public class HeuristicsLoader {
                 //time indications
                 if (map == 12) {
                     setTimeTokens.add(term);
+                    continue;
+                }
+                //time indications
+                if (map == 13) {
+                    mapH13.put(term, heuristic);
                     continue;
                 }
             }
@@ -310,6 +336,14 @@ public class HeuristicsLoader {
 
     public Map<String, Heuristic> getMapH12() {
         return mapH12;
+    }
+
+    public Map<String, Heuristic> getMapH13() {
+        return mapH13;
+    }
+
+    public void setMapH13(Map<String, Heuristic> mapH13) {
+        this.mapH13 = mapH13;
     }
 
     public void setMapH12(Map<String, Heuristic> mapH12) {

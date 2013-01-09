@@ -6,16 +6,14 @@ package Heuristics;
 
 import RuleInterpreter.Interpreter;
 import Twitter.TweetLoader;
+import com.google.common.collect.Multimap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeMap;
-import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -29,12 +27,12 @@ public class Heuristic {
         isNextWordAnOpinion
     }
     private String term;
-    private TreeMap<String, Set<String>> mapFeatures;
+    private Multimap<String, Set<String>> mapFeatures;
     private String rule;
     private String punctuation = "!?.'\",()-|=";
     private String punctuationRegex = "[\\!\\?\\.'\\\\\",\\(\\)\\-\\|=]";
 
-    public Heuristic(String term, TreeMap<String, Set<String>> mapFeatures, String rule) {
+    public Heuristic(String term, Multimap mapFeatures, String rule) {
         this.term = term;
         this.mapFeatures = mapFeatures;
         this.rule = rule;
@@ -76,9 +74,6 @@ public class Heuristic {
         HashMap<String, Boolean> conditions = new HashMap();
         boolean outcome;
 
-//        if (termOrig.equals("GOLD")) {
-//            System.out.println("term: " + term);
-//        }
         if (mapFeatures == null || mapFeatures.isEmpty()) {
 //            System.out.println("no feature, returning a simple digit");
             return rule;
@@ -86,19 +81,35 @@ public class Heuristic {
         int count = 0;
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        for (Entry<String, Set<String>> feature : mapFeatures.entrySet()) {
+        for (Entry<String, Set<String>> feature : mapFeatures.entries()) {
+//            if (termOrig.equals("Learn")) {
+//                System.out.println("feature: " + feature.getKey());
+//                System.out.println("status: " + status);
+//            }
 //            System.out.println("count: " + count);
             if (feature.getKey().contains("isFollowedByAnOpinion")) {
-                outcome = isFollowedByAnOpinion(status);
+                outcome = isFollowedByAnOpinion(status, termOrig);
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
             } else if (feature.getKey().contains("isFirstTermOfStatus")) {
-                outcome = isFirstTermOfStatus(status);
+                outcome = isFirstTermOfStatus(status, termOrig);
+                conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
+            } else if (feature.getKey().contains("isFollowedByTimeIndication")) {
+                outcome = isFollowedByTimeIndication(status, termOrig);
+                conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
+            } else if (feature.getKey().contains("isFollowedByVerbPastTense")) {
+                outcome = isFollowedByVerbPastTense(status, termOrig);
+                conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
+            } else if (feature.getKey().contains("isFollowedBySpecificTerm")) {
+                outcome = isFollowedBySpecificTerm(status, termOrig, feature.getValue());
+                conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
+            } else if (feature.getKey().contains("isHashtagStart")) {
+                outcome = isHashtagStart(termOrig);
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
             } else if (feature.getKey().contains("isPrecededBySpecificTerm")) {
-                outcome = isPrecededBySpecificTerm(status, feature.getValue());
+                outcome = isPrecededBySpecificTerm(status, termOrig, feature.getValue());
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
-            } else if (feature.getKey().contains("isContainedInTweet")) {
-                outcome = isContainedInTweet(status);
+            } else if (feature.getKey().contains("isNotPrecededBySpecificTerm")) {
+                outcome = isNotPrecededBySpecificTerm(status, termOrig, feature.getValue());
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
             } else if (feature.getKey().contains("isQuestionMarkAtEndOfStatus")) {
                 outcome = isQuestionMarkAtEndOfStatus(status);
@@ -107,27 +118,38 @@ public class Heuristic {
                 outcome = isNotAllCaps(termOrig);
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
             } else if (feature.getKey().contains("isPrecededByANegation")) {
-                outcome = !isPrecededByANegation(status);
+                outcome = !isPrecededByANegation(status, termOrig);
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
-            } else if (feature.getKey().contains("isFirstLetterCapitalized")) {
+            }
+            else if (feature.getKey().contains("isPrecededByStrongWord")) {
+                outcome = isPrecededByStrongWord(status, termOrig);
+                conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
+            }
+            else if (feature.getKey().contains("isPrecededByPositive")) {
+                outcome = isPrecededByPositive(status, termOrig);
+                conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
+            }
+            else if (feature.getKey().contains("isFirstLetterCapitalized")) {
                 outcome = isFirstLetterCapitalized();
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
             } else if (feature.getKey().contains("isAllCaps")) {
                 outcome = isAllCaps(termOrig);
+//                if (termOrig.equals("DO NOT")) {
+//                    System.out.println("outcome: " + outcome);
+//                }
+//
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
             }
             count++;
 
         }
-        String result = Interpreter.interprete(rule, conditions);
 
-        if (result == null) {
-//            System.out.println("null result detected in the heuristic, termOrig is: " + termOrig);
-            return result;
-        } else if (result.contains("0330")) {
-//            System.out.println("0330 detected in result in the heuristic, termOrig is: " + termOrig);
-            return result;
-        }
+
+        String result = Interpreter.interprete(rule, conditions);
+//        if (termOrig.equals("Learn")) {
+//            System.out.println("result: " + result);
+//        }
+
         return result;
 //        System.out.println("result returned in the heuristic checker: " + result);
 //        System.out.println("features:");
@@ -137,12 +159,12 @@ public class Heuristic {
 
     }
 
-    public boolean isFollowedByAnOpinion(String status) {
+    public boolean isFollowedByAnOpinion(String status, String termOrig) {
 //        System.out.println("status: " + status);
 //        System.out.println("term: " + term);
-        int indexTerm = status.toLowerCase().indexOf(term);
+        int indexTerm = status.indexOf(termOrig);
 //        System.out.println("index of term: " + indexTerm);
-        String temp = status.toLowerCase().substring(indexTerm).trim();
+        String temp = status.substring(indexTerm).trim();
         String[] tempArray = temp.split(" ");
         if (tempArray.length < 2) {
             return false;
@@ -156,24 +178,92 @@ public class Heuristic {
                 ? true : false;
     }
 
-    public boolean isFollowedByVerbPastTense(String status) {
-        String temp = status.substring(status.indexOf(term)).trim();
+    public boolean isFollowedByTimeIndication(String status, String termOrig) {
+//        System.out.println("status: " + status);
+//        System.out.println("term: " + term);
+        int indexTerm = status.indexOf(termOrig);
+//        System.out.println("index of term: " + indexTerm);
+        String temp = status.substring(indexTerm).trim();
+        String[] tempArray = temp.split(" ");
+        if (tempArray.length < 2) {
+            return false;
+        } else {
+            temp = tempArray[1].trim();
+        }
+//        System.out.println("next term: " + temp);
+        boolean result = (TweetLoader.Hloader.getMapH12().keySet().contains(temp)
+                || TweetLoader.Hloader.getMapH12().keySet().contains(StringUtils.strip(temp, punctuation)))
+                ? true : false;
+
+//        System.out.println("result: " + result);
+        return result;
+    }
+
+    public boolean isFollowedByVerbPastTense(String status, String termOrig) {
+        String temp = status.substring(status.indexOf(termOrig)).trim();
         temp = StringUtils.strip(temp.split(" ")[1], punctuation);
         return (StringUtils.endsWith(temp, "ed")) ? true : false;
+    }
+
+    public boolean isFollowedBySpecificTerm(String status, String termOrig, Set<String> parameters) {
+        String temp = status.substring(status.indexOf(termOrig)).trim();
+        for (String candidate : parameters) {
+            if (temp.contains(candidate)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isHashtagStart(String termOrig) {
+//        System.out.println("termOrig (hashtag contained in the curr tweet): " + termOrig);
+//        System.out.println("term (term contained in the sheet 13 of the Excel sheet of heuristics): " + term);
+        return (termOrig.startsWith(term)) ? true : false;
     }
 
     public boolean isFirstLetterCapitalized() {
         return (StringUtils.isAllUpperCase(StringUtils.left(term, 1))) ? true : false;
     }
 
-    public boolean isPrecededBySpecificTerm(String status, Set<String> parameters) {
+    public boolean isPrecededBySpecificTerm(String status, String termOrig, Set<String> parameters) {
 //        System.out.println("status: " + status);
 //        System.out.println("term: " + term);
-        String temp = status.substring(0, status.toLowerCase().indexOf(term)).trim();
+        String temp = status.substring(0, status.indexOf(termOrig)).trim();
         for (String candidate : parameters) {
             if (temp.contains(candidate)) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    public boolean isNotPrecededBySpecificTerm(String status, String termOrig, Set<String> parameters) {
+//        System.out.println("status: " + status);
+//        System.out.println("term: " + term);
+        String temp = status.substring(0, status.indexOf(termOrig)).trim();
+//        System.out.println("before the term: " + temp);
+        for (String candidate : parameters) {
+            if (temp.contains(candidate)) {
+//                System.out.println("term found!");
+                return false;
+            }
+        }
+//        System.out.println("no term found!");
+        return true;
+    }
+
+    public boolean isPrecededByStrongWord(String status, String termOrig) {
+        String[] temp = status.substring(0, status.indexOf(termOrig)).trim().split(" ");
+        if (TweetLoader.Hloader.getMapH3().containsKey(temp[temp.length - 1].trim())) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isPrecededByPositive(String status, String termOrig) {
+        String[] temp = status.substring(0, status.indexOf(termOrig)).trim().split(" ");
+        if (TweetLoader.Hloader.getMapH1().containsKey(temp[temp.length - 1].trim())) {
+            return true;
         }
         return false;
     }
@@ -205,16 +295,16 @@ public class Heuristic {
     }
 
     public boolean isAllCaps(String termOrig) {
-        return (StringUtils.isAllUpperCase(termOrig)) ? true : false;
+        return (StringUtils.isAllUpperCase(StringUtils.remove(termOrig, " "))) ? true : false;
     }
 
     public boolean isNotAllCaps(String termOrig) {
-        return (StringUtils.isAllUpperCase(termOrig)) ? false : true;
+        return (StringUtils.isAllUpperCase(StringUtils.remove(termOrig, " "))) ? false : true;
     }
 
-    public boolean isPrecededByANegation(String status) {
+    public boolean isPrecededByANegation(String status, String termOrig) {
         term = term.toLowerCase();
-        int indexTerm = StringUtils.indexOf(status, term);
+        int indexTerm = StringUtils.indexOf(status, termOrig);
         String[] temp = StringUtils.left(status.replaceAll(punctuationRegex, " ").toLowerCase(), indexTerm).split(" ");
 //        if (term.equals("successful.") & status.contains("for any")) {
 //        System.out.println("status: " + status);
@@ -279,10 +369,8 @@ public class Heuristic {
         return false;
     }
 
-    public boolean isFirstTermOfStatus(String status) {
-        String termStripped = StringUtils.strip(term, punctuation).toLowerCase();
-        term = term.toLowerCase();
-        status = StringUtils.strip(status.toLowerCase().trim(), punctuation);
+    public boolean isFirstTermOfStatus(String status, String termOrig) {
+        status = StringUtils.strip(status.trim(), punctuation);
         String[] terms = status.split(" ");
         StringBuilder sb = new StringBuilder();
         boolean cleanStart = false;
@@ -298,12 +386,8 @@ public class Heuristic {
             }
         }
         status = sb.toString().trim();
-        return (status.startsWith(term) || status.startsWith(termStripped)) ? true : false;
-    }
-
-    public boolean isContainedInTweet(String status) {
-        String termStripped = StringUtils.strip(term);
-        term = term.toLowerCase();
-        return (status.toLowerCase().trim().contains(term) || status.toLowerCase().trim().contains(termStripped)) ? true : false;
+        boolean res = status.startsWith(termOrig) ? true : false;
+//        System.out.println("result: " + res);
+        return res;
     }
 }

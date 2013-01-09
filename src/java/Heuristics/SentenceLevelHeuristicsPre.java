@@ -7,18 +7,19 @@ package Heuristics;
 import Heuristics.Heuristic;
 import Twitter.Tweet;
 import Twitter.TweetLoader;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
  * @author C. Levallois
  */
-public class SentenceLevelHeuristics {
+public class SentenceLevelHeuristicsPre {
 
     private String status;
     private Tweet tweet;
     private Heuristic heuristic;
 
-    public SentenceLevelHeuristics(Tweet tweet, String status) {
+    public SentenceLevelHeuristicsPre(Tweet tweet, String status) {
         this.status = status;
         this.tweet = tweet;
     }
@@ -38,7 +39,7 @@ public class SentenceLevelHeuristics {
 
     public void containsPunctuation() {
         //multiple exclamation marks
-        boolean res = status.matches(".*!+.*");
+        boolean res = status.matches(".*!!+.*");
         if (res) {
             tweet.addToSetCategories("022");
         }
@@ -47,6 +48,24 @@ public class SentenceLevelHeuristics {
         res = status.matches(".*:\\)+.*");
         if (res) {
             tweet.addToSetCategories("011");
+        }
+
+        //smiley :O
+        res = status.matches(".*:O*");
+        if (res) {
+            tweet.addToSetCategories("011");
+        }
+
+        //smiley :|
+        res = status.matches(".*:\\|*");
+        if (res) {
+            tweet.addToSetCategories("012");
+        }
+
+        //smiley :(
+        res = status.matches(".*:\\(+.*");
+        if (res) {
+            tweet.addToSetCategories("012");
         }
 
         //smiley ;)
@@ -61,6 +80,12 @@ public class SentenceLevelHeuristics {
             tweet.addToSetCategories("040");
         }
 
+        //kisses
+        res = status.matches(".*xx?+.*");
+        if (res) {
+            tweet.addToSetCategories("011");
+        }
+
     }
 
     public void containsTimeIndication() {
@@ -72,6 +97,12 @@ public class SentenceLevelHeuristics {
                     tweet.addToSetCategories(result);
                 }
             }
+        }
+    }
+
+    public void containsMoreThan2Mentions() {
+        int countArobase = StringUtils.countMatches(status, "@");
+        if (countArobase > 2) {
         }
     }
 }

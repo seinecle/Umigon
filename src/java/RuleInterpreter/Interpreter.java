@@ -76,6 +76,7 @@ public class Interpreter {
         }
 
         //more complex conditions...
+//        System.out.println("rule: " + rule);
         Scanner s = new Scanner(rule);
         s.useDelimiter("");
         while (s.hasNext()) {
@@ -115,7 +116,7 @@ public class Interpreter {
 
             //if we are in a true condition, return the current token
             if (currBoolean & StringUtils.isNumeric(token)) {
-                System.out.println("token returned: " + token);
+//                System.out.println("token returned: " + token);
                 return token;
             }
 
@@ -124,7 +125,7 @@ public class Interpreter {
                     & prepunct.equals(":")
                     & StringUtils.isNumeric(token)) {
 //                System.out.println("curr sign: " + sign);
-                System.out.println("token returned: " + token);
+//                System.out.println("token returned: " + token);
                 return token;
             }
 
@@ -162,13 +163,17 @@ public class Interpreter {
             }
 
         }
-        System.out.println("some mistake must have happened in the interpreter: returning -99");
-        System.out.println("rule: " + rule);
-        for (Entry entry : heuristics.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-        }
+        if (!skippingToFalse) {
+            System.out.println("some mistake must have happened in the interpreter: returning -99");
+            System.out.println("rule: " + rule);
+            for (Entry entry : heuristics.entrySet()) {
+                System.out.println(entry.getKey() + ": " + entry.getValue());
+            }
 
-        return "-99";
+            return "-99";
+        } else {
+            return null;
+        }
 
     }
 

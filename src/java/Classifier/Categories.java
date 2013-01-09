@@ -35,6 +35,7 @@ public class Categories {
         //
         // *** 3 *** time
         //
+        mapCategories.put("03", "time");
         mapCategories.put("030", "neutral time");
         mapCategories.put("031", "past time");
         mapCategories.put("0311", "immediate past");
@@ -54,12 +55,13 @@ public class Categories {
         mapCategories.put("050", "neutral address");
         mapCategories.put("051", "subjective address");
         mapCategories.put("052", "direct address");
+        mapCategories.put("0521", "call to action");
 
         //
         // *** 6 *** topic
         //
         mapCategories.put("060", "neutral topic");
-        mapCategories.put("061", "commercial");
+        mapCategories.put("061", "commercial / promoted");
         mapCategories.put("0611", "commercial offer");
         mapCategories.put("062", "factual statement");
         mapCategories.put("0621", "factual statement - statistics cited");
