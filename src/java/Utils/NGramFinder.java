@@ -69,7 +69,7 @@ public class NGramFinder {
     private Set<String> ngrams(int n, String str) {
 
         Set<String> setToReturn = new HashSet();
-        words = str.split(" ");
+        words = str.split("["+WhiteSpaceChars.getWhiteSpaceChars()+"]+");
         for (int i = 0; i < words.length - n + 1; i++) {
             setToReturn.add(concat(words, i, i + n, n));
         }

@@ -32,8 +32,8 @@ public class TweetLoader {
     private String string;
     public static HeuristicsLoader Hloader;
     static private boolean saveOnDisk = false;
-    static private boolean analyzeNewlyArrivedTweets = false;
-    static private boolean analyzeAllFromDisk = true;
+    static private boolean analyzeNewlyArrivedTweets = true;
+    static private boolean analyzeAllFromDisk = false;
 
     public static void main(String args[]) throws UnknownHostException, FileNotFoundException, IOException, LangDetectException, InvalidFormatException {
         System.out.println("OMEGAN - semantic analyzer for large twitter accounts");

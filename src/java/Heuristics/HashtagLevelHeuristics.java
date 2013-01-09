@@ -54,7 +54,7 @@ public class HashtagLevelHeuristics {
 
     private void isContainedInHashTagHeuristics() {
         for (String term : TweetLoader.Hloader.getMapH13().keySet()) {
-            if (hashtag.startsWith(term)) {
+            if (hashtag.contains(term)) {
                 heuristic = TweetLoader.Hloader.getMapH13().get(term);
                 result = heuristic.checkFeatures(tweet.getText(), hashtag);
                 // System.out.println("result: " + result);

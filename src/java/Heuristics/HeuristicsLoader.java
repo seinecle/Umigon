@@ -357,4 +357,14 @@ public class HeuristicsLoader {
     public void setSetNegations(Set<String> setNegations) {
         this.setNegations = setNegations;
     }
+
+    public Set<String> getSetTimeTokens() {
+        return setTimeTokens;
+    }
+
+    public void setSetTimeTokens(Set<String> setTimeTokens) {
+        this.setTimeTokens = setTimeTokens;
+    }
+    
+    
 }

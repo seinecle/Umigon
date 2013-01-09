@@ -8,6 +8,7 @@ import Heuristics.HashtagLevelHeuristics;
 import Heuristics.Heuristic;
 import Heuristics.SentenceLevelHeuristicsPost;
 import Heuristics.SentenceLevelHeuristicsPre;
+import Heuristics.StatusEligibleHeuristics;
 import LanguageDetection.LanguageDetector;
 import TextCleaning.StatusCleaner;
 import Twitter.Tweet;
@@ -56,12 +57,16 @@ public class ClassifierMachine {
             tweet = setTweetsIterator.next();
             status = tweet.getText();
 
-            if (status.isEmpty()) {
+            if (!ld.detectEnglish(status)) {
+                tweet.addToSetCategories("001");
+                setTweetsClassified.add(tweet);
                 continue;
             }
 
-            if (!ld.detectEnglish(status)) {
-//                System.out.println("non english tweet detected! "+status);
+            StatusEligibleHeuristics seh = new StatusEligibleHeuristics(tweet, status);
+            tweet = seh.applyRules();
+            if (tweet.getSetCategories().contains("001") | tweet.getSetCategories().contains("002")) {
+                setTweetsClassified.add(tweet);
                 continue;
             }
 
@@ -88,9 +93,10 @@ public class ClassifierMachine {
                 //this condition puts the ngram in lower case, except if it is all in upper case (this is a valuable info)
                 //                System.out.println("status: " + status);
                 nGramStripped = StringUtils.strip(nGramOrig, punctuation);
-                nGramLowerCaseStripped = StringUtils.strip(nGramOrig, punctuation);
-//                if ( //                        nGram.contains("#free") & 
-//                        status.contains(" Your tweets open daily")) {
+                nGramLowerCaseStripped = nGramStripped.toLowerCase();
+//                if (
+//                                                nGramOrig.equals("Don't miss") & 
+//                        status.contains("Don't miss")) {
 //                    System.out.println(status);
 //                }
                 if (TweetLoader.Hloader.getMapH1().keySet().contains(nGramLowerCase)) {

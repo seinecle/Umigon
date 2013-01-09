@@ -17,6 +17,13 @@ public class Categories {
     public static void populate() {
         mapCategories = new HashMap();
         //
+        // *** 0 *** errors
+        //
+        mapCategories.put("00", "not suitable for semantic analysis");
+        mapCategories.put("001", "english text not detected");
+        mapCategories.put("002", "text of tweet too short or garbled");
+
+        //
         // *** 1 *** tone
         //
         mapCategories.put("010", "neutral tone");

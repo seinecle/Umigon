@@ -12,9 +12,12 @@ public class StatusCleaner {
 
     public static String clean(String status) {
         status = status.replace("...", " ");
+        status = status.replace("..", " ");
 //            System.out.println(status);
         status = status.replaceAll("http[^ ]*", " ");
-        status = status.replaceAll("\".*\"", " ");
+        status = status.replaceAll("/", " ");
+        status = status.replaceAll("-", " ");
+//        status = status.replaceAll("\".*\"", " ");
         status = status.replaceAll("http.*[\r|\n]*", " ");
         status = status.replaceAll(" +", " ");
 

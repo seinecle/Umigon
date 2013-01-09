@@ -29,7 +29,7 @@ public class Heuristic {
     private String term;
     private Multimap<String, Set<String>> mapFeatures;
     private String rule;
-    private String punctuation = "!?.'\",()-|=";
+    private String punctuation = "!?.'\",()-|=#";
     private String punctuationRegex = "[\\!\\?\\.'\\\\\",\\(\\)\\-\\|=]";
 
     public Heuristic(String term, Multimap mapFeatures, String rule) {
@@ -120,17 +120,14 @@ public class Heuristic {
             } else if (feature.getKey().contains("isPrecededByANegation")) {
                 outcome = !isPrecededByANegation(status, termOrig);
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
-            }
-            else if (feature.getKey().contains("isPrecededByStrongWord")) {
+            } else if (feature.getKey().contains("isPrecededByStrongWord")) {
                 outcome = isPrecededByStrongWord(status, termOrig);
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
-            }
-            else if (feature.getKey().contains("isPrecededByPositive")) {
+            } else if (feature.getKey().contains("isPrecededByPositive")) {
                 outcome = isPrecededByPositive(status, termOrig);
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
-            }
-            else if (feature.getKey().contains("isFirstLetterCapitalized")) {
-                outcome = isFirstLetterCapitalized();
+            } else if (feature.getKey().contains("isFirstLetterCapitalized")) {
+                outcome = isFirstLetterCapitalized(termOrig);
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
             } else if (feature.getKey().contains("isAllCaps")) {
                 outcome = isAllCaps(termOrig);
@@ -169,18 +166,18 @@ public class Heuristic {
         if (tempArray.length < 2) {
             return false;
         } else {
-            temp = tempArray[1];
+            temp = StringUtils.strip(tempArray[1],punctuation);
         }
         return (TweetLoader.Hloader.getMapH2().keySet().contains(temp)
-                || TweetLoader.Hloader.getMapH1().keySet().contains(temp)
-                || TweetLoader.Hloader.getMapH2().keySet().contains(StringUtils.strip(temp, punctuation))
-                || TweetLoader.Hloader.getMapH1().keySet().contains(StringUtils.strip(temp, punctuation)))
+                || TweetLoader.Hloader.getMapH1().keySet().contains(temp))
                 ? true : false;
     }
 
     public boolean isFollowedByTimeIndication(String status, String termOrig) {
-//        System.out.println("status: " + status);
-//        System.out.println("term: " + term);
+//        if (status.contains(" imploded this morning") & termOrig.equals("this")) {
+//            System.out.println("status: " + status);
+//            System.out.println("term: " + term);
+//        }
         int indexTerm = status.indexOf(termOrig);
 //        System.out.println("index of term: " + indexTerm);
         String temp = status.substring(indexTerm).trim();
@@ -188,11 +185,10 @@ public class Heuristic {
         if (tempArray.length < 2) {
             return false;
         } else {
-            temp = tempArray[1].trim();
+            temp = StringUtils.strip(tempArray[1], punctuation).trim();
         }
 //        System.out.println("next term: " + temp);
-        boolean result = (TweetLoader.Hloader.getMapH12().keySet().contains(temp)
-                || TweetLoader.Hloader.getMapH12().keySet().contains(StringUtils.strip(temp, punctuation)))
+        boolean result = (TweetLoader.Hloader.getSetTimeTokens().contains(temp))
                 ? true : false;
 
 //        System.out.println("result: " + result);
@@ -221,14 +217,14 @@ public class Heuristic {
         return (termOrig.startsWith(term)) ? true : false;
     }
 
-    public boolean isFirstLetterCapitalized() {
-        return (StringUtils.isAllUpperCase(StringUtils.left(term, 1))) ? true : false;
+    public boolean isFirstLetterCapitalized(String termOrig) {
+        return (StringUtils.isAllUpperCase(StringUtils.left(termOrig, 1))) ? true : false;
     }
 
     public boolean isPrecededBySpecificTerm(String status, String termOrig, Set<String> parameters) {
 //        System.out.println("status: " + status);
 //        System.out.println("term: " + term);
-        String temp = status.substring(0, status.indexOf(termOrig)).trim();
+        String temp = status.substring(0, status.indexOf(termOrig)).trim().toLowerCase();
         for (String candidate : parameters) {
             if (temp.contains(candidate)) {
                 return true;
@@ -240,7 +236,7 @@ public class Heuristic {
     public boolean isNotPrecededBySpecificTerm(String status, String termOrig, Set<String> parameters) {
 //        System.out.println("status: " + status);
 //        System.out.println("term: " + term);
-        String temp = status.substring(0, status.indexOf(termOrig)).trim();
+        String temp = status.substring(0, status.indexOf(termOrig)).trim().toLowerCase();
 //        System.out.println("before the term: " + temp);
         for (String candidate : parameters) {
             if (temp.contains(candidate)) {
@@ -254,7 +250,7 @@ public class Heuristic {
 
     public boolean isPrecededByStrongWord(String status, String termOrig) {
         String[] temp = status.substring(0, status.indexOf(termOrig)).trim().split(" ");
-        if (TweetLoader.Hloader.getMapH3().containsKey(temp[temp.length - 1].trim())) {
+        if (TweetLoader.Hloader.getMapH3().containsKey(temp[temp.length - 1].trim().toLowerCase())) {
             return true;
         }
         return false;
@@ -262,7 +258,7 @@ public class Heuristic {
 
     public boolean isPrecededByPositive(String status, String termOrig) {
         String[] temp = status.substring(0, status.indexOf(termOrig)).trim().split(" ");
-        if (TweetLoader.Hloader.getMapH1().containsKey(temp[temp.length - 1].trim())) {
+        if (TweetLoader.Hloader.getMapH1().containsKey(temp[temp.length - 1].trim().toLowerCase())) {
             return true;
         }
         return false;

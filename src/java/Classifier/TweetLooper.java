@@ -65,12 +65,10 @@ public class TweetLooper {
         System.out.println("---- Omegan report for @HP -----------");
         System.out.println(
                 "Number of tweets analyzed: " + originalNumberTweet);
-        System.out.println("---------------");
-        System.out.println("Number of tweets in English: " + setTweets.size());
 
         System.out.print(
                 "Number of tweets attributed to one or several categories: " + (setTweets.size() - tweetsWithoutCategory));
-        System.out.println(" (which means that " + (100 - (Math.round((double) (tweetsWithoutCategory * 10000) / setTweets.size()) / 100)) + "% of all tweets were attributed to a category)");
+        System.out.println(" (which means that " + (100 - ((double) (tweetsWithoutCategory * 10000) / setTweets.size()) / 100) + "% of all tweets were attributed to a category)");
 
         System.out.println("---------------");
         System.out.println("Distribution of the tweets in different categories:");
