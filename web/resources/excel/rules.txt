@@ -1,9 +1,0 @@
-rules against confounds	
-do not check what is inside quotes	
-strip out number, punctuation, urls and hashtags when checking for beginning or end	
-discard all tweet when containing (1/2), ((2/2) or such (indicates a tweet in two parts)	
-all caps		all caps beginning of sentence followed by hyphen			Retrocomputing Museum — the freaks, jokes, and fossils of computing history catb.org/retro/	
-"	null	beginning of sentence, with same double quote at the end	null	null	"Nipah virus was the inspiration for the MEV1 virus in the film Contagion" en.wikipedia.org/wiki/Nipah_vir…	
-"	null	beginning of sentence, with same double quote at the end	null	null	"Nipah virus was the inspiration for the MEV1 virus in the film Contagion" en.wikipedia.org/wiki/Nipah_vir…	
-"	null	beginning of sentence, followed by text all in majus, then " again	null	null	"Why Code?" by @FreeArtBureau in the current issue of @CMDJournal ( bit.ly/TD7WSd )	
-"	null	beginning of sentence, then " again, then all caps	null	null	"Computers in the future may weigh no more than 1.5 tons." Popular Mechanics, 1949 pic.twitter.com/N66OVnPG	
