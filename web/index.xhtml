@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Umigon - sentiment analyzer for Tweets</title>
+    </h:head>
+    <h:body>
+        <h1>Umigon</h1>
+        <h3>Sentiment analysis for tweets</h3>
+        <br></br>
+        <p>
+            Copy-paste some tweets in the text input zone below. One tweet per line. Only tweets in English.<br></br>
+            Then click "Classify"!
+        </p>
+
+        <h:form>
+            <p:commandButton value="classify" action="#{controllerBean.classify}"/>
+            <br></br>
+            <br></br>
+            <p:inputTextarea value="#{controllerBean.userInput}" rows="5" cols="140" autoResize="false"/>
+        </h:form>
+        <p>
+            This is an application by <a href="http://www.clementlevallois.net">Clement Levallois</a>.<br></br>
+            Code available in open source on <a href="https://github.com/seinecle/Umigon">Github</a>            
+        </p>
+        <p>
+            This app can also detect tweets of a commercial nature, and other semantic features from the text.<br></br>
+            Only tweets in English.<br></br>
+            <a href="http://www.clementlevallois.net/contact.php">Contact me</a> if interested.
+        </p>
+    </h:body>
+</html>
+

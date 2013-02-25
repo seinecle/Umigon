@@ -25,7 +25,6 @@ public class StatusEligibleHeuristics {
 
     public Tweet applyRules() {
         isStatusEmpty();
-        isStatusGarbled();
         return tweet;
     }
 
@@ -35,22 +34,4 @@ public class StatusEligibleHeuristics {
         }
     }
 
-    private void isStatusGarbled() {
-//        if (status.contains("Social innovation")) {
-//            System.out.println("brass monkey");
-//        }
-        String temp  = status.replaceAll("\\@[^ \t\n]*", "");
-        temp = temp.replaceAll("\\#[^ \t\n]*", "");
-        temp = temp.replaceAll("http[^ \t\n]*", "");
-        temp = temp.replaceAll(" +", " ").trim();
-        temp = temp.replaceAll(punctuation,"").trim();
-        temp = temp.replaceAll(" +"," ");
-
-        if (temp.length() < 5) {
-            tweet.addToSetCategories("002");
-        }
-        if (temp.split(" ").length < 4) {
-            tweet.addToSetCategories("002");
-        }
-    }
 }

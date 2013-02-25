@@ -10,9 +10,10 @@ import Heuristics.SentenceLevelHeuristicsPost;
 import Heuristics.SentenceLevelHeuristicsPre;
 import Heuristics.StatusEligibleHeuristics;
 import LanguageDetection.LanguageDetector;
+import TextCleaning.SpellCheckingMethods;
 import TextCleaning.StatusCleaner;
 import Twitter.Tweet;
-import Twitter.TweetLoader;
+import Twitter.ControllerBean;
 import Utils.Clock;
 import Utils.NGramFinder;
 import com.cybozu.labs.langdetect.LangDetectException;
@@ -20,6 +21,7 @@ import com.google.common.collect.HashMultiset;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.ArrayList;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -39,28 +41,39 @@ public class ClassifierMachine {
     SentenceLevelHeuristicsPre sentenceHeuristicsPre;
     SentenceLevelHeuristicsPost sentenceHeuristicsPost;
     HashtagLevelHeuristics hashtagHeuristics;
-    final private String punctuation = "!?.'\"-,()#=";
+    final private String punctuation = "!?.'\"-,()#=*";
     Tweet tweet;
+    ArrayList<Tweet> setTweetsClassified;
+    LanguageDetector ld;
+    boolean loadFromTrainingFile;
 
-    public ClassifierMachine() {
+    public ClassifierMachine(boolean loadFromTrainingFile) {
+        this.loadFromTrainingFile = loadFromTrainingFile;
     }
 
-    public Set<Tweet> classify(Set<Tweet> setTweets) throws LangDetectException {
+    public ArrayList<Tweet> classify(ArrayList<Tweet> setTweets) throws LangDetectException {
         Iterator<Tweet> setTweetsIterator = setTweets.iterator();
 
         Clock heuristicsClock = new Clock("starting the analysis of tweets");
-        String lang;
-        Set<Tweet> setTweetsClassified = new HashSet();
-        LanguageDetector ld = new LanguageDetector();
+        setTweetsClassified = new ArrayList();
+        ld = new LanguageDetector();
+        StatusCleaner statusCleaner = new StatusCleaner();
+
 
         while (setTweetsIterator.hasNext()) {
             tweet = setTweetsIterator.next();
             status = tweet.getText();
 
-            if (!ld.detectEnglish(status)) {
-                tweet.addToSetCategories("001");
-                setTweetsClassified.add(tweet);
+            if (status.equals("Not Available")) {
                 continue;
+            }
+
+            if (!loadFromTrainingFile) {
+                if (!ld.detectEnglish(status)) {
+                    tweet.addToSetCategories("001");
+                    setTweetsClassified.add(tweet);
+                    continue;
+                }
             }
 
             StatusEligibleHeuristics seh = new StatusEligibleHeuristics(tweet, status);
@@ -72,13 +85,15 @@ public class ClassifierMachine {
 
             tweet.setSetCategories(null);
 //            System.out.println("curr tweet: " + tweet.toString());
-            status = StatusCleaner.clean(status);
-//            System.out.println(status);
-//            System.out.println("lang: " + lang);
+            status = statusCleaner.clean(status);
+//            if (status.contains("FUCKKKKKKKKKKKKK")) {
+//                System.out.println("FUCKKKKKKKKKKKKK");
+//            }
+
             sentenceHeuristicsPre = new SentenceLevelHeuristicsPre(tweet, status);
             tweet = sentenceHeuristicsPre.applyRules();
 
-            hashtagHeuristics = new HashtagLevelHeuristics(tweet);
+            hashtagHeuristics = new HashtagLevelHeuristics(tweet, loadFromTrainingFile);
             tweet = hashtagHeuristics.applyRules();
 
             nGrams = new NGramFinder(status).runIt(4, true);
@@ -86,22 +101,26 @@ public class ClassifierMachine {
             String result;
             String nGramLowerCase;
             String nGramLowerCaseStripped;
-
+            SpellCheckingMethods spellChecker;
             while (nGramsIterator.hasNext()) {
                 nGramOrig = nGramsIterator.next();
+//                if (nGramOrig.equals("FUCKKKKKKKKKKKKK")) {
+//                    System.out.println("FUCKKKKKKKKKKKKK");
+//                }
+
                 nGramLowerCase = nGramOrig.toLowerCase();
                 //this condition puts the ngram in lower case, except if it is all in upper case (this is a valuable info)
                 //                System.out.println("status: " + status);
-                nGramStripped = StringUtils.strip(nGramOrig, punctuation);
+                nGramStripped = statusCleaner.removePunctuationSigns(nGramLowerCase);
                 nGramLowerCaseStripped = nGramStripped.toLowerCase();
-//                if (
-//                                                nGramOrig.equals("Don't miss") & 
-//                        status.contains("Don't miss")) {
-//                    System.out.println(status);
+                spellChecker = new SpellCheckingMethods();
+                nGramLowerCaseStripped = spellChecker.repeatedCharacters(nGramLowerCaseStripped);
+//                if (nGramLowerCaseStripped.equals("fun")) {
+//                    System.out.println("stop here!");
 //                }
-                if (TweetLoader.Hloader.getMapH1().keySet().contains(nGramLowerCase)) {
+                if (ControllerBean.Hloader.getMapH1().keySet().contains(nGramLowerCase)) {
 //                    System.out.println("positive detected");
-                    heuristic = TweetLoader.Hloader.getMapH1().get(nGramLowerCase);
+                    heuristic = ControllerBean.Hloader.getMapH1().get(nGramLowerCase);
                     result = (heuristic.checkFeatures(status, nGramOrig));
                     // System.out.println("result: " + result);
                     if (result != null) {
@@ -109,20 +128,19 @@ public class ClassifierMachine {
                         tweet.addToSetCategories(result);
 
                     }
-                } else if (TweetLoader.Hloader.getMapH1().keySet().contains(nGramLowerCaseStripped)) {
-                    heuristic = TweetLoader.Hloader.getMapH1().get(nGramLowerCaseStripped);
+                } else if (ControllerBean.Hloader.getMapH1().keySet().contains(nGramLowerCaseStripped)) {
+                    heuristic = ControllerBean.Hloader.getMapH1().get(nGramLowerCaseStripped);
                     result = (heuristic.checkFeatures(status, nGramOrig));
                     if (result != null) {
                         // System.out.println("result: " + result);
-
                         tweet.addToSetCategories(result);
                     }
                 }
 
-                if (TweetLoader.Hloader.getMapH2().keySet().contains(nGramLowerCase)) {
+                if (ControllerBean.Hloader.getMapH2().keySet().contains(nGramLowerCase)) {
 //                    System.out.println("negative detected!");
 //                    System.out.println("nGram: " + nGram);
-                    heuristic = TweetLoader.Hloader.getMapH2().get(nGramLowerCase);
+                    heuristic = ControllerBean.Hloader.getMapH2().get(nGramLowerCase);
                     result = heuristic.checkFeatures(status, nGramOrig);
                     if (result != null) {
                         // System.out.println("result: " + result);
@@ -130,10 +148,10 @@ public class ClassifierMachine {
                         tweet.addToSetCategories(result);
                     }
 
-                } else if (TweetLoader.Hloader.getMapH2().keySet().contains(nGramLowerCaseStripped)) {
+                } else if (ControllerBean.Hloader.getMapH2().keySet().contains(nGramLowerCaseStripped)) {
 //                    System.out.println("negative detected!");
 //                    System.out.println("nGramStripped: " + nGramStripped);
-                    heuristic = TweetLoader.Hloader.getMapH2().get(nGramLowerCaseStripped);
+                    heuristic = ControllerBean.Hloader.getMapH2().get(nGramLowerCaseStripped);
                     result = heuristic.checkFeatures(status, StringUtils.strip(nGramOrig, punctuation));
                     if (result != null) {
                         // System.out.println("result: " + result);
@@ -142,8 +160,8 @@ public class ClassifierMachine {
                     }
                 }
 
-                if (TweetLoader.Hloader.getMapH3().keySet().contains(nGramLowerCase)) {
-                    heuristic = TweetLoader.Hloader.getMapH3().get(nGramLowerCase);
+                if (ControllerBean.Hloader.getMapH3().keySet().contains(nGramLowerCase)) {
+                    heuristic = ControllerBean.Hloader.getMapH3().get(nGramLowerCase);
 
                     result = heuristic.checkFeatures(status, nGramOrig);
                     if (result != null) {
@@ -151,43 +169,25 @@ public class ClassifierMachine {
 
                         tweet.addToSetCategories(result);
                     }
-                } else if (TweetLoader.Hloader.getMapH3().keySet().contains(nGramLowerCaseStripped)) {
-                    heuristic = TweetLoader.Hloader.getMapH3().get(nGramLowerCaseStripped);
+                } else if (ControllerBean.Hloader.getMapH3().keySet().contains(nGramLowerCaseStripped)) {
+                    heuristic = ControllerBean.Hloader.getMapH3().get(nGramLowerCaseStripped);
                     result = heuristic.checkFeatures(status, nGramOrig);
                     if (result != null) {
                         // System.out.println("result: " + result);
-                        tweet.addToSetCategories(result);
-                    }
-                }
-
-                if (TweetLoader.Hloader.getMapH4().keySet().contains(nGramLowerCase)) {
-                    heuristic = TweetLoader.Hloader.getMapH4().get(nGramLowerCase);
-                    result = heuristic.checkFeatures(status, nGramOrig);
-                    if (result != null) {
-                        // System.out.println("result: " + result);
-
-                        tweet.addToSetCategories(result);
-                    }
-                } else if (TweetLoader.Hloader.getMapH4().keySet().contains(nGramLowerCaseStripped)) {
-                    heuristic = TweetLoader.Hloader.getMapH4().get(nGramLowerCaseStripped);
-                    result = heuristic.checkFeatures(status, nGramOrig);
-                    if (result != null) {
-                        // System.out.println("result: " + result);
-
                         tweet.addToSetCategories(result);
                     }
                 }
 
-                if (TweetLoader.Hloader.getMapH5().keySet().contains(nGramLowerCase)) {
-                    heuristic = TweetLoader.Hloader.getMapH5().get(nGramLowerCase);
+                if (ControllerBean.Hloader.getMapH4().keySet().contains(nGramLowerCase)) {
+                    heuristic = ControllerBean.Hloader.getMapH4().get(nGramLowerCase);
                     result = heuristic.checkFeatures(status, nGramOrig);
                     if (result != null) {
                         // System.out.println("result: " + result);
 
                         tweet.addToSetCategories(result);
                     }
-                } else if (TweetLoader.Hloader.getMapH5().keySet().contains(nGramLowerCaseStripped)) {
-                    heuristic = TweetLoader.Hloader.getMapH5().get(nGramLowerCaseStripped);
+                } else if (ControllerBean.Hloader.getMapH4().keySet().contains(nGramLowerCaseStripped)) {
+                    heuristic = ControllerBean.Hloader.getMapH4().get(nGramLowerCaseStripped);
                     result = heuristic.checkFeatures(status, nGramOrig);
                     if (result != null) {
                         // System.out.println("result: " + result);
@@ -196,34 +196,16 @@ public class ClassifierMachine {
                     }
                 }
 
-                if (TweetLoader.Hloader.getMapH6().keySet().contains(nGramLowerCase)) {
-                    heuristic = TweetLoader.Hloader.getMapH6().get(nGramLowerCase);
+                if (ControllerBean.Hloader.getMapH5().keySet().contains(nGramLowerCase)) {
+                    heuristic = ControllerBean.Hloader.getMapH5().get(nGramLowerCase);
                     result = heuristic.checkFeatures(status, nGramOrig);
                     if (result != null) {
                         // System.out.println("result: " + result);
 
                         tweet.addToSetCategories(result);
                     }
-                } else if (TweetLoader.Hloader.getMapH6().keySet().contains(nGramLowerCaseStripped)) {
-                    heuristic = TweetLoader.Hloader.getMapH6().get(nGramLowerCaseStripped);
-                    result = heuristic.checkFeatures(status, nGramOrig);
-                    if (result != null) {
-                        // System.out.println("result: " + result);
-
-                        tweet.addToSetCategories(result);
-                    }
-                }
-
-                if (TweetLoader.Hloader.getMapH7().keySet().contains(nGramLowerCase)) {
-                    heuristic = TweetLoader.Hloader.getMapH7().get(nGramLowerCase);
-                    result = heuristic.checkFeatures(status, nGramOrig);
-                    if (result != null) {
-                        // System.out.println("result: " + result);
-
-                        tweet.addToSetCategories(result);
-                    }
-                } else if (TweetLoader.Hloader.getMapH7().keySet().contains(nGramLowerCaseStripped)) {
-                    heuristic = TweetLoader.Hloader.getMapH7().get(nGramLowerCaseStripped);
+                } else if (ControllerBean.Hloader.getMapH5().keySet().contains(nGramLowerCaseStripped)) {
+                    heuristic = ControllerBean.Hloader.getMapH5().get(nGramLowerCaseStripped);
                     result = heuristic.checkFeatures(status, nGramOrig);
                     if (result != null) {
                         // System.out.println("result: " + result);
@@ -232,16 +214,16 @@ public class ClassifierMachine {
                     }
                 }
 
-                if (TweetLoader.Hloader.getMapH8().keySet().contains(nGramLowerCase)) {
-                    heuristic = TweetLoader.Hloader.getMapH8().get(nGramLowerCase);
+                if (ControllerBean.Hloader.getMapH6().keySet().contains(nGramLowerCase)) {
+                    heuristic = ControllerBean.Hloader.getMapH6().get(nGramLowerCase);
                     result = heuristic.checkFeatures(status, nGramOrig);
                     if (result != null) {
                         // System.out.println("result: " + result);
 
                         tweet.addToSetCategories(result);
                     }
-                } else if (TweetLoader.Hloader.getMapH8().keySet().contains(nGramLowerCaseStripped)) {
-                    heuristic = TweetLoader.Hloader.getMapH8().get(nGramLowerCaseStripped);
+                } else if (ControllerBean.Hloader.getMapH6().keySet().contains(nGramLowerCaseStripped)) {
+                    heuristic = ControllerBean.Hloader.getMapH6().get(nGramLowerCaseStripped);
                     result = heuristic.checkFeatures(status, nGramOrig);
                     if (result != null) {
                         // System.out.println("result: " + result);
@@ -250,16 +232,52 @@ public class ClassifierMachine {
                     }
                 }
 
-                if (TweetLoader.Hloader.getMapH9().keySet().contains(nGramLowerCase)) {
-                    heuristic = TweetLoader.Hloader.getMapH9().get(nGramLowerCase);
+                if (ControllerBean.Hloader.getMapH7().keySet().contains(nGramLowerCase)) {
+                    heuristic = ControllerBean.Hloader.getMapH7().get(nGramLowerCase);
                     result = heuristic.checkFeatures(status, nGramOrig);
                     if (result != null) {
                         // System.out.println("result: " + result);
 
                         tweet.addToSetCategories(result);
                     }
-                } else if (TweetLoader.Hloader.getMapH9().keySet().contains(nGramLowerCaseStripped)) {
-                    heuristic = TweetLoader.Hloader.getMapH9().get(nGramLowerCaseStripped);
+                } else if (ControllerBean.Hloader.getMapH7().keySet().contains(nGramLowerCaseStripped)) {
+                    heuristic = ControllerBean.Hloader.getMapH7().get(nGramLowerCaseStripped);
+                    result = heuristic.checkFeatures(status, nGramOrig);
+                    if (result != null) {
+                        // System.out.println("result: " + result);
+
+                        tweet.addToSetCategories(result);
+                    }
+                }
+
+                if (ControllerBean.Hloader.getMapH8().keySet().contains(nGramLowerCase)) {
+                    heuristic = ControllerBean.Hloader.getMapH8().get(nGramLowerCase);
+                    result = heuristic.checkFeatures(status, nGramOrig);
+                    if (result != null) {
+                        // System.out.println("result: " + result);
+
+                        tweet.addToSetCategories(result);
+                    }
+                } else if (ControllerBean.Hloader.getMapH8().keySet().contains(nGramLowerCaseStripped)) {
+                    heuristic = ControllerBean.Hloader.getMapH8().get(nGramLowerCaseStripped);
+                    result = heuristic.checkFeatures(status, nGramOrig);
+                    if (result != null) {
+                        // System.out.println("result: " + result);
+
+                        tweet.addToSetCategories(result);
+                    }
+                }
+
+                if (ControllerBean.Hloader.getMapH9().keySet().contains(nGramLowerCase)) {
+                    heuristic = ControllerBean.Hloader.getMapH9().get(nGramLowerCase);
+                    result = heuristic.checkFeatures(status, nGramOrig);
+                    if (result != null) {
+                        // System.out.println("result: " + result);
+
+                        tweet.addToSetCategories(result);
+                    }
+                } else if (ControllerBean.Hloader.getMapH9().keySet().contains(nGramLowerCaseStripped)) {
+                    heuristic = ControllerBean.Hloader.getMapH9().get(nGramLowerCaseStripped);
                     result = heuristic.checkFeatures(status, nGramOrig);
                     if (result != null) {
                         // System.out.println("result: " + result);
@@ -274,14 +292,10 @@ public class ClassifierMachine {
             tweet = sentenceHeuristicsPost.applyRules();
 
             setTweetsClassified.add(tweet);
-            if (tweet.getSetCategories().isEmpty()) {
-                System.out.println("tweet with no cat: " + status);
-            }
-//            if ((StringUtils.countMatches(tweet.getText(), "@") > 2) & tweet.getSetCategories().isEmpty()) {
-//                System.out.println("tweet with no cat: " + status);
-//            }
-//            if (tweet.getSetCategories().contains("011") & tweet.getSetCategories().contains("012") ) {
-//                System.out.println("tweet with pos and neg tone: " + status);
+//            if (tweet.getSetCategories().contains("011") & !tweet.getUser().toLowerCase().contains("hp")& !status.toLowerCase().contains("rt @hp")&
+//                !tweet.getSetCategories().contains("012") & !tweet.getSetCategoriesToString().contains("061")) {
+//                System.out.println("positive tweet, not promoted: " + status);
+//                System.out.println("categories: " + tweet.getSetCategoriesToString());
 //            }
 
         }

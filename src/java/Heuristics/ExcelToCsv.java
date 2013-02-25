@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import javax.faces.context.FacesContext;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -38,13 +39,13 @@ public class ExcelToCsv {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws FileNotFoundException, IOException, InvalidFormatException {
+    public static void load () throws FileNotFoundException, IOException, InvalidFormatException {
         InputStream inp;
-        inp = new FileInputStream("private/heuristics.xlsx");
+        inp = new FileInputStream("D:\\Docs Pro Clement\\NetBeansProjects\\Umigon\\private\\heuristics.xlsx");
         Workbook wb = WorkbookFactory.create(inp);
 
         for (int i = 0; i < wb.getNumberOfSheets(); i++) {
-            bw = new BufferedWriter(new FileWriter("private/heuristics/"+ wb.getSheetAt(i).getSheetName()+".txt"));
+            bw = new BufferedWriter(new FileWriter("D:\\Docs Pro Clement\\NetBeansProjects\\Umigon\\web\\resources\\private\\" + wb.getSheetAt(i).getSheetName() + ".txt"));
             System.out.println(wb.getSheetAt(i).getSheetName());
             echoAsCSV(wb.getSheetAt(i));
             bw.close();

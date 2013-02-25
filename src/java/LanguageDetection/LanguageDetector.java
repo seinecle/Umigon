@@ -4,11 +4,9 @@
  */
 package LanguageDetection;
 
-import Twitter.Tweet;
 import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
-import com.google.common.collect.TreeMultiset;
 
 /**
  *
@@ -20,7 +18,7 @@ public class LanguageDetector {
     String lang;
 
     public LanguageDetector() throws LangDetectException {
-        DetectorFactory.loadProfile("profiles");
+        DetectorFactory.loadProfile("D:\\Docs Pro Clement\\NetBeansProjects\\Umigon\\profiles");
 
     }
 
@@ -35,7 +33,7 @@ public class LanguageDetector {
                 return true;
             }
         } catch (LangDetectException e) {
-            System.out.println("tweet without language detected: " + status);
+//            System.out.println("tweet without language detected: " + status);
             return false;
         }
 

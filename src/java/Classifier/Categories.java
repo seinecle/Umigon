@@ -28,6 +28,7 @@ public class Categories {
         //
         mapCategories.put("010", "neutral tone");
         mapCategories.put("011", "positive tone");
+        mapCategories.put("0111", "positive tone, not promoted");
         mapCategories.put("012", "negative tone");
         mapCategories.put("013", "possibly ironic tone");
         mapCategories.put("014", "fun tone");
@@ -70,6 +71,8 @@ public class Categories {
         mapCategories.put("060", "neutral topic");
         mapCategories.put("061", "commercial / promoted");
         mapCategories.put("0611", "commercial offer");
+        mapCategories.put("0612", "tweeted by the client");
+        mapCategories.put("06121", "a retweet of the client's tweet");
         mapCategories.put("062", "factual statement");
         mapCategories.put("0621", "factual statement - statistics cited");
 

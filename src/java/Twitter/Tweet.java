@@ -7,6 +7,7 @@ package Twitter;
 import Classifier.Categories;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,7 +24,7 @@ import twitter4j.UserMentionEntity;
  * @author C. Levallois
  */
 @Entity
-public class Tweet {
+public class Tweet implements Serializable {
 
     @Id
     private ObjectId id;
@@ -34,10 +35,12 @@ public class Tweet {
     private List<String> hashtags;
     private List<String> mentions;
     private Set<String> setCategories;
+    private String trainingSetCat;
+    private String sentiment;
 
     public Tweet() {
         setCategories = new TreeSet();
-
+        this.user = "";
     }
 
     public Tweet(Status status) {
@@ -134,14 +137,51 @@ public class Tweet {
             cat = setCategoriesIterator.next();
 //            System.out.println("cat: " + cat);
             sb.append(Categories.get(cat));
+            sb.append("[");
+            sb.append(cat);
+            sb.append("]");
             sb.append(" -- ");
         }
 
         return sb.toString();
     }
 
+    public String getSetCategoriesString() {
+        if (setCategories == null) {
+            setCategories = new HashSet();
+        }
+        if (setCategories.isEmpty()) {
+            return "NO CATEGORY";
+        }
+        Iterator<String> setCategoriesIterator = setCategories.iterator();
+        StringBuilder sb = new StringBuilder();
+        String cat;
+        while (setCategoriesIterator.hasNext()) {
+            cat = setCategoriesIterator.next();
+//            System.out.println("cat: " + cat);
+            sb.append(Categories.get(cat));
+            sb.append("[");
+            sb.append(cat);
+            sb.append("]");
+            sb.append(" -- ");
+        }
+
+        return sb.toString();
+    }
+
+    public void setSetCategoriesString() {
+    }
+
     public void setSetCategories(Set<String> setCategories) {
         this.setCategories = setCategories;
+    }
+
+    public String getTrainingSetCat() {
+        return trainingSetCat;
+    }
+
+    public void setTrainingSetCat(String trainingSetCat) {
+        this.trainingSetCat = trainingSetCat;
     }
 
     public boolean addToSetCategories(String category) {
@@ -155,8 +195,32 @@ public class Tweet {
         return this.setCategories.add(category);
     }
 
+    public void deleteFromSetCategories(String category) {
+        if (setCategories == null) {
+            setCategories = new HashSet();
+        }
+        setCategories.remove(category);
+    }
+
+    public String getSentiment() {
+        if (setCategories.contains("011")) {
+            return "positive";
+        }
+        if (setCategories.contains("012")) {
+            return "negative";
+        } else {
+            return "neutral";
+        }
+    }
+
+    public void setSentiment(String sentiment) {
+        this.sentiment = sentiment;
+    }
+
     @Override
     public String toString() {
         return "Tweet{" + "text=" + text + ", user=" + user + ", hashtags=" + hashtags + ", mentions=" + mentions + ", setCategories=" + getSetCategoriesToString() + '}';
     }
+    
+    
 }

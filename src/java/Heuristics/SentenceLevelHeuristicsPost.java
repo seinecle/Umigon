@@ -4,8 +4,12 @@
  */
 package Heuristics;
 
+import TextCleaning.StatusCleaner;
+import Twitter.ControllerBean;
 import Twitter.Tweet;
-import Twitter.TweetLoader;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -16,7 +20,7 @@ public class SentenceLevelHeuristicsPost {
 
     private String status;
     private Tweet tweet;
-    private Heuristic heuristic;
+    final private String punctuation = "[\\!\\?\\.'\\\\\"\\-,\\(\\)\\#=]+";
 
     public SentenceLevelHeuristicsPost(Tweet tweet, String status) {
         this.status = status;
@@ -25,14 +29,63 @@ public class SentenceLevelHeuristicsPost {
 
     public Tweet applyRules() {
         containsMoreThan2Mentions();
+        isIronicallyPositive();
+        containsNegation();
+        isStatusGarbled();
         return tweet;
     }
-
 
     public void containsMoreThan2Mentions() {
         int countArobase = StringUtils.countMatches(status, "@");
         if (countArobase > 2 & !tweet.getSetCategories().contains("012")) {
             tweet.addToSetCategories("061");
+        }
+    }
+
+    public void isIronicallyPositive() {
+        if (tweet.getSetCategories().contains("011") & tweet.getSetCategories().contains("012")) {
+            for (String term : ControllerBean.Hloader.getSetIronicallyPositive()) {
+                if (status.contains(term)) {
+                    tweet.deleteFromSetCategories("012");
+                }
+            }
+        }
+    }
+
+    public void containsNegation() {
+        StatusCleaner statusCleaner = new StatusCleaner();
+        status = statusCleaner.removePunctuationSigns(status).toLowerCase().trim();
+
+        Set<String> termsInStatus = new HashSet();
+        termsInStatus.addAll(Arrays.asList(status.split(" ")));
+        if (!tweet.getSetCategories().contains("011") & !tweet.getSetCategories().contains("012")) {
+            for (String term : ControllerBean.Hloader.setNegations) {
+                if (termsInStatus.contains(term)) {
+                    tweet.addToSetCategories("012");
+                }
+            }
+        }
+    }
+
+    private void isStatusGarbled() {
+//        if (status.contains("Social innovation")) {
+//            System.out.println("brass monkey");
+//        }
+        if (!tweet.getSetCategories().isEmpty()) {
+            return;
+        }
+        String temp = status.replaceAll("\\@[^ \t\n]*", "");
+        temp = temp.replaceAll("\\#[^ \t\n]*", "");
+        temp = temp.replaceAll("http[^ \t\n]*", "");
+        temp = temp.replaceAll(" +", " ").trim();
+        temp = temp.replaceAll(punctuation, "").trim();
+        temp = temp.replaceAll(" +", " ");
+
+        if (temp.length() < 5) {
+            tweet.addToSetCategories("002");
+        }
+        if (temp.split(" ").length < 4) {
+            tweet.addToSetCategories("002");
         }
     }
 }

@@ -47,12 +47,12 @@ public class Interpreter {
         mapHeuristics.put("B", false);
         mapHeuristics.put("C", true);
         mapHeuristics.put("D", true);
-        interprete(rule, mapHeuristics);
+//        interprete(rule, mapHeuristics);
         System.out.println("rule: " + rule);
 
     }
 
-    public static String interprete(String rule, Map<String, Boolean> heuristics) {
+    public String interprete(String rule, Map<String, Boolean> heuristics) {
         StringBuilder sb = null;
         String token = null;
         String punct = "";
@@ -177,7 +177,7 @@ public class Interpreter {
 
     }
 
-    private static String simpleInterpretation(String rule, Map<String, Boolean> heuristics) {
+    private String simpleInterpretation(String rule, Map<String, Boolean> heuristics) {
 //        System.out.println("rule: " + rule);
         String[] outcomes = rule.split("\\|");
         if (!heuristics.values().isEmpty()) {

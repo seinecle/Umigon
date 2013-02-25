@@ -5,7 +5,8 @@
 package Heuristics;
 
 import RuleInterpreter.Interpreter;
-import Twitter.TweetLoader;
+import TextCleaning.StatusCleaner;
+import Twitter.ControllerBean;
 import com.google.common.collect.Multimap;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,8 +30,6 @@ public class Heuristic {
     private String term;
     private Multimap<String, Set<String>> mapFeatures;
     private String rule;
-    private String punctuation = "!?.'\",()-|=#";
-    private String punctuationRegex = "[\\!\\?\\.'\\\\\",\\(\\)\\-\\|=]";
 
     public Heuristic(String term, Multimap mapFeatures, String rule) {
         this.term = term;
@@ -93,6 +92,12 @@ public class Heuristic {
             } else if (feature.getKey().contains("isFirstTermOfStatus")) {
                 outcome = isFirstTermOfStatus(status, termOrig);
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
+            } else if (feature.getKey().contains("isFollowedByAPositiveOpinion")) {
+                outcome = isFollowedByAPositiveOpinion(status, termOrig);
+                conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
+            } else if (feature.getKey().contains("isImmediatelyFollowedByAPositiveOpinion")) {
+                outcome = isImmediatelyFollowedByAPositiveOpinion(status, termOrig);
+                conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
             } else if (feature.getKey().contains("isFollowedByTimeIndication")) {
                 outcome = isFollowedByTimeIndication(status, termOrig);
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
@@ -101,6 +106,9 @@ public class Heuristic {
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
             } else if (feature.getKey().contains("isFollowedBySpecificTerm")) {
                 outcome = isFollowedBySpecificTerm(status, termOrig, feature.getValue());
+                conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
+            } else if (feature.getKey().contains("isNotFollowedBySpecificTerm")) {
+                outcome = isNotFollowedBySpecificTerm(status, termOrig, feature.getValue());
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
             } else if (feature.getKey().contains("isHashtagStart")) {
                 outcome = isHashtagStart(termOrig);
@@ -132,17 +140,18 @@ public class Heuristic {
             } else if (feature.getKey().contains("isAllCaps")) {
                 outcome = isAllCaps(termOrig);
 //                if (termOrig.equals("DO NOT")) {
-//                    System.out.println("outcome: " + outcome);
 //                }
 //
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
             }
             count++;
+//            System.out.println("termOrig: " + termOrig);
 
         }
 
 
-        String result = Interpreter.interprete(rule, conditions);
+        Interpreter interpret = new Interpreter();
+        String result = interpret.interprete(rule, conditions);
 //        if (termOrig.equals("Learn")) {
 //            System.out.println("result: " + result);
 //        }
@@ -160,16 +169,51 @@ public class Heuristic {
 //        System.out.println("status: " + status);
 //        System.out.println("term: " + term);
         int indexTerm = status.indexOf(termOrig);
+        StatusCleaner statusCleaner;
 //        System.out.println("index of term: " + indexTerm);
         String temp = status.substring(indexTerm).trim();
         String[] tempArray = temp.split(" ");
         if (tempArray.length < 2) {
             return false;
         } else {
-            temp = StringUtils.strip(tempArray[1],punctuation);
+            statusCleaner = new StatusCleaner();
+            temp = statusCleaner.removePunctuationSigns(tempArray[1]).trim();
         }
-        return (TweetLoader.Hloader.getMapH2().keySet().contains(temp)
-                || TweetLoader.Hloader.getMapH1().keySet().contains(temp))
+        return (ControllerBean.Hloader.getMapH2().keySet().contains(temp)
+                || ControllerBean.Hloader.getMapH1().keySet().contains(temp))
+                ? true : false;
+    }
+
+    public boolean isFollowedByAPositiveOpinion(String status, String termOrig) {
+//        System.out.println("status: " + status);
+//        System.out.println("term: " + term);
+        int indexTerm = status.indexOf(termOrig);
+//        System.out.println("index of term: " + indexTerm);
+        String temp = status.substring(indexTerm).trim();
+
+        for (String positiveTerm : ControllerBean.Hloader.getMapH1().keySet()) {
+            if (temp.contains(positiveTerm)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isImmediatelyFollowedByAPositiveOpinion(String status, String termOrig) {
+//        System.out.println("status: " + status);
+//        System.out.println("term: " + term);
+        int indexTerm = status.indexOf(termOrig);
+        StatusCleaner statusCleaner;
+//        System.out.println("index of term: " + indexTerm);
+        String temp = status.substring(indexTerm).trim();
+        String[] tempArray = temp.split(" ");
+        if (tempArray.length < 2) {
+            return false;
+        } else {
+            statusCleaner = new StatusCleaner();
+            temp = statusCleaner.removePunctuationSigns(tempArray[1]).trim();
+        }
+        return (ControllerBean.Hloader.getMapH1().keySet().contains(temp))
                 ? true : false;
     }
 
@@ -179,16 +223,18 @@ public class Heuristic {
 //            System.out.println("term: " + term);
 //        }
         int indexTerm = status.indexOf(termOrig);
+        StatusCleaner statusCleaner;
 //        System.out.println("index of term: " + indexTerm);
         String temp = status.substring(indexTerm).trim();
         String[] tempArray = temp.split(" ");
         if (tempArray.length < 2) {
             return false;
         } else {
-            temp = StringUtils.strip(tempArray[1], punctuation).trim();
+            statusCleaner = new StatusCleaner();
+            temp = statusCleaner.removePunctuationSigns(tempArray[1]).trim();
         }
 //        System.out.println("next term: " + temp);
-        boolean result = (TweetLoader.Hloader.getSetTimeTokens().contains(temp))
+        boolean result = (ControllerBean.Hloader.getSetTimeTokens().contains(temp))
                 ? true : false;
 
 //        System.out.println("result: " + result);
@@ -197,8 +243,16 @@ public class Heuristic {
 
     public boolean isFollowedByVerbPastTense(String status, String termOrig) {
         String temp = status.substring(status.indexOf(termOrig)).trim();
-        temp = StringUtils.strip(temp.split(" ")[1], punctuation);
-        return (StringUtils.endsWith(temp, "ed")) ? true : false;
+        StatusCleaner statusCleaner;
+        //        System.out.println("temp: " + temp);
+        String[] nextTerms = temp.split(" ");
+        if (nextTerms.length > 1) {
+            statusCleaner = new StatusCleaner();
+            temp = statusCleaner.removePunctuationSigns(nextTerms[1]).trim();
+            return (StringUtils.endsWith(temp, "ed")) ? true : false;
+        } else {
+            return false;
+        }
     }
 
     public boolean isFollowedBySpecificTerm(String status, String termOrig, Set<String> parameters) {
@@ -209,6 +263,16 @@ public class Heuristic {
             }
         }
         return false;
+    }
+
+    public boolean isNotFollowedBySpecificTerm(String status, String termOrig, Set<String> parameters) {
+        String temp = status.substring(status.indexOf(termOrig)).trim();
+        for (String candidate : parameters) {
+            if (temp.contains(candidate)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean isHashtagStart(String termOrig) {
@@ -250,7 +314,7 @@ public class Heuristic {
 
     public boolean isPrecededByStrongWord(String status, String termOrig) {
         String[] temp = status.substring(0, status.indexOf(termOrig)).trim().split(" ");
-        if (TweetLoader.Hloader.getMapH3().containsKey(temp[temp.length - 1].trim().toLowerCase())) {
+        if (ControllerBean.Hloader.getMapH3().containsKey(temp[temp.length - 1].trim().toLowerCase())) {
             return true;
         }
         return false;
@@ -258,7 +322,7 @@ public class Heuristic {
 
     public boolean isPrecededByPositive(String status, String termOrig) {
         String[] temp = status.substring(0, status.indexOf(termOrig)).trim().split(" ");
-        if (TweetLoader.Hloader.getMapH1().containsKey(temp[temp.length - 1].trim().toLowerCase())) {
+        if (ControllerBean.Hloader.getMapH1().containsKey(temp[temp.length - 1].trim().toLowerCase())) {
             return true;
         }
         return false;
@@ -291,7 +355,10 @@ public class Heuristic {
     }
 
     public boolean isAllCaps(String termOrig) {
-        return (StringUtils.isAllUpperCase(StringUtils.remove(termOrig, " "))) ? true : false;
+        String temp = termOrig.replaceAll(" ", "");
+        StatusCleaner statusCleaner = new StatusCleaner();
+        temp = statusCleaner.removePunctuationSigns(temp).trim();
+        return (StringUtils.isAllUpperCase(temp)) ? true : false;
     }
 
     public boolean isNotAllCaps(String termOrig) {
@@ -300,8 +367,10 @@ public class Heuristic {
 
     public boolean isPrecededByANegation(String status, String termOrig) {
         term = term.toLowerCase();
-        int indexTerm = StringUtils.indexOf(status, termOrig);
-        String[] temp = StringUtils.left(status.replaceAll(punctuationRegex, " ").toLowerCase(), indexTerm).split(" ");
+        StatusCleaner statusCleaner = new StatusCleaner();
+        status = statusCleaner.removePunctuationSigns(status).toLowerCase();
+        int indexTerm = StringUtils.indexOf(status, term);
+        String[] temp = StringUtils.left(status, indexTerm).split(" ");
 //        if (term.equals("successful.") & status.contains("for any")) {
 //        System.out.println("status: " + status);
 //        System.out.println("term: " + term);
@@ -319,45 +388,45 @@ public class Heuristic {
             //in this case the term is the second in the status. If the previous one is a negative word, return true (as in "like" being preceded by "don't") 
         } else if (temp.length == 1) {
 //            System.out.println("temp length ==1");
-            boolean res = TweetLoader.Hloader.setNegations.contains(temp[0]) ? true : false;
+            boolean res = ControllerBean.Hloader.setNegations.contains(temp[0]) ? true : false;
 //            System.out.println("res: " + res);
             return res;
             //in this case the term is preceded by many other terms. We just check the three previous ones.    
         } else if (temp.length == 2) {
 //            System.out.println("temp length ==2");
-            if (TweetLoader.Hloader.setNegations.contains(temp[temp.length - 1])) {
+            if (ControllerBean.Hloader.setNegations.contains(temp[temp.length - 1])) {
                 return true;
             }
 
             //in the case of "don't really like", return true
-            if (TweetLoader.Hloader.getMapH3().containsKey(temp[temp.length - 1]) & TweetLoader.Hloader.setNegations.contains(temp[temp.length - 2])) {
+            if (ControllerBean.Hloader.getMapH3().containsKey(temp[temp.length - 1]) & ControllerBean.Hloader.setNegations.contains(temp[temp.length - 2])) {
 //                System.out.println("returning true in the don't really like case");
                 return true;
             }
             //in the case of "not the hottest", return true
             String concat = temp[0] + " " + temp[1];
-            boolean res = (TweetLoader.Hloader.setNegations.contains(concat)) ? true : false;
+            boolean res = (ControllerBean.Hloader.setNegations.contains(concat)) ? true : false;
 //            System.out.println("returning in the concat version: " + res);
             return res;
         } else if (temp.length > 2) {
 //            System.out.println("temp length >2");
             //in the case of "don't really like", return true
 
-            if (TweetLoader.Hloader.setNegations.contains(temp[temp.length - 1])) {
+            if (ControllerBean.Hloader.setNegations.contains(temp[temp.length - 1])) {
 //                System.out.println("returning true here...");
                 return true;
             }
 //            System.out.println("res: " + res);
 
 
-            if (TweetLoader.Hloader.getMapH3().containsKey(temp[temp.length - 1]) & TweetLoader.Hloader.setNegations.contains(temp[temp.length - 2])) {
+            if (ControllerBean.Hloader.getMapH3().containsKey(temp[temp.length - 1]) & ControllerBean.Hloader.setNegations.contains(temp[temp.length - 2])) {
 //                System.out.println("returning true here!");
                 return true;
             }
             //in the case of "not the hottest", return true
             String concat = temp[temp.length - 2] + " " + temp[temp.length - 1];
 //            System.out.println("concat result!: " + concat.trim());
-            boolean res = (TweetLoader.Hloader.setNegations.contains(concat)) ? true : false;
+            boolean res = (ControllerBean.Hloader.setNegations.contains(concat)) ? true : false;
 //            System.out.println("res at the concat level: " + res);
             return res;
         }
@@ -366,7 +435,8 @@ public class Heuristic {
     }
 
     public boolean isFirstTermOfStatus(String status, String termOrig) {
-        status = StringUtils.strip(status.trim(), punctuation);
+        StatusCleaner statusCleaner = new StatusCleaner();
+        status = statusCleaner.removePunctuationSigns(status);
         String[] terms = status.split(" ");
         StringBuilder sb = new StringBuilder();
         boolean cleanStart = false;

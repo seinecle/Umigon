@@ -1,0 +1,414 @@
+*sigh*	null	012	
+??	null	012	
+???	null	012	
+@$$	null	012	
+a butt	isPrecededBySpecificTerm///is|are|be	012	
+a joke	null	012	
+accidentally	null	012	
+accused of	null	012	
+again	isPrecededBySpecificTerm///never	012	
+aholes	null	012	
+alarming	null	012	
+angry	null	012	
+annoyed	null	012	
+annoying	null	012	
+are down	null	012	
+arg	null	012	
+ashamed	null	012	
+ass	null	012	
+asses	null	012	
+asshole	null	012	
+assholes	null	012	
+at odd	isPrecededByANegation	012|011	
+at odds	isPrecededByANegation	012|011	
+avoid	isAllCaps	012	
+avoid	isAllCaps	012	
+awful	isNotFollowedBySpecificTerm///lot	012	
+bad	isNotPrecededBySpecificTerm///so+++isNotPrecededBySpecificTerm///want	A?(B?(012:011):011)	
+bastard	null	012	
+bastards	null	012	
+battling	null	012	
+be serious	null	012	
+beat it	null	012	
+bigotry	null	012	
+blame	isPrecededByANegation	012|011	
+blow	null	012	
+blows	null	012	
+boo	null	012	
+boring	null	012	
+broken	null	012	
+bs	isAllCaps	012	
+bullshit	null	012	
+bummer	null	012	
+bunch of	null	012	
+butchered	null	012	
+cheat	isPrecededByANegation	012	
+cheated	isPrecededByANegation	012	
+cheating	isPrecededByANegation	012	
+complaining	null	012	
+conflicting	null	012	
+crap	null	012	
+crapware	null	012	
+crashed	null	012	
+crashes	null	012	
+crashing	null	012	
+creep	isNotPrecededBySpecificTerm///i'm a|I am a	012	
+cry	null	012	
+crying	null	012	
+damn	isFollowedByAPositiveOpinion	011|012	
+damnit	null	012	
+dang	null	012	
+dangerous	null	012	
+darn	null	012	
+dbag 	null	012	
+d-bag 	null	012	
+dbags	null	012	
+deceptive	null	012	
+defective	null	012	
+defects	null	012	
+desolate	null	012	
+desperate	null	012	
+desperate	null	012	
+desperation	null	012	
+dick	null	012	
+dicks	null	012	
+dies	null	012	
+disappointed	null	012	
+disappointing	null	012	
+disgusted	null	012	
+disgusting	null	012	
+dislike	null	012	
+disrespect	null	012	
+dissapointed	null	012	
+divisive	null	012	
+do not	isAllCaps	012	
+doa	null	012	
+dodgy	null	012	
+does not get it	null	012	
+doesn't get it	null	012	
+don’t	isAllCaps	012	
+don't	isAllCaps	012	
+don't get it	null	012	
+doubt it	null	012	
+douche	null	012	
+douchebag	null	012	
+dread	null	012	
+dreading	null	012	
+dull	null	012	
+dumb	null	012	
+dumbass	null	012	
+eek	null	012	
+embargoed	null	012	
+embarrassing	isPrecededByANegation	012	
+error	null	012	
+errors	null	012	
+ever	isPrecededBySpecificTerm///never	012	
+excrement	null	012	
+experiencing issues	null	012	
+experiencing some issues	null	012	
+f**king	null	012	
+f*king	null	012	
+fail	null	012	
+failed	null	012	
+fails	null	012	
+failure	null	012	
+faulty	null	012	
+fell	null	012	
+fired	null	012	
+fml	null	012	
+fool	isPrecededByANegation	012	
+fools	isPrecededByANegation	012	
+forced	isPrecededByANegation	012	
+fraud	null	012	
+freak	null	012	
+frustrated	null	012	
+frustrating	null	012	
+fuck	null	012	
+fucker	null	012	
+fuckers	null	012	
+fuckin	null	012	
+fucking	null	012	
+fucks	null	012	
+fukin	null	012	
+fuking	null	012	
+fuming	null	012	
+furious	null	012	
+garbage	null	012	
+glitch	isNotPrecededBySpecificTerm///without a	012|011	
+god sake	null	012	
+going crazy	null	012	
+greed	null	012	
+greedy	null	012	
+grossly	null	012	
+hacked	null	012	
+harsh	null	012	
+hate	null	012	
+hateful	null	012	
+hater	null	012	
+haters	null	012	
+hating	null	012	
+headache	null	012	
+heart	isPrecededBySpecificTerm///break|breaking|broke	012	
+hitch	isNotPrecededBySpecificTerm///without a	012|011	
+hmm	null	012	
+horrible	null	012	
+horrified	null	012	
+hurt	isPrecededByANegation	012	
+hurts	isPrecededByANegation	012	
+idiot	isPrecededByANegation	012	
+idiots	isPrecededByANegation	012	
+if only	null	012	
+ignored	isAllCaps	012	
+incompatible	isAllCaps	012	
+incompetent	null	012	
+incompetents	null	012	
+inept	null	012	
+injury	null	012	
+insane	null	012	
+ironically	null	012	
+is down	null	012	
+is faulty	null	012	
+jacked up	null	012	
+joke	isPrecededByStrongWord	012	
+junk	null	012	
+kidding, no?	null	012	
+kidding, right?	null	012	
+kill	null	012	
+lack of	null	012	
+lame	null	012	
+left wing	null	012	
+loose	null	012	
+loses	null	012	
+loss	null	012	
+low	isPrecededByStrongWord	012	
+mess	null	012	
+messed	null	012	
+miserable	null	012	
+misogyny	null	012	
+miss	isPrecededByANegation	012	
+missing	null	012	
+mmh	null	012	
+mmmh	null	012	
+neglect	null	012	
+never	isAllCaps	012	
+never again	null	012	
+never buy	null	012	
+niggas	isFollowedByAPositiveOpinion	011|012	
+nightmare	null	012	
+no no	null	012	
+no result	null	012	
+no results	null	012	
+no, no	null	012	
+none	isAllCaps	012	
+not	isAllCaps	012	
+not be working	null	012	
+not exactly	null	012	
+not good	null	012	
+not happen	null	012	
+now only if	null	012	
+nuts	isPrecededBySpecificTerm///drive|droven|drove|driven|drived	012	
+obsolete	null	012	
+offended	null	012	
+offending	null	012	
+ooops	null	012	
+oops	null	012	
+out	isPrecededBySpecificTerm///stressed|stresses	012	
+outraged	null	012	
+overrated	isPrecededByANegation	012|011	
+pain	null	012	
+painful	isPrecededByANegation	012	
+passed the buck	null	012	
+passing the buck	null	012	
+pathetic	null	012	
+pissed	null	012	
+pisses	null	012	
+pointless	isPrecededByANegation	012|011	
+porn	null	012	
+pornographic	null	012	
+problem	isNotPrecededBySpecificTerm///solve|solving|solve my|solving my+++isPrecededByANegation	A?(B?(012:011):011)	
+problems	isNotPrecededBySpecificTerm///solve|solving+++isPrecededByANegation	A?(B?(012:011):011)	
+probs	null	012	
+profanity	null	012	
+prohibitive	null	012	
+racism	null	012	
+raped	null	012	
+refund	null	012	
+refuse	null	012	
+regret	null	012	
+reimburse	null	012	
+revolting	null	012	
+rid of	null	012	
+ridiculous	null	012	
+right wing	null	012	
+rip	null	012	
+risky	null	012	
+rubbish	null	012	
+rude	null	012	
+rudest	null	012	
+ruined	null	012	
+ruining	null	012	
+sacrificed	null	012	
+sad	null	012	
+sad	isPrecededByANegation	012|011	
+sadly	null	012	
+satisfying	null	012	
+scandal	null	012	
+scandale	null	012	
+scare	isPrecededByANegation	012	
+screw you	null	012	
+screwed	null	012	
+scumbag	null	012	
+sentenced	null	012	
+sewatshops	null	012	
+shame	null	012	
+shameful	null	012	
+sheesh	null	012	
+shit	null	012	
+shitter	null	012	
+shittiest	null	012	
+shitty	null	012	
+should not	null	012	
+shrewd	null	012	
+shysty	null	012	
+sick of	null	012	
+slut	null	012	
+sluts	null	012	
+smfh	null	012	
+smh	null	012	
+sod	null	012	
+sore	null	012	
+sorry	null	012	
+spew	null	012	
+spewing	null	012	
+spews	null	012	
+stern	null	012	
+strange	null	012	
+stupid	isPrecededByANegation	012|011	
+suck	null	012	
+sucker	null	012	
+suckers	null	012	
+sucking	null	012	
+sucks	null	012	
+suspended	null	012	
+suspension	null	012	
+suspicious	null	012	
+sweatshop	null	012	
+tacky	isPrecededByANegation	012	
+taken forever	null	012	
+takes forever	null	012	
+terrible	null	012	
+that's it	null	012	
+thug	null	012	
+thugs	null	012	
+to be desired	isPrecededBySpecificTerm///leaves|left	012	
+to flawed to	null	012	
+to work	isPrecededBySpecificTerm///can't get	012	
+too late	isPrecededByANegation	012	
+too much	null	012	
+toxic	null	012	
+toxicity	null	012	
+twat	null	012	
+twats	null	012	
+ugly	null	012	
+uh oh	null	012	
+unacceptable	null	012	
+uncool	null	012	
+unforgivable	null	012	
+unfortunate	null	012	
+unfortunately	null	012	
+unsolved	null	012	
+upset	null	012	
+vomit	null	012	
+waste my time	null	012	
+waste our time	null	012	
+wasted time	null	012	
+wasted time	null	012	
+wasteland	null	012	
+whats wrong	null	012	
+what's wrong	null	012	
+whore	null	012	
+whores	null	012	
+won't buy	null	012	
+worried	isPrecededByANegation	012	
+worries	isPrecededByANegation	012	
+worry	isPrecededByANegation	012	
+worse	null	012	
+worst	null	012	
+wrong	null	012	
+wtf	null	012	
+years behind	null	012	
+yucky	null	012	
+zero support	null	012	
+mad	null	012	
+fucked	null	012	
+ugh	null	012	
+weird	isPrecededByANegation	012|011	
+bored	null	012	
+snarl	null	012	
+ache	isPrecededByANegation	011|012	
+aching	isPrecededByANegation	011|012	
+nausea	null	012	
+puke	null	012	
+doucheclown	null	011	
+stuck	isPrecededByANegation	012|011	
+heartbroken	isPrecededByANegation	012|011	
+lonely	isPrecededByANegation	012|011	
+annoys	null	012	
+interrupted	null	012	
+tromped	null	012	
+nightmares	null	012	
+confused	null	012	
+unhappy	null	012	
+depressed	null	012	
+hard	isPrecededByANegation	012|011	
+feeling down	isPrecededByANegation	012|011	
+in the hell	null	012	
+in hell	null	012	
+messing with	null	012	
+messing up	null	012	
+mess up	isPrecededByANegation	012|011	
+messed up	isPrecededByANegation	012|011	
+angst	isPrecededByANegation	012|011	
+missin	isPrecededByANegation	012|011	
+find	isPrecededByANegation	012|011	
+so behind	isPrecededByANegation	012|011	
+grr	null	012	
+tragedy	isPrecededByANegation	012|011	
+disaster	isPrecededByANegation	012|011	
+sexist	isPrecededByANegation	012|011	
+hoax	isPrecededByANegation	012|011	
+itchy	isPrecededByANegation	012|011	
+ugh	null	012	
+died	null	012	
+nasty	null	012	
+complaints	null	012	
+bad	isPrecededByANegation	012|011	
+missn	isPrecededByANegation	012|011	
+misses	null	012	
+cold	isPrecededByANegation	012|011	
+unfair	isPrecededByANegation	012|011	
+should have	null	012	
+missed	isPrecededByANegation	012|011	
+no	isAllCaps	012	
+wish I	null	012	
+wish he	null	012	
+wish she	null	012	
+wish they	null	012	
+wish we	null	012	
+dead	null	012	
+dammit	null	012	
+agh	null	012	
+tired	isPrecededByANegation	012|011	
+damm	null	012	
+don't like	null	012	
+wrenching	null	012	
+a pity	null	012	
+argh	null	012	
+sick	null	012	
+homework	null	012	
+hoped	null	012	
+sigh	null	012	
+silly	null	012	
+damn it	null	012	
+helpless	null	012	
+hopeless	null	012	

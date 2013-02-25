@@ -8,16 +8,20 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
+import java.util.TreeSet;
+import javax.faces.context.FacesContext;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -48,16 +52,21 @@ public class HeuristicsLoader {
     Set<String> setNegations;
     Set<String> setTimeTokens;
     Set<String> setHashTags;
+    Set<String> setFalsePositiveOpinions;
+    Set<String> setIronicallyPositive;
 
     public void load() throws FileNotFoundException, IOException {
 
 
         File folder = new File("D:\\Docs Pro Clement\\NetBeansProjects\\Umigon\\private\\heuristics\\");
+        Set<String> setPathResources = new TreeSet();
+        setPathResources.addAll(FacesContext.getCurrentInstance().getExternalContext().getResourcePaths("/resources/private/"));
 //        System.out.println("folder is: " + folder.getCanonicalPath());
-        File[] arrayFiles = folder.listFiles();
         mapHeuristics = new HashMap();
         setNegations = new HashSet();
         setTimeTokens = new HashSet();
+        setFalsePositiveOpinions = new HashSet();
+        setIronicallyPositive = new HashSet();
         mapH1 = new HashMap();
         mapH2 = new HashMap();
         mapH4 = new HashMap();
@@ -72,18 +81,20 @@ public class HeuristicsLoader {
         mapH12 = new HashMap();
         mapH13 = new HashMap();
 
-        for (File file : arrayFiles) {
-            br = new BufferedReader(new FileReader(file));
-            br.readLine();
-            if (!file.getName().contains("_")) {
+//        for (File file : arrayFiles) {
+        for (String pathFile : setPathResources) {
+            InputStream inp = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(pathFile);
+            br = new BufferedReader(new InputStreamReader(inp));
+            if (!pathFile.contains("_")) {
                 continue;
             }
-            int map = Integer.parseInt(StringUtils.left(file.getName(), file.getName().indexOf("_")));
+            String fileName = StringUtils.substring(pathFile, StringUtils.ordinalIndexOf(pathFile, "/", 3)+1);
+            int map = Integer.parseInt(StringUtils.left(fileName, fileName.indexOf("_")));
             if (map == 0) {
                 continue;
             }
             System.out.println("map: " + map);
-            System.out.println("loading " + file.getName());
+            System.out.println("loading " + pathFile);
             System.out.println("folder is: " + folder.getCanonicalPath());
 
             String term = null;
@@ -98,6 +109,9 @@ public class HeuristicsLoader {
             String field0;
             String field1;
             String field2;
+            //mapFeatures:
+            //key: a feature
+            //value: a set of parameters for the given feature
             Multimap<String, Set<String>> mapFeatures;
             while ((string = br.readLine()) != null) {
                 fields = string.split("\t", -1);
@@ -209,6 +223,17 @@ public class HeuristicsLoader {
                     mapH13.put(term, heuristic);
                     continue;
                 }
+                //set of terms which look like opinions but are false postives
+                if (map == 12) {
+                    setFalsePositiveOpinions.add(term);
+                    continue;
+                }
+                //set of terms which look like opinions but are false postives
+                if (map == 15) {
+                    setIronicallyPositive.add(term);
+                    continue;
+                }
+
             }
         }
 
@@ -365,6 +390,16 @@ public class HeuristicsLoader {
     public void setSetTimeTokens(Set<String> setTimeTokens) {
         this.setTimeTokens = setTimeTokens;
     }
-    
-    
+
+    public Set<String> getSetFalsePositiveOpinions() {
+        return setFalsePositiveOpinions;
+    }
+
+    public void setSetFalsePositiveOpinions(Set<String> setFalsePositiveOpinions) {
+        this.setFalsePositiveOpinions = setFalsePositiveOpinions;
+    }
+
+    public Set<String> getSetIronicallyPositive() {
+        return setIronicallyPositive;
+    }
 }
