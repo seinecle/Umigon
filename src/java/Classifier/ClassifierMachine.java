@@ -56,7 +56,7 @@ public class ClassifierMachine {
 
         Clock heuristicsClock = new Clock("starting the analysis of tweets");
         setTweetsClassified = new ArrayList();
-        ld = new LanguageDetector();
+//        ld = new LanguageDetector();
         StatusCleaner statusCleaner = new StatusCleaner();
 
 
@@ -68,13 +68,13 @@ public class ClassifierMachine {
                 continue;
             }
 
-            if (!loadFromTrainingFile) {
-                if (!ld.detectEnglish(status)) {
-                    tweet.addToSetCategories("001");
-                    setTweetsClassified.add(tweet);
-                    continue;
-                }
-            }
+//            if (!loadFromTrainingFile) {
+//                if (!ld.detectEnglish(status)) {
+//                    tweet.addToSetCategories("001");
+//                    setTweetsClassified.add(tweet);
+//                    continue;
+//                }
+//            }
 
             StatusEligibleHeuristics seh = new StatusEligibleHeuristics(tweet, status);
             tweet = seh.applyRules();

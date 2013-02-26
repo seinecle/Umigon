@@ -49,7 +49,7 @@ public class ControllerBean implements Serializable {
     private boolean loadFromTrainingFile = false;
     private boolean bigTrainingFile = false;
     private boolean clementTests = false;
-    private boolean dev = true;
+    private boolean dev = false;
     private int maxTweets = 3500;
     private String dummy;
     private Query<Tweet> updateQuery;
@@ -245,4 +245,6 @@ public class ControllerBean implements Serializable {
     public String reinit() {
         return "index.xhtml?faces-redirect=true";
     }
+    
+    
 }

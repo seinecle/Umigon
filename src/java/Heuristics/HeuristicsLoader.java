@@ -93,9 +93,9 @@ public class HeuristicsLoader {
             if (map == 0) {
                 continue;
             }
-            System.out.println("map: " + map);
-            System.out.println("loading " + pathFile);
-            System.out.println("folder is: " + folder.getCanonicalPath());
+//            System.out.println("map: " + map);
+//            System.out.println("loading " + pathFile);
+//            System.out.println("folder is: " + folder.getCanonicalPath());
 
             String term = null;
             String featureString;
@@ -237,29 +237,29 @@ public class HeuristicsLoader {
             }
         }
 
-        System.out.println(
-                "total number heuristics used: " + mapHeuristics.keySet().size());
-        System.out.println(
-                "--------------------------------------------");
-
-        System.out.println(
-                "positive tone: " + mapH1.keySet().size());
-        System.out.println(
-                "negative tone: " + mapH2.keySet().size());
-        System.out.println(
-                "strength of opinion: " + mapH3.keySet().size());
-        System.out.println(
-                "time related: " + mapH4.keySet().size());
-        System.out.println(
-                "question: " + mapH5.keySet().size());
-        System.out.println(
-                "self turned: " + mapH6.keySet().size());
-        System.out.println(
-                "humor or light: " + mapH8.keySet().size());
-        System.out.println(
-                "direct address: " + mapH7.keySet().size());
-        System.out.println(
-                "commercial offer: " + mapH9.keySet().size());
+//        System.out.println(
+//                "total number heuristics used: " + mapHeuristics.keySet().size());
+//        System.out.println(
+//                "--------------------------------------------");
+//
+//        System.out.println(
+//                "positive tone: " + mapH1.keySet().size());
+//        System.out.println(
+//                "negative tone: " + mapH2.keySet().size());
+//        System.out.println(
+//                "strength of opinion: " + mapH3.keySet().size());
+//        System.out.println(
+//                "time related: " + mapH4.keySet().size());
+//        System.out.println(
+//                "question: " + mapH5.keySet().size());
+//        System.out.println(
+//                "self turned: " + mapH6.keySet().size());
+//        System.out.println(
+//                "humor or light: " + mapH8.keySet().size());
+//        System.out.println(
+//                "direct address: " + mapH7.keySet().size());
+//        System.out.println(
+//                "commercial offer: " + mapH9.keySet().size());
 
     }
 

@@ -37,6 +37,7 @@ public class Tweet implements Serializable {
     private Set<String> setCategories;
     private String trainingSetCat;
     private String sentiment;
+    private String otherSemanticFeatures;
 
     public Tweet() {
         setCategories = new TreeSet();
@@ -217,10 +218,25 @@ public class Tweet implements Serializable {
         this.sentiment = sentiment;
     }
 
+    public String getOtherSemanticFeatures() {
+        StringBuilder result = new StringBuilder();
+        for (String cat : setCategories) {
+            if (cat.equals("011") || cat.equals("012")) {
+                continue;
+            } else {
+                result.append("[").append(Categories.get(cat)).append("] ");
+            }
+
+        }
+        return result.toString();
+    }
+
+    public void setOtherSemanticFeatures(String otherSemanticFeatures) {
+        this.otherSemanticFeatures = otherSemanticFeatures;
+    }
+
     @Override
     public String toString() {
         return "Tweet{" + "text=" + text + ", user=" + user + ", hashtags=" + hashtags + ", mentions=" + mentions + ", setCategories=" + getSetCategoriesToString() + '}';
     }
-    
-    
 }

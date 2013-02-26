@@ -9,16 +9,17 @@
     </h:head>
     <h:body>
         <h1>Umigon</h1>
-        <h3>Sentiment analysis for tweets</h3>
+        <h3>Sentiment analysis for tweets, and more</h3>
         <br></br>
 
         <h:form>
             <p:commandButton value="back to home page" action="#{controllerBean.reinit}"/>
             <br></br>
-            <h:dataTable value="#{controllerBean.listTweets}" var="t" >
-                <h:column><f:facet name="header">Tweet</f:facet>#{t.text}</h:column>
-                <h:column><f:facet name="header">Classification</f:facet>#{t.sentiment}</h:column>
-            </h:dataTable>
+            <p:dataTable value="#{controllerBean.listTweets}" paginator="true" rows ="20" var="t" >
+                <p:column><f:facet name="header">Tweet</f:facet>#{t.text}</p:column>
+                <p:column><f:facet name="header">Sentiment</f:facet>#{t.sentiment}</p:column>
+                <p:column><f:facet name="header">Semantic features</f:facet>#{t.otherSemanticFeatures}</p:column>
+            </p:dataTable>
         </h:form>
     </h:body>
 </html>

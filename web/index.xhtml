@@ -8,27 +8,39 @@
     </h:head>
     <h:body>
         <h1>Umigon</h1>
-        <h3>Sentiment analysis for tweets</h3>
+        <h3>Sentiment analysis for tweets, and more</h3>
         <br></br>
         <p>
-            Copy-paste some tweets in the text input zone below. One tweet per line. Only tweets in English.<br></br>
-            Then click "Classify"!
+            - Copy-paste tweets in the text input zone below.<br></br>
+            - Then click "Classify"!
+        </p>
+        <p>
+            <b>To get you started, some examples of tweets you can copy paste below:</b><br></br>
+            <br></br>
+            ******<br></br>   
+            Read this marvelous book! You will not regret it! #goodadvice<br></br>
+            @computershop arrived at your store 5mn b4 closing time, they did not let me in :(((<br></br>
+            @goodfriend are you in tomorrow? Would need your advice<br></br>
+            *******
         </p>
 
         <h:form>
             <p:commandButton value="classify" action="#{controllerBean.classify}"/>
             <br></br>
             <br></br>
-            <p:inputTextarea value="#{controllerBean.userInput}" rows="5" cols="140" autoResize="false"/>
+            <p:inputTextarea id="textArea" value="#{controllerBean.userInput}" rows="5" cols="140" autoResize="false"/>
         </h:form>
         <p>
             This is an application by <a href="http://www.clementlevallois.net">Clement Levallois</a>.<br></br>
+            Can process millions of tweets in minutes<br></br>
+            Only tweets in English<br></br>
+            <br></br>
+
             Code available in open source on <a href="https://github.com/seinecle/Umigon">Github</a>            
         </p>
         <p>
-            This app can also detect tweets of a commercial nature, and other semantic features from the text.<br></br>
-            Only tweets in English.<br></br>
-            <a href="http://www.clementlevallois.net/contact.php">Contact me</a> if interested.
+            <br></br>
+            Interested in integrating this app in your products (via API etc.) or research projects? <a href="http://www.clementlevallois.net/contact.php">Contact me</a>.
         </p>
     </h:body>
 </html>
