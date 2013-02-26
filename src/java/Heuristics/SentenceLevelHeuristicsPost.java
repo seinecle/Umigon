@@ -58,11 +58,12 @@ public class SentenceLevelHeuristicsPost {
 
         Set<String> termsInStatus = new HashSet();
         termsInStatus.addAll(Arrays.asList(status.split(" ")));
-        if (!tweet.getSetCategories().contains("011") & !tweet.getSetCategories().contains("012")) {
-            for (String term : ControllerBean.Hloader.setNegations) {
-                if (termsInStatus.contains(term)) {
-                    tweet.addToSetCategories("012");
-                }
+        if (!tweet.getSetCategories().isEmpty()) {
+            return;
+        }
+        for (String term : ControllerBean.Hloader.setNegations) {
+            if (termsInStatus.contains(term)) {
+                tweet.addToSetCategories("012");
             }
         }
     }
