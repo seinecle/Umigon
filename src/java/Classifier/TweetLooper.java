@@ -55,7 +55,7 @@ public class TweetLooper {
         setTweets = cm.classify(setTweets);
         setTweetsIterator = setTweets.iterator();
         setTweetsToReturn = new ArrayList();
-        boolean printAllTweets = true;
+        boolean printAllTweets = false;
 
         Clock reportClock = new Clock("generating report");
 

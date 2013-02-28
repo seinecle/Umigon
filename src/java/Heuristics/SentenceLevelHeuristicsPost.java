@@ -30,7 +30,7 @@ public class SentenceLevelHeuristicsPost {
     public Tweet applyRules() {
         containsMoreThan2Mentions();
         isIronicallyPositive();
-        containsNegation();
+//        containsNegation();
         isStatusGarbled();
         return tweet;
     }

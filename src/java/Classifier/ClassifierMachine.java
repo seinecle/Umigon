@@ -118,6 +118,13 @@ public class ClassifierMachine {
 //                if (nGramLowerCaseStripped.equals("fun")) {
 //                    System.out.println("stop here!");
 //                }
+
+                //this is for the case where happy" is detected in I'm so "happy" today - probable marker of irony here.
+                //In doubt, at least avoid a misclassification by leaving the term out.
+                if (StringUtils.endsWith(nGramLowerCase, "\"")) {
+                    continue;
+                }
+
                 if (ControllerBean.Hloader.getMapH1().keySet().contains(nGramLowerCase)) {
 //                    System.out.println("positive detected");
                     heuristic = ControllerBean.Hloader.getMapH1().get(nGramLowerCase);

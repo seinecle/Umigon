@@ -46,11 +46,11 @@ public class ControllerBean implements Serializable {
     private boolean analyzeNewlyArrivedTweets = false;
     private boolean analyzeAllFromDisk = false;
     private boolean loadTweetsFromLocal = false;
-    private boolean loadFromTrainingFile = false;
-    private boolean bigTrainingFile = false;
+    private boolean loadFromTrainingFile = true;
+    private boolean bigTrainingFile = true;
     private boolean clementTests = false;
-    private boolean dev = false;
-    private int maxTweets = 3500;
+    private boolean dev = true;
+    private int maxTweets = 1000;
     private String dummy;
     private Query<Tweet> updateQuery;
     private UpdateOperations<Tweet> ops;
