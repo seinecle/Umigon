@@ -42,7 +42,7 @@ public class ExternalSourceTweetLoader {
     }
 
     public ArrayList<Tweet> sentiment140Loader() throws FileNotFoundException, IOException {
-        br = new BufferedReader(new FileReader("D:\\Docs Pro Clement\\E-humanities\\Sentiment Analysis\\datasets\\training.1600000.processed.noemoticon.csv"));
+        br = new BufferedReader(new FileReader("D:\\Docs Pro Clement\\E-humanities\\Sentiment Analysis\\datasets\\testsettabdelimited.txt"));
         String line;
         String cat;
         String text;
@@ -60,7 +60,7 @@ public class ExternalSourceTweetLoader {
         return tweets;
     }
 
-    public ArrayList<Tweet> sentimentBigSetLoader(int max) throws FileNotFoundException, IOException {
+    public ArrayList<Tweet> sentimentBigSetLoader(int max, String term) throws FileNotFoundException, IOException {
         String fieldDelimiter = ",";
         String textDelimiter = "\"";
         String fileName = "D:\\Docs Pro Clement\\E-humanities\\Sentiment Analysis\\datasets\\training.1600000.processed.noemoticon.csv";
@@ -73,8 +73,11 @@ public class ExternalSourceTweetLoader {
         int counter = 0;
 
         while (csvReader.readRecord() && counter < max) {
-            tweet = new Tweet();
             values = csvReader.getValues();
+            if (!values[5].contains(term)) {
+                continue;
+            }
+            tweet = new Tweet();
             tweet.setTrainingSetCat(values[0]);
             tweet.setText(values[5]);
             setTweets.add(tweet);

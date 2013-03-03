@@ -68,7 +68,7 @@ public class HashtagLevelHeuristics {
                 result = heuristic.checkFeatures(tweet.getText(), hashtag);
                 // System.out.println("result: " + result);
                 if (result != null) {
-                    tweet.addToSetCategories(result);
+                    tweet.addToSetCategories(result,-2);
                     break;
                 }
 
@@ -99,10 +99,10 @@ public class HashtagLevelHeuristics {
             if (hashtag.startsWith(term)) {
                 if (!ControllerBean.Hloader.getSetFalsePositiveOpinions().contains(hashtag)) {
                     if (!startsWithNegativeTerm) {
-                        tweet.addToSetCategories("011");
+                        tweet.addToSetCategories("011",-2);
                         break;
                     } else {
-                        tweet.addToSetCategories("012");
+                        tweet.addToSetCategories("012",-2);
                         break;
                     }
                 }
@@ -112,10 +112,10 @@ public class HashtagLevelHeuristics {
             if (hashtag.startsWith(term)) {
                 if (!ControllerBean.Hloader.getSetFalsePositiveOpinions().contains(hashtag)) {
                     if (!startsWithNegativeTerm) {
-                        tweet.addToSetCategories("012");
+                        tweet.addToSetCategories("012",-2);
                         break;
                     } else {
-                        tweet.addToSetCategories("011");
+                        tweet.addToSetCategories("011",-2);
                         break;
                     }
                 }
@@ -129,17 +129,17 @@ public class HashtagLevelHeuristics {
                 hashtag = StringUtils.removeEnd(hashtag, term);
                 if (hashtag.length() > 1) {
                     if (ControllerBean.Hloader.getSetNegations().contains(hashtag)) {
-                        tweet.addToSetCategories("012");
+                        tweet.addToSetCategories("012",-2);
                         break;
 
                     }
                     if (ControllerBean.Hloader.getMapH3().keySet().contains(hashtag)) {
-                        tweet.addToSetCategories("011");
-                        tweet.addToSetCategories("022");
+                        tweet.addToSetCategories("011",-2);
+                        tweet.addToSetCategories("022",-2);
                         break;
                     }
                 } else {
-                    tweet.addToSetCategories("011");
+                    tweet.addToSetCategories("011",-2);
                     break;
 
                 }
@@ -150,16 +150,16 @@ public class HashtagLevelHeuristics {
                 hashtag = StringUtils.removeEnd(hashtag, term);
                 if (hashtag.length() > 1) {
                     if (ControllerBean.Hloader.getSetNegations().contains(hashtag)) {
-                        tweet.addToSetCategories("011");
+                        tweet.addToSetCategories("011",-2);
                         break;
                     }
                     if (ControllerBean.Hloader.getMapH3().keySet().contains(hashtag)) {
-                        tweet.addToSetCategories("012");
-                        tweet.addToSetCategories("022");
+                        tweet.addToSetCategories("012",-2);
+                        tweet.addToSetCategories("022",-2);
                         break;
                     }
                 } else {
-                    tweet.addToSetCategories("012");
+                    tweet.addToSetCategories("012",-2);
                     break;
 
                 }

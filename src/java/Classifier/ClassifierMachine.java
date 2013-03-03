@@ -18,9 +18,7 @@ import Utils.Clock;
 import Utils.NGramFinder;
 import com.cybozu.labs.langdetect.LangDetectException;
 import com.google.common.collect.HashMultiset;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.ArrayList;
 import org.apache.commons.lang3.StringUtils;
 
@@ -31,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 public class ClassifierMachine {
 
     String status;
+    String statusStripped;
     HashMultiset<String> nGrams;
     Iterator<String> nGramsIterator;
     String nGramOrig;
@@ -86,11 +85,11 @@ public class ClassifierMachine {
             tweet.setSetCategories(null);
 //            System.out.println("curr tweet: " + tweet.toString());
             status = statusCleaner.clean(status);
-//            if (status.contains("FUCKKKKKKKKKKKKK")) {
-//                System.out.println("FUCKKKKKKKKKKKKK");
-//            }
+            statusStripped = statusCleaner.removePunctuationSigns(status);
 
             sentenceHeuristicsPre = new SentenceLevelHeuristicsPre(tweet, status);
+            sentenceHeuristicsPre = new SentenceLevelHeuristicsPre(tweet, statusStripped);
+
             tweet = sentenceHeuristicsPre.applyRules();
 
             hashtagHeuristics = new HashtagLevelHeuristics(tweet, loadFromTrainingFile);
@@ -102,45 +101,47 @@ public class ClassifierMachine {
             String nGramLowerCase;
             String nGramLowerCaseStripped;
             SpellCheckingMethods spellChecker;
+            int indexTermOrig = 0;
+            String oldNGramStripped;
             while (nGramsIterator.hasNext()) {
                 nGramOrig = nGramsIterator.next();
-//                if (nGramOrig.equals("FUCKKKKKKKKKKKKK")) {
-//                    System.out.println("FUCKKKKKKKKKKKKK");
-//                }
+
+
+                indexTermOrig = status.indexOf(nGramOrig);
+//                System.out.println("index: " + indexTermOrig);
+//                System.out.println("nGramOrig: " + nGramOrig);
+//                System.out.println("status: " + status);
 
                 nGramLowerCase = nGramOrig.toLowerCase();
                 //this condition puts the ngram in lower case, except if it is all in upper case (this is a valuable info)
                 //                System.out.println("status: " + status);
-                nGramStripped = statusCleaner.removePunctuationSigns(nGramLowerCase);
-                nGramLowerCaseStripped = nGramStripped.toLowerCase();
+                nGramStripped = statusCleaner.removePunctuationSigns(nGramOrig);
                 spellChecker = new SpellCheckingMethods();
-                nGramLowerCaseStripped = spellChecker.repeatedCharacters(nGramLowerCaseStripped);
+                oldNGramStripped = nGramStripped;
+                nGramStripped = spellChecker.repeatedCharacters(nGramStripped);
+                statusStripped = statusStripped.replace(oldNGramStripped, nGramStripped);
+                nGramLowerCaseStripped = nGramStripped.toLowerCase();
 //                if (nGramLowerCaseStripped.equals("fun")) {
 //                    System.out.println("stop here!");
 //                }
 
                 //this is for the case where happy" is detected in I'm so "happy" today - probable marker of irony here.
                 //In doubt, at least avoid a misclassification by leaving the term out.
-                if (StringUtils.endsWith(nGramLowerCase, "\"")) {
+                if (StringUtils.endsWith(nGramLowerCase, "\"") || StringUtils.endsWith(nGramLowerCase, "&quot;")) {
                     continue;
                 }
 
                 if (ControllerBean.Hloader.getMapH1().keySet().contains(nGramLowerCase)) {
-//                    System.out.println("positive detected");
                     heuristic = ControllerBean.Hloader.getMapH1().get(nGramLowerCase);
                     result = (heuristic.checkFeatures(status, nGramOrig));
-                    // System.out.println("result: " + result);
                     if (result != null) {
-                        // System.out.println("result: " + result);
-                        tweet.addToSetCategories(result);
-
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
                 } else if (ControllerBean.Hloader.getMapH1().keySet().contains(nGramLowerCaseStripped)) {
                     heuristic = ControllerBean.Hloader.getMapH1().get(nGramLowerCaseStripped);
-                    result = (heuristic.checkFeatures(status, nGramOrig));
+                    result = (heuristic.checkFeatures(statusStripped, nGramStripped));
                     if (result != null) {
-                        // System.out.println("result: " + result);
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
                 }
 
@@ -152,18 +153,18 @@ public class ClassifierMachine {
                     if (result != null) {
                         // System.out.println("result: " + result);
 
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
 
                 } else if (ControllerBean.Hloader.getMapH2().keySet().contains(nGramLowerCaseStripped)) {
 //                    System.out.println("negative detected!");
 //                    System.out.println("nGramStripped: " + nGramStripped);
                     heuristic = ControllerBean.Hloader.getMapH2().get(nGramLowerCaseStripped);
-                    result = heuristic.checkFeatures(status, StringUtils.strip(nGramOrig, punctuation));
+                    result = heuristic.checkFeatures(statusStripped, nGramStripped);
                     if (result != null) {
                         // System.out.println("result: " + result);
 
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
                 }
 
@@ -174,14 +175,19 @@ public class ClassifierMachine {
                     if (result != null) {
                         // System.out.println("result: " + result);
 
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
                 } else if (ControllerBean.Hloader.getMapH3().keySet().contains(nGramLowerCaseStripped)) {
                     heuristic = ControllerBean.Hloader.getMapH3().get(nGramLowerCaseStripped);
-                    result = heuristic.checkFeatures(status, nGramOrig);
+//                    System.out.println("index: " + indexTermOrig);
+//                    System.out.println("nGramOrig: " + nGramOrig);
+//                    System.out.println("nGramStripped: " + nGramStripped);
+//                    System.out.println("status: " + status);
+//                    System.out.println("statusStripped: " + statusStripped);
+                    result = heuristic.checkFeatures(statusStripped, nGramStripped);
                     if (result != null) {
                         // System.out.println("result: " + result);
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
                 }
 
@@ -191,15 +197,15 @@ public class ClassifierMachine {
                     if (result != null) {
                         // System.out.println("result: " + result);
 
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
                 } else if (ControllerBean.Hloader.getMapH4().keySet().contains(nGramLowerCaseStripped)) {
                     heuristic = ControllerBean.Hloader.getMapH4().get(nGramLowerCaseStripped);
-                    result = heuristic.checkFeatures(status, nGramOrig);
+                    result = heuristic.checkFeatures(statusStripped, nGramStripped);
                     if (result != null) {
                         // System.out.println("result: " + result);
 
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
                 }
 
@@ -209,15 +215,14 @@ public class ClassifierMachine {
                     if (result != null) {
                         // System.out.println("result: " + result);
 
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
                 } else if (ControllerBean.Hloader.getMapH5().keySet().contains(nGramLowerCaseStripped)) {
                     heuristic = ControllerBean.Hloader.getMapH5().get(nGramLowerCaseStripped);
-                    result = heuristic.checkFeatures(status, nGramOrig);
+                    result = heuristic.checkFeatures(statusStripped, nGramStripped);
                     if (result != null) {
                         // System.out.println("result: " + result);
-
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
                 }
 
@@ -226,16 +231,14 @@ public class ClassifierMachine {
                     result = heuristic.checkFeatures(status, nGramOrig);
                     if (result != null) {
                         // System.out.println("result: " + result);
-
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
                 } else if (ControllerBean.Hloader.getMapH6().keySet().contains(nGramLowerCaseStripped)) {
                     heuristic = ControllerBean.Hloader.getMapH6().get(nGramLowerCaseStripped);
-                    result = heuristic.checkFeatures(status, nGramOrig);
+                    result = heuristic.checkFeatures(statusStripped, nGramStripped);
                     if (result != null) {
                         // System.out.println("result: " + result);
-
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
                 }
 
@@ -244,16 +247,16 @@ public class ClassifierMachine {
                     result = heuristic.checkFeatures(status, nGramOrig);
                     if (result != null) {
                         // System.out.println("result: " + result);
-
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
+
                 } else if (ControllerBean.Hloader.getMapH7().keySet().contains(nGramLowerCaseStripped)) {
                     heuristic = ControllerBean.Hloader.getMapH7().get(nGramLowerCaseStripped);
-                    result = heuristic.checkFeatures(status, nGramOrig);
+                    result = heuristic.checkFeatures(statusStripped, nGramStripped);
                     if (result != null) {
                         // System.out.println("result: " + result);
 
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
                 }
 
@@ -263,15 +266,15 @@ public class ClassifierMachine {
                     if (result != null) {
                         // System.out.println("result: " + result);
 
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
                 } else if (ControllerBean.Hloader.getMapH8().keySet().contains(nGramLowerCaseStripped)) {
                     heuristic = ControllerBean.Hloader.getMapH8().get(nGramLowerCaseStripped);
-                    result = heuristic.checkFeatures(status, nGramOrig);
+                    result = heuristic.checkFeatures(statusStripped, nGramStripped);
                     if (result != null) {
                         // System.out.println("result: " + result);
 
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
                 }
 
@@ -281,15 +284,15 @@ public class ClassifierMachine {
                     if (result != null) {
                         // System.out.println("result: " + result);
 
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
                 } else if (ControllerBean.Hloader.getMapH9().keySet().contains(nGramLowerCaseStripped)) {
                     heuristic = ControllerBean.Hloader.getMapH9().get(nGramLowerCaseStripped);
-                    result = heuristic.checkFeatures(status, nGramOrig);
+                    result = heuristic.checkFeatures(statusStripped, nGramStripped);
                     if (result != null) {
                         // System.out.println("result: " + result);
 
-                        tweet.addToSetCategories(result);
+                        tweet.addToSetCategories(result, indexTermOrig);
                     }
                 }
 

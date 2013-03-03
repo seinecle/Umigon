@@ -4,22 +4,16 @@
  */
 package Classifier;
 
-import Twitter.ControllerBean;
 import Twitter.Tweet;
 import Utils.Clock;
 import com.cybozu.labs.langdetect.LangDetectException;
-import com.google.code.morphia.query.Query;
-import com.google.code.morphia.query.UpdateOperations;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multisets;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.ArrayList;
-import javax.faces.bean.ManagedProperty;
 
 /**
  *
@@ -55,7 +49,7 @@ public class TweetLooper {
         setTweets = cm.classify(setTweets);
         setTweetsIterator = setTweets.iterator();
         setTweetsToReturn = new ArrayList();
-        boolean printAllTweets = false;
+        boolean printAllTweets = true;
 
         Clock reportClock = new Clock("generating report");
 
@@ -84,7 +78,7 @@ public class TweetLooper {
 
             if (tweet.getSetCategories().contains("011") & !tweet.getSetCategoriesToString().contains("061")) {
 //                System.out.println("positive tweets without promotion: (user: "+tweet.getUser()+") "+tweet.getText());
-                tweet.addToSetCategories("0111");
+                tweet.addToSetCategories("0111",-1);
             }
 
 //            if (tweet.getSetCategories().contains("0621")) {

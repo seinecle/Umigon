@@ -7,6 +7,8 @@ package Twitter;
 import Classifier.Categories;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -38,9 +40,12 @@ public class Tweet implements Serializable {
     private String trainingSetCat;
     private String sentiment;
     private String otherSemanticFeatures;
+    private Multimap<String, Integer> mapCategoriesToIndex;
 
     public Tweet() {
         setCategories = new TreeSet();
+        mapCategoriesToIndex = HashMultimap.create();
+
         this.user = "";
     }
 
@@ -57,7 +62,8 @@ public class Tweet implements Serializable {
         for (UserMentionEntity u : status.getUserMentionEntities()) {
             this.mentions.add(u.getScreenName());
         }
-        setCategories = new TreeSet();
+        setCategories = new HashSet();
+        mapCategoriesToIndex = HashMultimap.create();
     }
 
     public ObjectId getId() {
@@ -185,15 +191,16 @@ public class Tweet implements Serializable {
         this.trainingSetCat = trainingSetCat;
     }
 
-    public boolean addToSetCategories(String category) {
+    public void addToSetCategories(String category, Integer indexTermOrig) {
         if (category == null) {
-            return true;
+            return;
         }
         if (setCategories == null) {
             setCategories = new HashSet();
         }
 
-        return this.setCategories.add(category);
+        this.setCategories.add(category);
+        this.mapCategoriesToIndex.put(category, indexTermOrig);
     }
 
     public void deleteFromSetCategories(String category) {

@@ -29,6 +29,7 @@ public class SentenceLevelHeuristicsPost {
 
     public Tweet applyRules() {
         containsMoreThan2Mentions();
+        containsModerator();
         isIronicallyPositive();
 //        containsNegation();
         isStatusGarbled();
@@ -38,7 +39,7 @@ public class SentenceLevelHeuristicsPost {
     public void containsMoreThan2Mentions() {
         int countArobase = StringUtils.countMatches(status, "@");
         if (countArobase > 2 & !tweet.getSetCategories().contains("012")) {
-            tweet.addToSetCategories("061");
+            tweet.addToSetCategories("061",-1);
         }
     }
 
@@ -63,7 +64,22 @@ public class SentenceLevelHeuristicsPost {
         }
         for (String term : ControllerBean.Hloader.setNegations) {
             if (termsInStatus.contains(term)) {
-                tweet.addToSetCategories("012");
+                tweet.addToSetCategories("012",-1);
+            }
+        }
+    }
+
+    public void containsModerator() {
+        StatusCleaner statusCleaner = new StatusCleaner();
+        status = statusCleaner.removePunctuationSigns(status).toLowerCase().trim();
+        HashSet setModerators = new HashSet();
+        setModerators.add("but");
+
+        Set<String> termsInStatus = new HashSet();
+        termsInStatus.addAll(Arrays.asList(status.split(" ")));
+        for (String term : ControllerBean.Hloader.setNegations) {
+            if (termsInStatus.contains(term)) {
+//                tweet.addToSetCategories("012");
             }
         }
     }
@@ -83,10 +99,10 @@ public class SentenceLevelHeuristicsPost {
         temp = temp.replaceAll(" +", " ");
 
         if (temp.length() < 5) {
-            tweet.addToSetCategories("002");
+            tweet.addToSetCategories("002",-1);
         }
         if (temp.split(" ").length < 4) {
-            tweet.addToSetCategories("002");
+            tweet.addToSetCategories("002",-1);
         }
     }
 }

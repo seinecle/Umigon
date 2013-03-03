@@ -47,10 +47,11 @@ public class ControllerBean implements Serializable {
     private boolean analyzeAllFromDisk = false;
     private boolean loadTweetsFromLocal = false;
     private boolean loadFromTrainingFile = true;
-    private boolean bigTrainingFile = true;
+    private boolean bigTrainingFile = false;
     private boolean clementTests = false;
-    private boolean dev = true;
-    private int maxTweets = 1000;
+    private boolean dev = false;
+    private int maxTweets = 10000000;
+    private String termFilter = "but ";
     private String dummy;
     private Query<Tweet> updateQuery;
     private UpdateOperations<Tweet> ops;
@@ -158,7 +159,7 @@ public class ControllerBean implements Serializable {
             if (loadFromTrainingFile) {
                 ExternalSourceTweetLoader comp = new ExternalSourceTweetLoader();
                 if (bigTrainingFile) {
-                    setTweets = comp.sentimentBigSetLoader(maxTweets);
+                    setTweets = comp.sentimentBigSetLoader(maxTweets,termFilter);
                 } else if (clementTests) {
                     setTweets = comp.clementTestTweetsLoader(maxTweets);
                 } else {

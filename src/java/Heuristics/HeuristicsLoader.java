@@ -52,6 +52,7 @@ public class HeuristicsLoader {
     Set<String> setNegations;
     Set<String> setTimeTokens;
     Set<String> setHashTags;
+    Set<String> setModerators;
     Set<String> setFalsePositiveOpinions;
     Set<String> setIronicallyPositive;
 
@@ -67,6 +68,7 @@ public class HeuristicsLoader {
         setTimeTokens = new HashSet();
         setFalsePositiveOpinions = new HashSet();
         setIronicallyPositive = new HashSet();
+        setModerators = new HashSet();
         mapH1 = new HashMap();
         mapH2 = new HashMap();
         mapH4 = new HashMap();
@@ -231,6 +233,12 @@ public class HeuristicsLoader {
                 //set of terms which look like opinions but are false postives
                 if (map == 15) {
                     setIronicallyPositive.add(term);
+                    continue;
+                }
+
+                //set of moderators
+                if (map == 16) {
+                    setModerators.add(term);
                     continue;
                 }
 
