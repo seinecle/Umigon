@@ -59,7 +59,6 @@ public class HeuristicsLoader {
     public void load() throws FileNotFoundException, IOException {
 
 
-        File folder = new File("D:\\Docs Pro Clement\\NetBeansProjects\\Umigon\\private\\heuristics\\");
         Set<String> setPathResources = new TreeSet();
         setPathResources.addAll(FacesContext.getCurrentInstance().getExternalContext().getResourcePaths("/resources/private/"));
 //        System.out.println("folder is: " + folder.getCanonicalPath());
