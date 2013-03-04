@@ -193,16 +193,25 @@ public class ControllerBean implements Serializable {
         }
     }
 
-    public String classify() throws LangDetectException, UnknownHostException, FileNotFoundException, IOException, TwitterException {
+    public String classifyViaAPI() throws LangDetectException, UnknownHostException, FileNotFoundException, IOException, TwitterException {
 
-        if (twitterStreamInput.isEmpty()) {
-            ExternalSourceTweetLoader comp = new ExternalSourceTweetLoader();
 
-            setTweets = comp.userInputTweets(userInput);
-        } else {
-            TwitterAPIController twitterAPIFetcher = new TwitterAPIController();
-            setTweets = twitterAPIFetcher.getTweetsFromSearchAPI(this.getTwitterStreamInput());
-        }
+        TwitterAPIController twitterAPIFetcher = new TwitterAPIController();
+        setTweets = twitterAPIFetcher.getTweetsFromSearchAPI(this.getTwitterStreamInput());
+
+        System.out.println("------------------------------------------------");
+        System.out.println("tweets from training file: " + setTweets.size());
+        hl1 = new TweetLooper(setTweets);
+        setTweets = hl1.applyLevel1(loadFromTrainingFile);
+
+        return "result.xhtml?faces-redirect=true";
+
+    }
+
+    public String classifyViaUserInput() throws LangDetectException, UnknownHostException, FileNotFoundException, IOException, TwitterException {
+
+        ExternalSourceTweetLoader comp = new ExternalSourceTweetLoader();
+        setTweets = comp.userInputTweets(userInput);
         System.out.println("------------------------------------------------");
         System.out.println("tweets from training file: " + setTweets.size());
         hl1 = new TweetLooper(setTweets);

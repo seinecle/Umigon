@@ -18,7 +18,7 @@
 
             <p:inputText id="twitterSearchArea" value="#{controllerBean.twitterStreamInput}"/>
             <p:watermark for="twitterSearchArea" value="@microsoft"></p:watermark>
-            <p:commandButton value="classify" action="#{controllerBean.classify}"/>
+            <p:commandButton value="classify" action="#{controllerBean.classifyViaAPI}"/>
         </h:form>
         <br></br>
         <br></br>
@@ -36,7 +36,7 @@
         </p>
 
         <h:form>
-            <p:commandButton value="classify" action="#{controllerBean.classify}"/>
+            <p:commandButton value="classify" action="#{controllerBean.classifyViaUserInput}"/>
             <br></br>
             <br></br>
             <p:inputTextarea id="textArea" value="#{controllerBean.userInput}" rows="5" cols="140" autoResize="false"/>

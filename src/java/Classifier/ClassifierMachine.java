@@ -88,11 +88,11 @@ public class ClassifierMachine {
             statusStripped = statusCleaner.removePunctuationSigns(status);
 
             sentenceHeuristicsPre = new SentenceLevelHeuristicsPre(tweet, status);
+            tweet = sentenceHeuristicsPre.applyRules();
             sentenceHeuristicsPre = new SentenceLevelHeuristicsPre(tweet, statusStripped);
-
             tweet = sentenceHeuristicsPre.applyRules();
 
-            hashtagHeuristics = new HashtagLevelHeuristics(tweet, loadFromTrainingFile);
+            hashtagHeuristics = new HashtagLevelHeuristics(tweet);
             tweet = hashtagHeuristics.applyRules();
 
             nGrams = new NGramFinder(status).runIt(4, true);
@@ -121,7 +121,7 @@ public class ClassifierMachine {
                 nGramStripped = spellChecker.repeatedCharacters(nGramStripped);
                 statusStripped = statusStripped.replace(oldNGramStripped, nGramStripped);
                 nGramLowerCaseStripped = nGramStripped.toLowerCase();
-//                if (nGramLowerCaseStripped.equals("fun")) {
+//                  if (nGramLowerCaseStripped.equals("fun")) {
 //                    System.out.println("stop here!");
 //                }
 
@@ -138,6 +138,12 @@ public class ClassifierMachine {
                         tweet.addToSetCategories(result, indexTermOrig);
                     }
                 } else if (ControllerBean.Hloader.getMapH1().keySet().contains(nGramLowerCaseStripped)) {
+                    System.out.println("index: " + indexTermOrig);
+                    System.out.println("nGramOrig: " + nGramOrig);
+                    System.out.println("nGramStripped: " + nGramStripped);
+                    System.out.println("nGramLowerCaseStripped: " + nGramLowerCaseStripped);
+                    System.out.println("status: " + status);
+                    System.out.println("statusStripped: " + statusStripped);
                     heuristic = ControllerBean.Hloader.getMapH1().get(nGramLowerCaseStripped);
                     result = (heuristic.checkFeatures(statusStripped, nGramStripped));
                     if (result != null) {
@@ -179,11 +185,7 @@ public class ClassifierMachine {
                     }
                 } else if (ControllerBean.Hloader.getMapH3().keySet().contains(nGramLowerCaseStripped)) {
                     heuristic = ControllerBean.Hloader.getMapH3().get(nGramLowerCaseStripped);
-//                    System.out.println("index: " + indexTermOrig);
-//                    System.out.println("nGramOrig: " + nGramOrig);
-//                    System.out.println("nGramStripped: " + nGramStripped);
-//                    System.out.println("status: " + status);
-//                    System.out.println("statusStripped: " + statusStripped);
+
                     result = heuristic.checkFeatures(statusStripped, nGramStripped);
                     if (result != null) {
                         // System.out.println("result: " + result);

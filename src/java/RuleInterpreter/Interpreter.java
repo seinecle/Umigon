@@ -178,7 +178,7 @@ public class Interpreter {
     }
 
     private String simpleInterpretation(String rule, Map<String, Boolean> heuristics) {
-//        System.out.println("rule: " + rule);
+       System.out.println("rule: " + rule);
         String[] outcomes = rule.split("\\|");
         if (!heuristics.values().isEmpty()) {
             if (heuristics.values().iterator().next()) {

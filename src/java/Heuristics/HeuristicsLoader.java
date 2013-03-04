@@ -89,7 +89,7 @@ public class HeuristicsLoader {
             if (!pathFile.contains("_")) {
                 continue;
             }
-            String fileName = StringUtils.substring(pathFile, StringUtils.ordinalIndexOf(pathFile, "/", 3)+1);
+            String fileName = StringUtils.substring(pathFile, StringUtils.ordinalIndexOf(pathFile, "/", 3) + 1);
             int map = Integer.parseInt(StringUtils.left(fileName, fileName.indexOf("_")));
             if (map == 0) {
                 continue;
@@ -121,6 +121,9 @@ public class HeuristicsLoader {
                 //sometimes the heuristics is just a term, not followed by a feature or a rule
                 //in this case put a null value to these fields
                 field0 = fields[0].trim();
+                if (field0.isEmpty()) {
+                    continue;
+                }
                 field1 = (fields.length < 2) ? null : fields[1].trim();
                 field2 = (fields.length < 3) ? null : fields[2].trim();
 

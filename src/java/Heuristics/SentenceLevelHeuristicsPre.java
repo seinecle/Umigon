@@ -98,6 +98,12 @@ public class SentenceLevelHeuristicsPre {
             index = status.indexOf("yeaa");
             tweet.addToSetCategories("011", index);
         }
+        //yeeeee
+        res = status.toLowerCase().matches(".*yeee+.*");
+        if (res) {
+            index = status.indexOf("yeee");
+            tweet.addToSetCategories("011", index);
+        }
         //noooooo
         res = status.toLowerCase().matches(".*nooo+.*");
         if (res) {
@@ -120,6 +126,13 @@ public class SentenceLevelHeuristicsPre {
         res = status.matches(".*:\\)+.*");
         if (res) {
             index = status.indexOf(":)");
+            tweet.addToSetCategories("011", index);
+        }
+
+        //smiley : )
+        res = status.matches(".*: \\)+.*");
+        if (res) {
+            index = status.indexOf(": )");
             tweet.addToSetCategories("011", index);
         }
 

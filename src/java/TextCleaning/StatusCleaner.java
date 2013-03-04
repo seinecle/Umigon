@@ -26,6 +26,8 @@ public class StatusCleaner {
     }
 
     public String removePunctuationSigns(String string) {
+        string = StringUtils.removeEnd(string, "'s");
+        string = StringUtils.removeEnd(string, "’s");
         String punctuation = "!?.'\"-,()#=*";
         char[] chars = punctuation.toCharArray();
         for (char currChar : chars) {
