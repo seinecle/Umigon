@@ -6,7 +6,7 @@ package Heuristics;
 
 import Heuristics.Heuristic;
 import Twitter.Tweet;
-import Twitter.ControllerBean;
+import Admin.ControllerBean;
 import org.apache.commons.lang3.StringUtils;
 
 /**

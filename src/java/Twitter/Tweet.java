@@ -41,6 +41,8 @@ public class Tweet implements Serializable {
     private String sentiment;
     private String otherSemanticFeatures;
     private Multimap<String, Integer> mapCategoriesToIndex;
+    private boolean isPositive;
+    private boolean isNegative;
 
     public Tweet() {
         setCategories = new TreeSet();
@@ -220,6 +222,26 @@ public class Tweet implements Serializable {
             return "neutral";
         }
     }
+
+    public boolean isIsPositive() {
+        return setCategories.contains("011");
+    }
+
+    public void setIsPositive(boolean isPositive) {
+        this.isPositive = isPositive;
+    }
+
+    public boolean isIsNegative() {
+        return setCategories.contains("012");
+    }
+
+    public void setIsNegative(boolean isNegative) {
+        this.isNegative = isNegative;
+    }
+    
+    
+    
+    
 
     public void setSentiment(String sentiment) {
         this.sentiment = sentiment;

@@ -5,56 +5,68 @@ package Twitter;
  * and open the template in the editor.
  */
 import Heuristics.HeuristicsLoader;
-import com.google.code.morphia.Datastore;
-import com.google.code.morphia.Morphia;
-import com.mongodb.Mongo;
+import Utils.APIkeys;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import twitter4j.FilterQuery;
+import twitter4j.Query;
+import twitter4j.QueryResult;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
 import twitter4j.StatusListener;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
-public class Controller {
+public class TwitterAPIController {
 
-    static Datastore ds;
-    private String string;
-    public static HeuristicsLoader Hloader;
+    private ArrayList<Tweet> listTweets;
+    private int count = 0;
+    private TwitterStream twitterStream;
+    private ConfigurationBuilder cb;
 
-    public static void test(String args[]) throws UnknownHostException, FileNotFoundException, IOException {
-
-
-        Hloader = new HeuristicsLoader();
-        Hloader.load();
-        
-
-        Mongo m;
-        Morphia morphia;
-        System.out.println("beginning morphia init");
-        m = new Mongo("alex.mongohq.com", 10056);
-        morphia = new Morphia();
-        String pass = "testpass";
-        ds = morphia.createDatastore(m, "0FwGVJmwy8ouyeZ1z6p7xQ", "seinecle", pass.toCharArray());
-        if (ds != null) {
-            System.out.println("Morphia datastore on CloudBees / MongoHQ created!!!!!!!");
-        }
-        morphia.map(Tweet.class);
-
-
-        ConfigurationBuilder cb = new ConfigurationBuilder();
+    public TwitterAPIController() {
+        cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
                 .setOAuthConsumerKey("0HI78z6uScVkwQkwWWNA")
-                .setOAuthConsumerSecret("VVsf4qT0DCBeLODRDnBlhwxrRG6KLm0TT2wiK2Q")
+                .setOAuthConsumerSecret(APIkeys.getTwitterConsumerSecret())
                 .setOAuthAccessToken("31805620-1QQsoAH98dSVRHXb21IBtLOrh8igwIov8NT2TvUCg")
-                .setOAuthAccessTokenSecret("P7l7SmHiZyE11tNfsQ17fdSzJ7sUpMJAliundncpaA");
+                .setOAuthAccessTokenSecret(APIkeys.getTwitterAccessTokenSecret());
+
+    }
+
+    public ArrayList<Tweet> getTweetsFromSearchAPI(String string) throws TwitterException {
+        listTweets = new ArrayList();
+
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        Twitter twitter = tf.getInstance();
+        Query query = new Query(string);
+        query.lang("en");
+        query.count(2000);
+        QueryResult result = twitter.search(query);
+        for (Status status : result.getTweets()) {
+            listTweets.add(new Tweet(status));
+        }
+        return listTweets;
+
+    }
+
+    public ArrayList<Tweet> getTweetsFromStream(String keywords[]) throws UnknownHostException, FileNotFoundException, IOException, TwitterException {
+
+
+        listTweets = new ArrayList();
 
         TwitterStreamFactory tf = new TwitterStreamFactory(cb.build());
-        TwitterStream twitterStream = tf.getInstance();
+        twitterStream = tf.getInstance();
 
 
         StatusListener listener = new StatusListener() {
@@ -63,8 +75,9 @@ public class Controller {
                 System.out.println("@" + status.getUser().getScreenName() + " - " + status.getText());
                 if ("en".equals(status.getUser().getLang())) {
                     Tweet tweet = new Tweet(status);
-                    ds.save(tweet);
-                    System.out.println("new tweet saved");
+                    listTweets.add(tweet);
+                    System.out.println("new tweet saved, " + count++);
+
                 }
             }
 
@@ -93,9 +106,12 @@ public class Controller {
                 System.out.println("Exception: " + ex);
             }
         };
-        String[] keywords = {"@hp"};
         long[] users = {17193794}; //this id is @hp's
         twitterStream.addListener(listener);
-        twitterStream.filter(new FilterQuery(0, users, keywords));
+        FilterQuery fq = new FilterQuery();
+        fq.track(keywords);
+//        twitterStream.filter(new FilterQuery(0, users, keywords));
+        twitterStream.filter(fq);
+        return listTweets;
     }
 }

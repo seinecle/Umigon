@@ -44,7 +44,7 @@
  */
 package TextCleaning;
 
-import Twitter.ControllerBean;
+import Admin.ControllerBean;
 import java.util.HashSet;
 import java.util.Set;
 import org.apache.commons.lang3.StringUtils;

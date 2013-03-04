@@ -17,7 +17,7 @@
             <br></br>
             <p:dataTable value="#{controllerBean.listTweets}" paginator="true" rows ="20" var="t" >
                 <p:column><f:facet name="header">Tweet</f:facet>#{t.text}</p:column>
-                <p:column><f:facet name="header">Sentiment</f:facet>#{t.sentiment}</p:column>
+                <p:column><f:facet name="header">Sentiment</f:facet>#{t.sentiment} <p:graphicImage name="img/red.png" rendered ="#{t.isNegative}" /><p:graphicImage name="img/green.png" rendered ="#{t.isPositive}" /></p:column>
                 <p:column><f:facet name="header">Semantic features</f:facet>#{t.otherSemanticFeatures}</p:column>
             </p:dataTable>
         </h:form>

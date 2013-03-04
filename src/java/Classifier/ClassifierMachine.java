@@ -13,7 +13,7 @@ import LanguageDetection.LanguageDetector;
 import TextCleaning.SpellCheckingMethods;
 import TextCleaning.StatusCleaner;
 import Twitter.Tweet;
-import Twitter.ControllerBean;
+import Admin.ControllerBean;
 import Utils.Clock;
 import Utils.NGramFinder;
 import com.cybozu.labs.langdetect.LangDetectException;

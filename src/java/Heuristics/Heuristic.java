@@ -6,7 +6,7 @@ package Heuristics;
 
 import RuleInterpreter.Interpreter;
 import TextCleaning.StatusCleaner;
-import Twitter.ControllerBean;
+import Admin.ControllerBean;
 import com.google.common.collect.Multimap;
 import java.util.ArrayList;
 import java.util.Collections;

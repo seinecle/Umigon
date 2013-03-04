@@ -2,12 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Twitter;
+package Admin;
 
 import Classifier.Categories;
 import Classifier.TweetLooper;
 import Heuristics.HeuristicsLoader;
 import Heuristics.ExcelToCsv;
+import Twitter.ExternalSourceTweetLoader;
+import Twitter.Tweet;
+import Twitter.TwitterAPIController;
+import Utils.APIkeys;
 import com.cybozu.labs.langdetect.LangDetectException;
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.Morphia;
@@ -18,6 +22,7 @@ import com.mongodb.MongoException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
@@ -28,6 +33,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import twitter4j.TwitterException;
 
 /**
  *
@@ -56,6 +62,7 @@ public class ControllerBean implements Serializable {
     private Query<Tweet> updateQuery;
     private UpdateOperations<Tweet> ops;
     private String userInput;
+    private String twitterStreamInput;
     private TweetLooper hl1;
     private List<Tweet> listTweets;
 
@@ -97,8 +104,7 @@ public class ControllerBean implements Serializable {
             if (saveOnDisk || analyzeNewlyArrivedTweets) {
                 m = new Mongo("alex.mongohq.com", 10056);
                 morphia = new Morphia();
-                String pass = "testpass";
-                ds = morphia.createDatastore(m, "0FwGVJmwy8ouyeZ1z6p7xQ", "seinecle", pass.toCharArray());
+                ds = morphia.createDatastore(m, APIkeys.getMongoHQAPIkey(), "seinecle", APIkeys.getMongoHQPass().toCharArray());
                 if (ds != null) {
                     System.out.println("Morphia datastore on CloudBees / MongoHQ created!!!!!!!");
                 }
@@ -159,7 +165,7 @@ public class ControllerBean implements Serializable {
             if (loadFromTrainingFile) {
                 ExternalSourceTweetLoader comp = new ExternalSourceTweetLoader();
                 if (bigTrainingFile) {
-                    setTweets = comp.sentimentBigSetLoader(maxTweets,termFilter);
+                    setTweets = comp.sentimentBigSetLoader(maxTweets, termFilter);
                 } else if (clementTests) {
                     setTweets = comp.clementTestTweetsLoader(maxTweets);
                 } else {
@@ -187,11 +193,16 @@ public class ControllerBean implements Serializable {
         }
     }
 
-    public String classify() throws LangDetectException {
+    public String classify() throws LangDetectException, UnknownHostException, FileNotFoundException, IOException, TwitterException {
 
-        ExternalSourceTweetLoader comp = new ExternalSourceTweetLoader();
+        if (twitterStreamInput.isEmpty()) {
+            ExternalSourceTweetLoader comp = new ExternalSourceTweetLoader();
 
-        setTweets = comp.userInputTweets(userInput);
+            setTweets = comp.userInputTweets(userInput);
+        } else {
+            TwitterAPIController twitterAPIFetcher = new TwitterAPIController();
+            setTweets = twitterAPIFetcher.getTweetsFromSearchAPI(this.getTwitterStreamInput());
+        }
         System.out.println("------------------------------------------------");
         System.out.println("tweets from training file: " + setTweets.size());
         hl1 = new TweetLooper(setTweets);
@@ -246,6 +257,16 @@ public class ControllerBean implements Serializable {
     public String reinit() {
         return "index.xhtml?faces-redirect=true";
     }
-    
-    
+
+    public String[] getTwitterStreamInputAsArray() {
+        return twitterStreamInput.split(";");
+    }
+
+    public String getTwitterStreamInput() {
+        return twitterStreamInput;
+    }
+
+    public void setTwitterStreamInput(String twitterStreamInput) {
+        this.twitterStreamInput = twitterStreamInput;
+    }
 }

@@ -5,7 +5,7 @@
 package Heuristics;
 
 import TextCleaning.StatusCleaner;
-import Twitter.ControllerBean;
+import Admin.ControllerBean;
 import Twitter.Tweet;
 import java.util.Arrays;
 import java.util.HashSet;

@@ -11,10 +11,21 @@
         <h3>Sentiment analysis for tweets, and more</h3>
         <br></br>
         <p>
-            - Copy-paste tweets in the text input zone below.<br></br>
+            - Search for a term or a person on Twitter<br></br>
             - Then click "Classify"!
         </p>
-        <p>
+        <h:form>
+
+            <p:inputText id="twitterSearchArea" value="#{controllerBean.twitterStreamInput}"/>
+            <p:watermark for="twitterSearchArea" value="@microsoft"></p:watermark>
+            <p:commandButton value="classify" action="#{controllerBean.classify}"/>
+        </h:form>
+        <br></br>
+        <br></br>
+        <br></br>
+        <p style="font-size: 90%">
+            - Want to test Umigon with your own text? Copy-paste tweets in the text input zone below.<br></br>
+            - Then click "Classify"!<br></br>
             <b>To get you started, some examples of tweets you can copy paste below:</b><br></br>
             <br></br>
             ******<br></br>   
@@ -29,6 +40,7 @@
             <br></br>
             <br></br>
             <p:inputTextarea id="textArea" value="#{controllerBean.userInput}" rows="5" cols="140" autoResize="false"/>
+            <br></br>
         </h:form>
         <p>
             This is an application by <a href="http://www.clementlevallois.net">Clement Levallois</a>.<br></br>

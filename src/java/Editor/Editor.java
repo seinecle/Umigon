@@ -4,7 +4,7 @@
  */
 package Editor;
 
-import Twitter.ControllerBean;
+import Admin.ControllerBean;
 import Twitter.Tweet;
 import com.google.code.morphia.query.Query;
 import com.google.code.morphia.query.UpdateOperations;

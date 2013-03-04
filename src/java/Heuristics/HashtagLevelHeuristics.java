@@ -5,7 +5,7 @@
 package Heuristics;
 
 import Twitter.Tweet;
-import Twitter.ControllerBean;
+import Admin.ControllerBean;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
