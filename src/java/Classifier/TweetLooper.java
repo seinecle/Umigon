@@ -4,12 +4,14 @@
  */
 package Classifier;
 
+import Twitter.ResultsExporter;
 import Twitter.Tweet;
 import Utils.Clock;
 import com.cybozu.labs.langdetect.LangDetectException;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multisets;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -43,7 +45,7 @@ public class TweetLooper {
         originalNumberTweet = setTweets.size();
     }
 
-    public ArrayList<Tweet> applyLevel1(boolean loadFromTrainingFile) throws LangDetectException {
+    public ArrayList<Tweet> applyLevel1(boolean loadFromTrainingFile) throws LangDetectException, IOException {
 
         ClassifierMachine cm = new ClassifierMachine(loadFromTrainingFile);
         setTweets = cm.classify(setTweets);
@@ -53,6 +55,8 @@ public class TweetLooper {
 
         Clock reportClock = new Clock("generating report");
 
+//        ResultsExporter io = new ResultsExporter(setTweets, "D:\\Docs Pro Clement\\E-projects\\SEMEVAL 2013\\task2-Umigon-B-Twitter-constrained.output");
+//        io.writeSemeValOutput();
 
         setTweetsIterator = setTweets.iterator();
         Multiset<String> multisetCategories = HashMultiset.create();
@@ -60,6 +64,7 @@ public class TweetLooper {
         int tweetsWithoutCategory = 0;
         while (setTweetsIterator.hasNext()) {
             tweet = setTweetsIterator.next();
+
 
 
             if (printAllTweets) {
@@ -70,16 +75,7 @@ public class TweetLooper {
             if (tweet.getSetCategories().isEmpty()) {
                 tweetsWithoutCategory++;
             }
-            if (tweet.getSetCategories().contains("011") & tweet.getSetCategoriesToString().contains("012")) {
-//                System.out.println("tweet with mixed sentiments: "+tweet.getText());
-                tweet.deleteFromSetCategories("011");
-            }
 
-
-            if (tweet.getSetCategories().contains("011") & !tweet.getSetCategoriesToString().contains("061")) {
-//                System.out.println("positive tweets without promotion: (user: "+tweet.getUser()+") "+tweet.getText());
-                tweet.addToSetCategories("0111",-1);
-            }
 
 //            if (tweet.getSetCategories().contains("0621")) {
 //                System.out.println("facts: (user: " + tweet.getUser() + ") " + tweet.getText());

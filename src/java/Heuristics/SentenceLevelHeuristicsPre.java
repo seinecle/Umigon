@@ -4,7 +4,6 @@
  */
 package Heuristics;
 
-import Heuristics.Heuristic;
 import Twitter.Tweet;
 import Admin.ControllerBean;
 import org.apache.commons.lang3.StringUtils;
@@ -20,7 +19,7 @@ public class SentenceLevelHeuristicsPre {
     private Heuristic heuristic;
 
     public SentenceLevelHeuristicsPre(Tweet tweet, String status) {
-        this.status = status;
+        this.status = status.toLowerCase();
         this.tweet = tweet;
     }
 
@@ -51,64 +50,222 @@ public class SentenceLevelHeuristicsPre {
     public void containsOnomatopaes() {
         //awwww
         int index = 0;
-        boolean res = status.matches(".*aww+.*");
+        boolean res = status.matches(".*aww+(?s).*");
         if (res) {
             index = status.indexOf("aww");
             tweet.addToSetCategories("011", index);
+            if (status.endsWith("ww")) {
+                tweet.setFinalNote(1);
+            }
         }
         //yesssss
-        res = status.toLowerCase().matches(".*yess+.*");
+        res = status.toLowerCase().matches(".*yess+(?s).*");
         if (res) {
             index = status.indexOf("yess");
             tweet.addToSetCategories("011", index);
+            if (status.endsWith("sss")) {
+                tweet.setFinalNote(1);
+            }
         }
+
         //ewwww
-        res = status.toLowerCase().matches(".*[^n]eww+.*");
+        res = status.toLowerCase().matches(".*[^n]eww+(?s).*");
         if (res) {
             index = status.indexOf("eww");
             tweet.addToSetCategories("012", index);
+            if (status.endsWith("w")) {
+                tweet.setFinalNote(-1);
+            }
         }
+
         //arrrgh
-        res = status.toLowerCase().matches(".*arr+g.*");
+        res = status.toLowerCase().matches(".*arr+g(?s).*");
         if (res) {
             index = status.indexOf("arr");
             tweet.addToSetCategories("012", index);
+            if (status.endsWith("gh")) {
+                tweet.setFinalNote(-1);
+            }
         }
+
+        //ouchhh
+        res = status.toLowerCase().matches(".*ou+ch+(?s).*");
+        if (res) {
+            index = status.indexOf("ouch");
+            tweet.addToSetCategories("012", index);
+            if (status.endsWith("h")) {
+                tweet.setFinalNote(-1);
+            }
+        }
+
+        //yaaaay
+        res = status.toLowerCase().matches(".*ya+y(?s).*");
+        if (res) {
+            index = status.indexOf("ya");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith("ay")) {
+                tweet.setFinalNote(1);
+            }
+        }
+        //yeeeey
+        res = status.toLowerCase().matches(".*ye+y(?s).*");
+        if (res) {
+            index = status.indexOf("ye");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith("ey")) {
+                tweet.setFinalNote(1);
+            }
+        }
+
         //ahahaha
-        res = status.toLowerCase().matches(".*haha.*");
+        res = status.toLowerCase().matches(".*haha(?s).*");
         if (res) {
             index = status.indexOf("haha");
             tweet.addToSetCategories("011", index);
+            if (status.endsWith("aha")) {
+                tweet.setFinalNote(1);
+            }
+
         }
+
         //LMFAO
-        res = status.toLowerCase().matches(".*lmfao+.*");
+        res = status.toLowerCase().matches(".*lmfao+(?s).*");
         if (res) {
             index = status.indexOf("lmfao");
             tweet.addToSetCategories("011", index);
+            if (status.endsWith("lmfao")) {
+                tweet.setFinalNote(1);
+            }
         }
+
         //LMAO
-        res = status.toLowerCase().matches(".*lmao+.*");
+        res = status.toLowerCase().matches(".*lmao+(?s).*");
         if (res) {
             index = status.indexOf("lmao");
             tweet.addToSetCategories("011", index);
+            if (status.endsWith("lmao")) {
+                tweet.setFinalNote(1);
+            }
         }
+
         //yeaaaa
-        res = status.toLowerCase().matches(".*yeaa+.*");
+        res = status.toLowerCase().matches(".*yeaa+(?s).*");
         if (res) {
             index = status.indexOf("yeaa");
             tweet.addToSetCategories("011", index);
+            if (status.endsWith("aa")) {
+                tweet.setFinalNote(1);
+            }
         }
+
+        //yuumm
+        res = status.toLowerCase().matches(".*yu+m+(?s).*");
+        if (res) {
+            index = status.indexOf("yu");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith("m")) {
+                tweet.setFinalNote(1);
+            }
+        }
+
         //yeeeee
-        res = status.toLowerCase().matches(".*yeee+.*");
+        res = status.toLowerCase().matches(".*yeee+(?s).*");
         if (res) {
             index = status.indexOf("yeee");
             tweet.addToSetCategories("011", index);
+            if (status.endsWith("eee")) {
+                tweet.setFinalNote(1);
+            }
         }
-        //noooooo
-        res = status.toLowerCase().matches(".*nooo+.*");
+
+        //whyyyy
+        res = status.toLowerCase().matches(".*whyy+(?s).*");
         if (res) {
-            index = status.indexOf("noo");
+            index = status.indexOf("why");
             tweet.addToSetCategories("012", index);
+            if (status.endsWith("yy")) {
+                tweet.setFinalNote(-1);
+            }
+        }
+
+        //helppp
+        res = status.toLowerCase().matches(".*helpp+(?s).*");
+        if (res) {
+            index = status.indexOf("help");
+            tweet.addToSetCategories("012", index);
+            if (status.endsWith("pp")) {
+                tweet.setFinalNote(-1);
+            }
+        }
+
+        //noooo
+        res = status.toLowerCase().matches(".* nooo+(?s).*");
+        if (res) {
+            index = status.indexOf("nooo");
+            tweet.addToSetCategories("012", index);
+            if (status.endsWith("ooo")) {
+                tweet.setFinalNote(-1);
+            }
+        }
+
+        //wuhuu
+        res = status.toLowerCase().matches(".*wu+hu+(?s).*");
+        if (res) {
+            index = status.indexOf("wu");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith("uu")) {
+                tweet.setFinalNote(1);
+            }
+        }
+
+        //buhuu
+        res = status.toLowerCase().matches(".*bu+hu+(?s).*");
+        if (res) {
+            index = status.indexOf("bu");
+            tweet.addToSetCategories("012", index);
+            if (status.endsWith("uu")) {
+                tweet.setFinalNote(-1);
+            }
+        }
+
+        //boooo
+        res = status.toLowerCase().matches(".* booo+(?s).*");
+        if (res) {
+            index = status.indexOf("booo");
+            tweet.addToSetCategories("012", index);
+            if (status.endsWith("ooo")) {
+                tweet.setFinalNote(-1);
+            }
+        }
+
+        //uuuugh
+        res = status.toLowerCase().matches(".*u+gh+(?s).*");
+        if (res) {
+            index = status.indexOf("uu");
+            tweet.addToSetCategories("012", index);
+            if (status.endsWith("h")) {
+                tweet.setFinalNote(-1);
+            }
+        }
+
+        //woohoo
+        res = status.toLowerCase().matches(".*wo+ho+(?s).*");
+        if (res) {
+            index = status.indexOf("wo");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith("oo")) {
+                tweet.setFinalNote(1);
+            }
+        }
+
+        //yaaaaahooooo
+        res = status.toLowerCase().matches(".*ya+ho+(?s).*");
+        if (res) {
+            index = status.indexOf("ya");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith("oo")) {
+                tweet.setFinalNote(1);
+            }
         }
     }
 
@@ -116,166 +273,290 @@ public class SentenceLevelHeuristicsPre {
         int index = 0;
 
         //multiple exclamation marks
-        boolean res = status.matches(".*!!+.*");
+        boolean res = status.matches(".*!!+(?s).*");
         if (res) {
             index = status.indexOf("!!");
             tweet.addToSetCategories("022", index);
         }
 
+        //heart ☺
+        res = status.matches(".*☺+(?s).*");
+        if (res) {
+            index = status.indexOf("☺");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith("☺")) {
+                tweet.setFinalNote(1);
+            }
+        }
+
+        //heart &lt;3
+        res = status.matches(".*&lt;3(?s).*");
+        if (res) {
+            index = status.indexOf("&lt;3");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith("&lt;3")) {
+                tweet.setFinalNote(1);
+            }
+        }
+
+        //heart ♥
+        res = status.matches(".*♥+(?s).*");
+        if (res) {
+            index = status.indexOf("♥");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith("♥")) {
+                tweet.setFinalNote(1);
+            }
+        }
+
+        //heart <3
+        res = status.matches(".*<3+(?s).*");
+        if (res) {
+            index = status.indexOf("<3");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith("3")) {
+                tweet.setFinalNote(1);
+            }
+        }
+
         //smiley :)
-        res = status.matches(".*:\\)+.*");
+        res = status.matches(".*:\\)+(?s).*");
         if (res) {
             index = status.indexOf(":)");
             tweet.addToSetCategories("011", index);
-        }
-
-        //smiley : )
-        res = status.matches(".*: \\)+.*");
-        if (res) {
-            index = status.indexOf(": )");
-            tweet.addToSetCategories("011", index);
-        }
-
-        //smiley :]
-        res = status.matches(".*:\\]+.*");
-        if (res) {
-            index = status.indexOf(":]");
-            tweet.addToSetCategories("011", index);
-        }
-
-        //smiley ^__^
-        res = status.matches(".*\\^_+\\^.*");
-        if (res) {
-            index = status.indexOf("^_");
-            tweet.addToSetCategories("011", index);
-        }
-
-        //smiley :O
-        res = status.matches(".*:O .*");
-        if (res) {
-            index = status.indexOf(":O");
-            tweet.addToSetCategories("011", index);
-        }
-
-        //smiley ;p
-        res = status.matches(".*;p+.*");
-        if (res) {
-            index = status.indexOf(";p");
-            tweet.addToSetCategories("011", index);
-        }
-
-        //smiley :-p
-        res = status.matches(".*:-p+.*");
-        if (res) {
-            index = status.indexOf(":-p");
-            tweet.addToSetCategories("011", index);
-        }
-
-        //smiley :|
-        res = status.matches(".*:\\|+.*");
-        if (res) {
-            index = status.indexOf(":|");
-            tweet.addToSetCategories("012", index);
-        }
-
-        //smiley :/
-        res = status.matches(".*:/+.*");
-        if (res) {
-            index = status.indexOf(":/");
-            tweet.addToSetCategories("012", index);
-        }
-
-        //smiley =(
-        res = status.matches(".*=\\(+.*");
-        if (res) {
-            index = status.indexOf("=(");
-            tweet.addToSetCategories("012", index);
-        }
-
-        //smiley : )
-        res = status.matches(".*: \\)+.*");
-        if (res) {
-            index = status.indexOf(": )");
-            tweet.addToSetCategories("011", index);
+            if (status.endsWith(":)") || status.endsWith(":))") || status.endsWith(":)))")) {
+                tweet.setFinalNote(1);
+            }
         }
 
         //smiley :-)
-        res = status.matches(".*:-\\)+.*");
+        res = status.matches(".*:-\\)+(?s).*");
         if (res) {
             index = status.indexOf(":-)");
             tweet.addToSetCategories("011", index);
+            if (status.endsWith(":-)") || status.endsWith(":-))") || status.endsWith(":-)))")) {
+                tweet.setFinalNote(1);
+            }
         }
 
-        //smiley :-(
-        res = status.matches(".*:-\\(+.*");
+        //smiley : )
+        res = status.matches(".*: \\)+(?s).*");
         if (res) {
-            index = status.indexOf(":-(");
-            tweet.addToSetCategories("012", index);
+            index = status.indexOf(": )");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith(": )") || status.endsWith(": ))") || status.endsWith(": )))")) {
+                tweet.setFinalNote(1);
+            }
+
         }
 
-        //smiley :-/
-        res = status.matches(".*:-/+.*");
+        //smiley :]
+        res = status.matches(".*:\\]+(?s).*");
         if (res) {
-            index = status.indexOf(":-/");
-            tweet.addToSetCategories("012", index);
+            index = status.indexOf(":]");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith(":]") || status.endsWith(":]]")) {
+                tweet.setFinalNote(1);
+            }
+
         }
 
-        //smiley :'(
-        res = status.matches(".*:'\\(+.*");
+        //smiley ^__^
+        res = status.matches(".*\\^_*\\^(?s).*");
         if (res) {
-            index = status.indexOf(":'(");
-            tweet.addToSetCategories("012", index);
+            index = status.indexOf("^");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith("^")) {
+                tweet.setFinalNote(1);
+            }
         }
 
-        //smiley :(
-        res = status.matches(".*:\\(+.*");
+        //smiley :O
+        res = status.matches(".*:o (?s).*");
         if (res) {
-            index = status.indexOf(":(");
-            tweet.addToSetCategories("012", index);
+            index = status.indexOf(":o");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith(":o")) {
+                tweet.setFinalNote(1);
+            }
+        }
+
+        //smiley xD
+        res = status.matches(".*:d(?s).*");
+        if (res) {
+            index = status.indexOf("xD");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith(":d")) {
+                tweet.setFinalNote(1);
+            }
+        }
+
+        //smiley ;p
+        res = status.matches(".*;p+(?s).*");
+        if (res) {
+            index = status.indexOf(";p");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith(";p")) {
+                tweet.setFinalNote(1);
+            }
+        }
+
+        //smiley :-p
+        res = status.matches(".*:-p+(?s).*");
+        if (res) {
+            index = status.indexOf(":-p");
+            tweet.addToSetCategories("011", index);
+            if (status.endsWith(":-p")) {
+                tweet.setFinalNote(1);
+            }
         }
 
         //smiley (:
-        res = status.matches(".*\\(:+.*");
+        res = status.matches(".*\\(:+(?s).*");
         if (res) {
             index = status.indexOf("(:");
             tweet.addToSetCategories("011", index);
+            if (status.endsWith("(:")) {
+                tweet.setFinalNote(1);
+            }
         }
 
+
         //smiley ;)
-        res = status.matches(".*;\\)+.*");
+        res = status.matches(".*;\\)+(?s).*");
         if (res) {
             index = status.indexOf(";)");
             tweet.addToSetCategories("011", index);
+            if (status.endsWith(";)") || status.endsWith(";))") || status.endsWith(";)))")) {
+                tweet.setFinalNote(1);
+            }
         }
 
         //smiley :D
-        res = status.matches(".*:D.*");
+        res = status.matches(".*:d(?s).*");
         if (res) {
-            index = status.indexOf(":D");
+            index = status.indexOf(":d");
             tweet.addToSetCategories("011", index);
+            if (status.endsWith(":d")) {
+                tweet.setFinalNote(1);
+            }
+
         }
 
+
+        //smiley :|
+        res = status.matches(".*:\\|+(?s).*");
+        if (res) {
+            index = status.indexOf(":|");
+            tweet.addToSetCategories("012", index);
+            if (status.endsWith(":|")) {
+                tweet.setFinalNote(-1);
+            }
+        }
+
+        //smiley :S
+        res = status.matches(".*:S(?s).*");
+        if (res) {
+            index = status.indexOf(":S");
+            tweet.addToSetCategories("012", index);
+            if (status.endsWith(":S")) {
+                tweet.setFinalNote(-1);
+            }
+        }
+
+
+        //smiley =(
+        res = status.matches(".*=\\(+(?s).*");
+        if (res) {
+            index = status.indexOf("=(");
+            tweet.addToSetCategories("012", index);
+            if (status.endsWith("=(") || status.endsWith("=((") || status.endsWith("=(((")) {
+                tweet.setFinalNote(-1);
+            }
+
+        }
+
+
+        //smiley :-(
+        res = status.matches(".*:-\\(+(?s).*");
+        if (res) {
+            index = status.indexOf(":-(");
+            tweet.addToSetCategories("012", index);
+            if (status.endsWith(":-(") || status.endsWith(":-((") || status.endsWith(":-(((")) {
+                tweet.setFinalNote(-1);
+            }
+        }
+
+        //smiley :-/
+        res = status.matches(".*:-/+(?s).*");
+        if (res) {
+            index = status.indexOf(":-/");
+            tweet.addToSetCategories("012", index);
+            if (status.endsWith(":-/") || status.endsWith(":-//") || status.endsWith(":-///")) {
+                tweet.setFinalNote(-1);
+            }
+        }
+
+        //smiley :'(
+        res = status.matches(".*:'\\(+(?s).*");
+        if (res) {
+            index = status.indexOf(":'(");
+            tweet.addToSetCategories("012", index);
+            if (status.endsWith(":'(") || status.endsWith(":'((") || status.endsWith(":'(((")) {
+                tweet.setFinalNote(-1);
+            }
+
+        }
+
+        //smiley :(
+        res = status.matches(".*:\\(+(?s).*");
+        if (res) {
+            index = status.indexOf(":(");
+            tweet.addToSetCategories("012", index);
+            if (status.endsWith(":(") || status.endsWith(":((") || status.endsWith(":(((")) {
+                tweet.setFinalNote(-1);
+            }
+        }
+
+        //smiley :/
+        res = status.matches(".*:/+(?s).*");
+        if (res) {
+            index = status.indexOf(":/");
+            tweet.addToSetCategories("012", index);
+            if (status.endsWith(":/") || status.endsWith("://") || status.endsWith(":///")) {
+                tweet.setFinalNote(-1);
+            }
+        }
+
+
         //question mark
-        res = status.matches(".*\\?+.*");
+        res = status.matches(".*\\?+(?s).*");
         if (res) {
             index = status.indexOf("?");
             tweet.addToSetCategories("040", index);
         }
 
-        //question mark with exclamation: ?!
-        res = status.matches(".*\\?+\\!+.*");
-        if (res) {
-            index = status.indexOf("?!");
-            tweet.addToSetCategories("012", index);
-        }
 
-        //kisses
-        res = status.toLowerCase().matches(".*xx+.*");
+
+        //kisses xxx
+        res = status.matches(".*xx+(?s).*");
         if (res) {
             index = status.indexOf("xx");
             tweet.addToSetCategories("011", index);
+            if (status.endsWith("xx")) {
+                tweet.setFinalNote(1);
+            }
         }
 
+        //kisses xoxoxo
+        res = status.matches(".*(xo)\\1{1,}x*o*(?s).*");
+        if (res) {
+            index = status.indexOf("xo");
+            tweet.addToSetCategories("011", index);
+        }
+        if (status.endsWith("xo") || status.endsWith("ox")) {
+            tweet.setFinalNote(1);
+        }
     }
 
     public void containsTimeIndication() {
@@ -286,7 +567,7 @@ public class SentenceLevelHeuristicsPre {
                 String result = heuristic.checkFeatures(status, term);
                 if (result != null) {
                     index = status.indexOf(term);
-                    tweet.addToSetCategories(result,index);
+                    tweet.addToSetCategories(result, index);
                 }
             }
         }
@@ -300,13 +581,13 @@ public class SentenceLevelHeuristicsPre {
 
     public void isAClientTweet() {
         if (tweet.getUser().toLowerCase().equals(ControllerBean.getClient())) {
-            tweet.addToSetCategories("0612",-1);
+            tweet.addToSetCategories("0612", -1);
         }
     }
 
     public void isARetweetOfAClientTweet() {
         if (status.toLowerCase().contains("rt @" + ControllerBean.getClient())) {
-            tweet.addToSetCategories("06121",-1);
+            tweet.addToSetCategories("06121", -1);
         }
     }
 }

@@ -9,9 +9,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.ArrayList;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
  *
@@ -87,8 +86,33 @@ public class ExternalSourceTweetLoader {
         return setTweets;
     }
 
+    public ArrayList<Tweet> semevalTestSetLoader() throws FileNotFoundException, IOException {
+        String fieldDelimiter = "\t";
+        String textDelimiter = "\"";
+        String fileName = "D:\\Docs Pro Clement\\E-projects\\SEMEVAL 2013\\twitter-test-input-B.tsv";
+        CsvReader csvReader = new CsvReader(new BufferedReader(new FileReader(fileName)), fieldDelimiter.charAt(0));
+        csvReader.setTextQualifier(textDelimiter.charAt(0));
+        csvReader.setUseTextQualifier(false);
+        Tweet tweet;
+        String[] values;
+        ArrayList<Tweet> setTweets = new ArrayList();
+        int counter = 0;
+        String text;
+        while (csvReader.readRecord()) {
+            values = csvReader.getValues();
+            tweet = new Tweet();
+            text = StringEscapeUtils.unescapeJava(values[3]);
+            tweet.setSemevalId(values[1]);
+            tweet.setText(text);
+            setTweets.add(tweet);
+            counter++;
+
+        }
+        return setTweets;
+    }
+
     public ArrayList<Tweet> clementTestTweetsLoader(int max) throws FileNotFoundException, IOException {
-        String fieldDelimiter = ",";
+        String fieldDelimiter = "\t";
         String textDelimiter = "\"";
         String fileName = "D:\\Docs Pro Clement\\E-humanities\\Sentiment Analysis\\datasets\\myTests.csv";
         CsvReader csvReader = new CsvReader(new BufferedReader(new FileReader(fileName)), fieldDelimiter.charAt(0));
@@ -112,7 +136,8 @@ public class ExternalSourceTweetLoader {
     }
 
     public ArrayList<Tweet> userInputTweets(String userInput) {
-        String sep = System.getProperty("line.separator");
+        String sep = "\n";
+        System.out.println("user input: " + userInput);
         String[] userTweets = userInput.split(sep);
         Tweet tweet;
         String[] values;

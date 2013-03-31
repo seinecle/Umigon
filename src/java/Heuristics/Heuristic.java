@@ -1,11 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Heuristics;
 
 import RuleInterpreter.Interpreter;
-import TextCleaning.StatusCleaner;
 import Admin.ControllerBean;
 import com.google.common.collect.Multimap;
 import java.util.ArrayList;
@@ -23,14 +18,9 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Heuristic {
 
-    public enum feature1 {
-
-        isNextWordAnOpinion
-    }
     private String term;
     private Multimap<String, Set<String>> mapFeatures;
     private String rule;
-    private StatusCleaner statusCleaner;
 
     public Heuristic(String term, Multimap mapFeatures, String rule) {
         this.term = term;
@@ -73,6 +63,10 @@ public class Heuristic {
 
         HashMap<String, Boolean> conditions = new HashMap();
         boolean outcome;
+        String termOrigCasePreserved = termOrig;
+        termOrig = termOrig.toLowerCase();
+        String statusOrigCasePreserved = status;
+        status = status.toLowerCase();
         if (mapFeatures == null || mapFeatures.isEmpty()) {
 //            System.out.println("no feature, returning a simple digit");
             return rule;
@@ -124,7 +118,7 @@ public class Heuristic {
                 outcome = opposite ? !isQuestionMarkAtEndOfStatus(status) : isQuestionMarkAtEndOfStatus(status);
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
             } else if (feature.getKey().contains("isAllCaps")) {
-                outcome = opposite ? !isAllCaps(termOrig) : isAllCaps(termOrig);
+                outcome = opposite ? !isAllCaps(termOrigCasePreserved) : isAllCaps(termOrigCasePreserved);
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
             } else if (feature.getKey().contains("isImmediatelyPrecededByANegation")) {
                 outcome = opposite ? !isImmediatelyPrecededByANegation(status, termOrig) : isImmediatelyPrecededByANegation(status, termOrig);
@@ -136,36 +130,22 @@ public class Heuristic {
                 outcome = opposite ? !isImmediatelyPrecededByPositive(status, termOrig) : isImmediatelyPrecededByPositive(status, termOrig);
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
             } else if (feature.getKey().contains("isFirstLetterCapitalized")) {
-                outcome = opposite ? !isFirstLetterCapitalized(termOrig) : isFirstLetterCapitalized(termOrig);
+                outcome = opposite ? !isFirstLetterCapitalized(termOrigCasePreserved) : isFirstLetterCapitalized(termOrigCasePreserved);
                 conditions.put(StringUtils.substring(alphabet, count, (count + 1)), outcome);
             }
             count++;
-//            System.out.println("termOrig: " + termOrig);
-
         }
-
-
         Interpreter interpret = new Interpreter();
         String result = interpret.interprete(rule, conditions);
-//        if (termOrig.equals("Learn")) {
-//            System.out.println("result: " + result);
-//        }
-
         return result;
-//        System.out.println("result returned in the heuristic checker: " + result);
-//        System.out.println("features:");
-//        for (String feature : features) {
-//            System.out.println("feature: \"" + feature + "\"");
-//        }
-
     }
 
     public boolean isImmediatelyFollowedByAnOpinion(String status, String termOrig) {
-//        System.out.println("status: " + status);
-//        System.out.println("term: " + term);
-
         int indexTerm = status.indexOf(termOrig);
-//        System.out.println("index of term: " + indexTerm);
+        if (indexTerm == -1) {
+            System.out.println("status: " + status);
+            System.out.println("termOrig: " + termOrig);
+        }
         String temp = status.substring(indexTerm).trim();
         String[] tempArray = temp.split(" ");
         if (tempArray.length < 2) {
@@ -179,11 +159,7 @@ public class Heuristic {
     }
 
     public boolean isFollowedByAPositiveOpinion(String status, String termOrig) {
-//        System.out.println("status: " + status);
-//        System.out.println("term: " + term);
-
         int indexTerm = status.indexOf(termOrig);
-//        System.out.println("index of term: " + indexTerm);
         String temp = status.substring(indexTerm).trim();
 
         for (String positiveTerm : ControllerBean.Hloader.getMapH1().keySet()) {
@@ -195,10 +171,7 @@ public class Heuristic {
     }
 
     public boolean isImmediatelyFollowedByAPositiveOpinion(String status, String termOrig) {
-//        System.out.println("status: " + status);
-//        System.out.println("term: " + term);
         int indexTerm = status.indexOf(termOrig);
-//        System.out.println("index of term: " + indexTerm);
         String temp = status.substring(indexTerm).trim();
         String[] tempArray = temp.split(" ");
         if (tempArray.length < 2) {
@@ -211,12 +184,7 @@ public class Heuristic {
     }
 
     public boolean isImmediatelyFollowedByTimeIndication(String status, String termOrig) {
-//        if (status.contains(" imploded this morning") & termOrig.equals("this")) {
-//            System.out.println("status: " + status);
-//            System.out.println("term: " + term);
-//        }
         int indexTerm = status.indexOf(termOrig);
-//        System.out.println("index of term: " + indexTerm);
         String temp = status.substring(indexTerm).trim();
         String[] tempArray = temp.split(" ");
         if (tempArray.length < 2) {
@@ -224,17 +192,13 @@ public class Heuristic {
         } else {
             temp = tempArray[1].trim();
         }
-//        System.out.println("next term: " + temp);
         boolean result = (ControllerBean.Hloader.getSetTimeTokens().contains(temp))
                 ? true : false;
-
-//        System.out.println("result: " + result);
         return result;
     }
 
     public boolean isImmediatelyFollowedByVerbPastTense(String status, String termOrig) {
         String temp = status.substring(status.indexOf(termOrig)).trim();
-        //        System.out.println("temp: " + temp);
         boolean pastTense;
         String[] nextTerms = temp.split(" ");
         if (nextTerms.length > 1) {
@@ -256,7 +220,6 @@ public class Heuristic {
 
     public boolean isImmediatelyFollowedBySpecificTerm(String status, String termOrig, Set<String> parameters) {
         String temp = status.substring(status.indexOf(termOrig)).trim();
-        //        System.out.println("temp: " + temp);
         String[] nextTerms = temp.split(" ");
         if (nextTerms.length > 1) {
             temp = nextTerms[1].trim();
@@ -266,14 +229,19 @@ public class Heuristic {
                 }
             }
             return false;
-
         } else {
             return false;
         }
     }
 
     public boolean isFollowedBySpecificTerm(String status, String termOrig, Set<String> parameters) {
-        String temp = status.substring(status.indexOf(termOrig)).trim();
+        int indexTerm = status.indexOf(termOrig);
+        if (indexTerm == -1) {
+            System.out.println("status: " + status);
+            System.out.println("termOrig: " + termOrig);
+        }
+
+        String temp = status.substring(indexTerm).trim();
         for (String candidate : parameters) {
             if (temp.contains(candidate)) {
                 return true;
@@ -282,19 +250,7 @@ public class Heuristic {
         return false;
     }
 
-    public boolean isNotFollowedBySpecificTerm(String status, String termOrig, Set<String> parameters) {
-        String temp = status.substring(status.indexOf(termOrig)).trim();
-        for (String candidate : parameters) {
-            if (temp.contains(candidate)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public boolean isHashtagStart(String termOrig) {
-//        System.out.println("termOrig (hashtag contained in the curr tweet): " + termOrig);
-//        System.out.println("term (term contained in the sheet 13 of the Excel sheet of heuristics): " + term);
         return (termOrig.startsWith(term)) ? true : false;
     }
 
@@ -329,9 +285,6 @@ public class Heuristic {
     }
 
     public boolean isQuestionMarkAtEndOfStatus(String status) {
-//        if (term.equals("Is") & status.contains("service model")) {
-//            System.out.println("here!");
-//        } F
         List<String> terms = new ArrayList();
         Collections.addAll(terms, status.split(" "));
         StringBuilder sb = new StringBuilder();
@@ -359,74 +312,43 @@ public class Heuristic {
         return (StringUtils.isAllUpperCase(temp)) ? true : false;
     }
 
-    public boolean isNotAllCaps(String termOrig) {
-        return (StringUtils.isAllUpperCase(StringUtils.remove(termOrig, " "))) ? false : true;
-    }
-
     public boolean isImmediatelyPrecededByANegation(String status, String termOrig) {
         term = term.toLowerCase();
         int indexTerm = StringUtils.indexOf(status, term);
         String[] temp = StringUtils.left(status, indexTerm).split(" ");
-//        if (term.equals("successful.") & status.contains("for any")) {
-//        System.out.println("status: " + status);
-//        System.out.println("term: " + term);
-//        System.out.println("temp[temp.length - 1]: " + temp[temp.length - 1]);
-//        if (temp.length > 1) {
-//            System.out.println("temp[temp.length - 2]: " + temp[temp.length - 2]);
-//        }
-//        System.out.println("temp: " + temp.toString());
-//        }
 
         //if the array is empty it means that the term is the first of the status;
         if (temp.length == 0) {
-//            System.out.println("returning false");
             return false;
             //in this case the term is the second in the status. If the previous one is a negative word, return true (as in "like" being preceded by "don't") 
         } else if (temp.length == 1) {
-//            System.out.println("temp length ==1");
             boolean res = ControllerBean.Hloader.setNegations.contains(temp[0]) ? true : false;
-//            System.out.println("res: " + res);
             return res;
             //in this case the term is preceded by many other terms. We just check the three previous ones.    
         } else if (temp.length == 2) {
-//            System.out.println("temp length ==2");
             if (ControllerBean.Hloader.setNegations.contains(temp[temp.length - 1])) {
                 return true;
             }
-
             //in the case of "don't really like", return true
             if (ControllerBean.Hloader.getMapH3().containsKey(temp[temp.length - 1]) & ControllerBean.Hloader.setNegations.contains(temp[temp.length - 2])) {
-//                System.out.println("returning true in the don't really like case");
                 return true;
             }
             //in the case of "not the hottest", return true
             String concat = temp[0] + " " + temp[1];
             boolean res = (ControllerBean.Hloader.setNegations.contains(concat)) ? true : false;
-//            System.out.println("returning in the concat version: " + res);
             return res;
         } else if (temp.length > 2) {
-//            System.out.println("temp length >2");
-            //in the case of "don't really like", return true
-
             if (ControllerBean.Hloader.setNegations.contains(temp[temp.length - 1])) {
-//                System.out.println("returning true here...");
                 return true;
             }
-//            System.out.println("res: " + res);
-
-
             if (ControllerBean.Hloader.getMapH3().containsKey(temp[temp.length - 1]) & ControllerBean.Hloader.setNegations.contains(temp[temp.length - 2])) {
-//                System.out.println("returning true here!");
                 return true;
             }
             //in the case of "not the hottest", return true
             String concat = temp[temp.length - 2] + " " + temp[temp.length - 1];
-//            System.out.println("concat result!: " + concat.trim());
             boolean res = (ControllerBean.Hloader.setNegations.contains(concat)) ? true : false;
-//            System.out.println("res at the concat level: " + res);
             return res;
         }
-//        System.out.println("returning false here!");
         return false;
     }
 
@@ -447,7 +369,6 @@ public class Heuristic {
         }
         status = sb.toString().trim();
         boolean res = status.startsWith(termOrig) ? true : false;
-//        System.out.println("result: " + res);
         return res;
     }
 }

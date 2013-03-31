@@ -31,7 +31,6 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import twitter4j.TwitterException;
 
@@ -55,9 +54,10 @@ public class ControllerBean implements Serializable {
     private boolean loadFromTrainingFile = true;
     private boolean bigTrainingFile = false;
     private boolean clementTests = false;
+    private boolean semevalTestSet = true;
     private boolean dev = false;
     private int maxTweets = 10000000;
-    private String termFilter = "but ";
+    private String termFilter = "";
     private String dummy;
     private Query<Tweet> updateQuery;
     private UpdateOperations<Tweet> ops;
@@ -168,11 +168,13 @@ public class ControllerBean implements Serializable {
                     setTweets = comp.sentimentBigSetLoader(maxTweets, termFilter);
                 } else if (clementTests) {
                     setTweets = comp.clementTestTweetsLoader(maxTweets);
+                } else if (semevalTestSet) {
+                    setTweets = comp.semevalTestSetLoader();
                 } else {
                     setTweets = comp.sentiment140Loader();
                 }
                 System.out.println("------------------------------------------------");
-                System.out.println("tweets from training file: " + setTweets.size());
+                System.out.println("tweets from loaded file: " + setTweets.size());
                 hl1 = new TweetLooper(setTweets);
                 hl1.applyLevel1(loadFromTrainingFile);
             }

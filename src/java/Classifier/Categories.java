@@ -69,7 +69,7 @@ public class Categories {
         // *** 6 *** topic
         //
         mapCategories.put("060", "neutral topic");
-        mapCategories.put("061", "commercial / promoted");
+        mapCategories.put("061", "commercial tone / promoted");
         mapCategories.put("0611", "commercial offer");
         mapCategories.put("0612", "tweeted by the client");
         mapCategories.put("06121", "a retweet of the client's tweet");

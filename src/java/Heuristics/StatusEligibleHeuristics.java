@@ -5,7 +5,6 @@
 package Heuristics;
 
 import Twitter.Tweet;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -15,8 +14,6 @@ public class StatusEligibleHeuristics {
 
     private String status;
     private Tweet tweet;
-    private Heuristic heuristic;
-    final private String punctuation = "[\\!\\?\\.'\\\\\"\\-,\\(\\)\\#=]+";
 
     public StatusEligibleHeuristics(Tweet tweet, String status) {
         this.status = status;

@@ -43,10 +43,13 @@ public class Tweet implements Serializable {
     private Multimap<String, Integer> mapCategoriesToIndex;
     private boolean isPositive;
     private boolean isNegative;
+    private Integer finalNote;
+    private String semevalId;
 
     public Tweet() {
         setCategories = new TreeSet();
         mapCategoriesToIndex = HashMultimap.create();
+        this.trainingSetCat="";
 
         this.user = "";
     }
@@ -238,10 +241,14 @@ public class Tweet implements Serializable {
     public void setIsNegative(boolean isNegative) {
         this.isNegative = isNegative;
     }
-    
-    
-    
-    
+
+    public Integer getFinalNote() {
+        return finalNote;
+    }
+
+    public void setFinalNote(int finalNote) {
+        this.finalNote = finalNote;
+    }
 
     public void setSentiment(String sentiment) {
         this.sentiment = sentiment;
@@ -262,6 +269,18 @@ public class Tweet implements Serializable {
 
     public void setOtherSemanticFeatures(String otherSemanticFeatures) {
         this.otherSemanticFeatures = otherSemanticFeatures;
+    }
+
+    public Multimap<String, Integer> getMapCategoriesToIndex() {
+        return mapCategoriesToIndex;
+    }
+
+    public String getSemevalId() {
+        return semevalId;
+    }
+
+    public void setSemevalId(String semevalId) {
+        this.semevalId = semevalId;
     }
 
     @Override

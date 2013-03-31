@@ -412,4 +412,10 @@ public class HeuristicsLoader {
     public Set<String> getSetIronicallyPositive() {
         return setIronicallyPositive;
     }
+
+    public Set<String> getSetModerators() {
+        return setModerators;
+    }
+    
+    
 }

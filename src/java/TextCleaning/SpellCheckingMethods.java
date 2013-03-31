@@ -52,7 +52,7 @@ import org.apache.commons.lang3.StringUtils;
 public class SpellCheckingMethods {
 
     public String repeatedCharacters(String currTerm) {
-        String toReturn;
+        String toReturn = currTerm;
         Integer index = null;
         Set<RepeatedLetters> setRL = new HashSet();
         int count = 1;
@@ -84,28 +84,52 @@ public class SpellCheckingMethods {
             }
         }
 
+        boolean loop = true;
+        int loopsCounter = 0;
+        while (loop) {
+            loopsCounter++;
+            if (loopsCounter > 5) {
+                break;
+            }
+            for (RepeatedLetters rl : setRL) {
+                String letter = String.valueOf(rl.getCurrChar());
+                String toReplace;
+                String subs;
+                String toBeReplaced;
 
-        for (RepeatedLetters rl : setRL) {
-            String letter = String.valueOf(rl.getCurrChar());
-            if (rl.getCount() > 2) {
+                //if two same letters are found
+                if (rl.getCount() > 1) {
+                    toBeReplaced = currTerm.substring(rl.getIndex(), rl.getIndex() + rl.getCount());
 
-                String toReplace = letter + letter;
-                String toBeReplaced = currTerm.substring(rl.getIndex(), rl.getIndex() + rl.getCount());
-                toReturn = StringUtils.replace(currTerm, toBeReplaced, toReplace);
+                    ///if these are actually 3 letters or more, test if by replacing them by 2 letters we have a match in the heuristics
+                    if (rl.getCount() > 2) {
+                        toReplace = letter + letter;
+                        subs = StringUtils.replace(toReturn, toBeReplaced, toReplace);
+                        if (ControllerBean.Hloader.getMapHeuristics().containsKey(subs.toLowerCase())) {
+                            toReturn = subs;
+                            loop = false;
+                            break;
+                        } else if (toReturn.endsWith(toReplace) && !toReturn.contains(" ")) {
+                            toReturn = StringUtils.replace(toReturn, toBeReplaced, letter);
+                            loop = true;
+                            break;
+                        }
+                    }
 
-                if (ControllerBean.Hloader.getMapHeuristics().containsKey(toReturn)) {
-                    return toReturn;
-                }
-
-                toReplace = letter;
-                toReturn = StringUtils.replace(currTerm, toBeReplaced, toReplace);
-
-                if (ControllerBean.Hloader.getMapHeuristics().containsKey(toReturn)) {
-                    return toReturn;
+                    // and maybe that if they are just one, this is a match too? (as in "boredd" meaning "bored")
+                    toReplace = letter;
+                    subs = StringUtils.replace(toReturn, toBeReplaced, toReplace);
+                    if (ControllerBean.Hloader.getMapHeuristics().containsKey(subs.toLowerCase())) {
+                        toReturn = subs;
+                        loop = false;
+                        break;
+                    }
+                } else {
+                    loop = false;
                 }
             }
         }
-        return currTerm;
+        return toReturn;
     }
 
     private class RepeatedLetters {
