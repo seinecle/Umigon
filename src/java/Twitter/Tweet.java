@@ -5,17 +5,15 @@ package Twitter;
  * and open the template in the editor.
  */
 import Classifier.Categories;
+import Utils.Pair;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import org.bson.types.ObjectId;
 import twitter4j.HashtagEntity;
 import twitter4j.Status;
@@ -36,20 +34,20 @@ public class Tweet implements Serializable {
     private long retweetCount;
     private List<String> hashtags;
     private List<String> mentions;
-    private Set<String> setCategories;
+    private List<String> listCategories;
     private String trainingSetCat;
     private String sentiment;
     private String otherSemanticFeatures;
-    private Multimap<String, Integer> mapCategoriesToIndex;
+    private ArrayList<Pair<String, Integer>> mapCategoriesToIndex;
     private boolean isPositive;
     private boolean isNegative;
     private Integer finalNote;
     private String semevalId;
 
     public Tweet() {
-        setCategories = new TreeSet();
-        mapCategoriesToIndex = HashMultimap.create();
-        this.trainingSetCat="";
+        listCategories = new ArrayList();
+        mapCategoriesToIndex = new ArrayList();
+        this.trainingSetCat = "";
 
         this.user = "";
     }
@@ -67,8 +65,8 @@ public class Tweet implements Serializable {
         for (UserMentionEntity u : status.getUserMentionEntities()) {
             this.mentions.add(u.getScreenName());
         }
-        setCategories = new HashSet();
-        mapCategoriesToIndex = HashMultimap.create();
+        listCategories = new ArrayList();
+        mapCategoriesToIndex = new ArrayList();
     }
 
     public ObjectId getId() {
@@ -84,7 +82,7 @@ public class Tweet implements Serializable {
     }
 
     public void setText(String text) {
-        this.text = text;
+        this.text = text.intern();
     }
 
     public String getUser() {
@@ -127,22 +125,22 @@ public class Tweet implements Serializable {
         this.mentions = mentions;
     }
 
-    public Set<String> getSetCategories() {
-        if (setCategories == null) {
-            setCategories = new HashSet();
+    public List<String> getListCategories() {
+        if (listCategories == null) {
+            listCategories = new ArrayList();
         }
 
-        return setCategories;
+        return listCategories;
     }
 
-    public String getSetCategoriesToString() {
-        if (setCategories == null) {
-            setCategories = new HashSet();
+    public String getListCategoriesToString() {
+        if (listCategories == null) {
+            listCategories = new ArrayList();
         }
-        if (setCategories.isEmpty()) {
+        if (listCategories.isEmpty()) {
             return "NO CATEGORY";
         }
-        Iterator<String> setCategoriesIterator = setCategories.iterator();
+        Iterator<String> setCategoriesIterator = listCategories.iterator();
         StringBuilder sb = new StringBuilder();
         String cat;
         while (setCategoriesIterator.hasNext()) {
@@ -158,14 +156,14 @@ public class Tweet implements Serializable {
         return sb.toString();
     }
 
-    public String getSetCategoriesString() {
-        if (setCategories == null) {
-            setCategories = new HashSet();
+    public String getListCategoriesString() {
+        if (listCategories == null) {
+            listCategories = new ArrayList();
         }
-        if (setCategories.isEmpty()) {
+        if (listCategories.isEmpty()) {
             return "NO CATEGORY";
         }
-        Iterator<String> setCategoriesIterator = setCategories.iterator();
+        Iterator<String> setCategoriesIterator = listCategories.iterator();
         StringBuilder sb = new StringBuilder();
         String cat;
         while (setCategoriesIterator.hasNext()) {
@@ -181,11 +179,8 @@ public class Tweet implements Serializable {
         return sb.toString();
     }
 
-    public void setSetCategoriesString() {
-    }
-
-    public void setSetCategories(Set<String> setCategories) {
-        this.setCategories = setCategories;
+    public void setListCategories(List<String> listCategories) {
+        this.listCategories = listCategories;
     }
 
     public String getTrainingSetCat() {
@@ -196,30 +191,36 @@ public class Tweet implements Serializable {
         this.trainingSetCat = trainingSetCat;
     }
 
-    public void addToSetCategories(String category, Integer indexTermOrig) {
+    public void addToListCategories(String category, Integer indexTermOrig) {
         if (category == null) {
             return;
         }
-        if (setCategories == null) {
-            setCategories = new HashSet();
+        if (listCategories == null) {
+            listCategories = new ArrayList();
         }
 
-        this.setCategories.add(category);
-        this.mapCategoriesToIndex.put(category, indexTermOrig);
+        this.listCategories.add(category);
+        this.mapCategoriesToIndex.add(new Pair(category, indexTermOrig));
     }
 
-    public void deleteFromSetCategories(String category) {
-        if (setCategories == null) {
-            setCategories = new HashSet();
+    public void deleteFromListCategories(String category) {
+        if (listCategories == null) {
+            listCategories = new ArrayList();
         }
-        setCategories.remove(category);
+        Iterator<String> catIt = listCategories.iterator();
+        while (catIt.hasNext()) {
+            String string = catIt.next();
+            if (string.equals(category)) {
+                catIt.remove();
+            }
+        }
     }
 
     public String getSentiment() {
-        if (setCategories.contains("011")) {
+        if (listCategories.contains("011")) {
             return "positive";
         }
-        if (setCategories.contains("012")) {
+        if (listCategories.contains("012")) {
             return "negative";
         } else {
             return "neutral";
@@ -227,7 +228,7 @@ public class Tweet implements Serializable {
     }
 
     public boolean isIsPositive() {
-        return setCategories.contains("011");
+        return listCategories.contains("011");
     }
 
     public void setIsPositive(boolean isPositive) {
@@ -235,7 +236,7 @@ public class Tweet implements Serializable {
     }
 
     public boolean isIsNegative() {
-        return setCategories.contains("012");
+        return listCategories.contains("012");
     }
 
     public void setIsNegative(boolean isNegative) {
@@ -256,7 +257,7 @@ public class Tweet implements Serializable {
 
     public String getOtherSemanticFeatures() {
         StringBuilder result = new StringBuilder();
-        for (String cat : setCategories) {
+        for (String cat : listCategories) {
             if (cat.equals("011") || cat.equals("012")) {
                 continue;
             } else {
@@ -271,8 +272,16 @@ public class Tweet implements Serializable {
         this.otherSemanticFeatures = otherSemanticFeatures;
     }
 
-    public Multimap<String, Integer> getMapCategoriesToIndex() {
+    public ArrayList<Pair<String, Integer>> getMapCategoriesToIndex() {
         return mapCategoriesToIndex;
+    }
+
+    public Set<Integer> getAllIndexesForCategory(String cat) {
+        Set<Integer> setIndexes = new HashSet();
+        for (Pair<String, Integer> pair : mapCategoriesToIndex) {
+            setIndexes.add(pair.getRight());
+        }
+        return setIndexes;
     }
 
     public String getSemevalId() {
@@ -285,6 +294,6 @@ public class Tweet implements Serializable {
 
     @Override
     public String toString() {
-        return "Tweet{" + "text=" + text + ", user=" + user + ", hashtags=" + hashtags + ", mentions=" + mentions + ", setCategories=" + getSetCategoriesToString() + '}';
+        return "Tweet{" + "text=" + text + ", user=" + user + ", hashtags=" + hashtags + ", mentions=" + mentions + ", setCategories=" + getListCategoriesToString() + '}';
     }
 }

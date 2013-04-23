@@ -53,10 +53,10 @@ public class ControllerBean implements Serializable {
     private boolean loadTweetsFromLocal = false;
     private boolean loadFromTrainingFile = true;
     private boolean bigTrainingFile = false;
-    private boolean clementTests = false;
-    private boolean semevalTestSet = true;
+    private boolean clementTests = true;
+    private boolean semevalTestSet = false;
     private boolean dev = false;
-    private int maxTweets = 10000000;
+    private int maxTweets = 1000000000;
     private String termFilter = "";
     private String dummy;
     private Query<Tweet> updateQuery;
@@ -139,7 +139,7 @@ public class ControllerBean implements Serializable {
                 setTweets = hl1.applyLevel1(loadFromTrainingFile);
                 for (Tweet tweet : setTweets) {
                     updateQuery = dsLocal.createQuery(Tweet.class).field("text").equal(tweet.getText());
-                    ops = dsLocal.createUpdateOperations(Tweet.class).set("setCategories", tweet.getSetCategories());
+                    ops = dsLocal.createUpdateOperations(Tweet.class).set("listCategories", tweet.getListCategories());
                     dsLocal.update(updateQuery, ops, true);
 
                 }

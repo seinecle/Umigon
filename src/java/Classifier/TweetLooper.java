@@ -68,39 +68,39 @@ public class TweetLooper {
 
 
             if (printAllTweets) {
-                System.out.println("categories " + tweet.getSetCategoriesToString());
+                System.out.println("categories " + tweet.getListCategoriesToString());
                 System.out.println(tweet.getText());
             }
 
-            if (tweet.getSetCategories().isEmpty()) {
+            if (tweet.getListCategories().isEmpty()) {
                 tweetsWithoutCategory++;
             }
 
 
-//            if (tweet.getSetCategories().contains("0621")) {
+//            if (tweet.getListCategories().contains("0621")) {
 //                System.out.println("facts: (user: " + tweet.getUser() + ") " + tweet.getText());
 //            }
 //            System.out.println("user: " + tweet.getUser());
 //            System.out.println("tweet: " + tweet.getText());
-//            System.out.println("categories: " + tweet.getSetCategoriesString());
+//            System.out.println("categories: " + tweet.getListCategoriesString());
 
 
             if (loadFromTrainingFile) {
                 if (tweet.getTrainingSetCat().equals("positive") || tweet.getTrainingSetCat().equals("4")) {
                     countPositiveTweets++;
-                    if (tweet.getSetCategories().contains("011")) {
+                    if (tweet.getListCategories().contains("011")) {
                         positiveCorrectlyRetrieved++;
                     } else {
-                        System.out.println("positive tweet recognized as " + tweet.getSetCategoriesToString());
+                        System.out.println("positive tweet recognized as " + tweet.getListCategoriesToString());
                         System.out.println(tweet.getText());
                     }
                 }
                 if (tweet.getTrainingSetCat().equals("negative") || tweet.getTrainingSetCat().equals("0")) {
                     countNegativeTweets++;
-                    if (tweet.getSetCategories().contains("012")) {
+                    if (tweet.getListCategories().contains("012")) {
                         negativeCorrectlyRetrieved++;
                     } else {
-                        System.out.println("negative tweet recognized as " + tweet.getSetCategoriesToString());
+                        System.out.println("negative tweet recognized as " + tweet.getListCategoriesToString());
                         System.out.println(tweet.getText());
                     }
 
@@ -108,10 +108,10 @@ public class TweetLooper {
 
                 if (tweet.getTrainingSetCat().contains("neutral") || tweet.getTrainingSetCat().contains("objective") || tweet.getTrainingSetCat().equals("2")) {
                     countNeutralTweets++;
-                    if (!tweet.getSetCategories().contains("012") & !tweet.getSetCategories().contains("011")) {
+                    if (!tweet.getListCategories().contains("012") & !tweet.getListCategories().contains("011")) {
                         neutralCorrectlyRetrieved++;
                     } else {
-                        System.out.println("neutral tweet recognized as " + tweet.getSetCategoriesToString());
+                        System.out.println("neutral tweet recognized as " + tweet.getListCategoriesToString());
                         System.out.println(tweet.getText());
                     }
                 }
@@ -119,20 +119,20 @@ public class TweetLooper {
 
             }
 
-            if (tweet.getSetCategories().contains("011")) {
+            if (tweet.getListCategories().contains("011")) {
                 positiveRetrieved++;
             }
 
-            if (tweet.getSetCategories().contains("012")) {
+            if (tweet.getListCategories().contains("012")) {
                 negativeRetrieved++;
             }
 
-            if (!tweet.getSetCategories().contains("012") & !tweet.getSetCategories().contains("011")) {
+            if (!tweet.getListCategories().contains("012") & !tweet.getListCategories().contains("011")) {
                 neutralRetrieved++;
             }
 
 
-            setCatIterator = tweet.getSetCategories().iterator();
+            setCatIterator = tweet.getListCategories().iterator();
             while (setCatIterator.hasNext()) {
                 String catNumber = setCatIterator.next();
                 multisetCategories.add(catNumber);

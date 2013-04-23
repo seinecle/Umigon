@@ -69,7 +69,7 @@ public class HashtagLevelHeuristics {
                 result = heuristic.checkFeatures(tweet.getText(), hashtag);
                 // System.out.println("result: " + result);
                 if (result != null) {
-                    tweet.addToSetCategories(result, -2);
+                    tweet.addToListCategories(result, -2);
                     break;
                 }
 
@@ -100,10 +100,10 @@ public class HashtagLevelHeuristics {
             if (hashtag.startsWith(term)) {
                 if (!ControllerBean.Hloader.getSetFalsePositiveOpinions().contains(term)) {
                     if (!startsWithNegativeTerm) {
-                        tweet.addToSetCategories("011", -2);
+                        tweet.addToListCategories("011", -2);
                         break;
                     } else {
-                        tweet.addToSetCategories("012", -2);
+                        tweet.addToListCategories("012", -2);
                         break;
                     }
                 }
@@ -113,10 +113,10 @@ public class HashtagLevelHeuristics {
             if (hashtag.startsWith(term)) {
                 if (!ControllerBean.Hloader.getSetFalsePositiveOpinions().contains(term)) {
                     if (!startsWithNegativeTerm) {
-                        tweet.addToSetCategories("012", -2);
+                        tweet.addToListCategories("012", -2);
                         break;
                     } else {
-                        tweet.addToSetCategories("011", -2);
+                        tweet.addToListCategories("011", -2);
                         break;
                     }
                 }
@@ -130,22 +130,22 @@ public class HashtagLevelHeuristics {
                 hashtag = StringUtils.removeEnd(hashtag, term);
                 if (hashtag.length() > 1) {
                     if (ControllerBean.Hloader.getSetNegations().contains(hashtag)) {
-                        tweet.addToSetCategories("012", -2);
+                        tweet.addToListCategories("012", -2);
                         break;
 
                     }
                     if (ControllerBean.Hloader.getMapH3().keySet().contains(hashtag)) {
-                        tweet.addToSetCategories("011", -2);
-                        tweet.addToSetCategories("022", -2);
+                        tweet.addToListCategories("011", -2);
+                        tweet.addToListCategories("022", -2);
                         break;
                     } else {
                         if (hashtag.equals(term)) {
-                            tweet.addToSetCategories("011", -2);
+                            tweet.addToListCategories("011", -2);
                             break;
                         }
                     }
                 } else {
-                    tweet.addToSetCategories("011", -2);
+                    tweet.addToListCategories("011", -2);
                     break;
 
                 }
@@ -156,21 +156,21 @@ public class HashtagLevelHeuristics {
                 hashtag = StringUtils.removeEnd(hashtag, term);
                 if (hashtag.length() > 1) {
                     if (ControllerBean.Hloader.getSetNegations().contains(hashtag)) {
-                        tweet.addToSetCategories("011", -2);
+                        tweet.addToListCategories("011", -2);
                         break;
                     }
                     if (ControllerBean.Hloader.getMapH3().keySet().contains(hashtag)) {
-                        tweet.addToSetCategories("012", -2);
-                        tweet.addToSetCategories("022", -2);
+                        tweet.addToListCategories("012", -2);
+                        tweet.addToListCategories("022", -2);
                         break;
                     } else {
                         if (hashtag.equals(term)) {
-                            tweet.addToSetCategories("012", -2);
+                            tweet.addToListCategories("012", -2);
                             break;
                         }
                     }
                 } else {
-                    tweet.addToSetCategories("012", -2);
+                    tweet.addToListCategories("012", -2);
                     break;
 
                 }

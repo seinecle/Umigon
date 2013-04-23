@@ -7,53 +7,40 @@
         <title>Umigon - sentiment analyzer for Tweets</title>
     </h:head>
     <h:body>
-        <h1>Umigon</h1>
-        <h3>Sentiment analysis for tweets, and more</h3>
-        <br></br>
-        <p>
-            - Search for a term or a person on Twitter<br></br>
-            - Then click "Classify"!
-        </p>
-        <h:form>
+        <div style="margin-left:20%;">
+            <h1>Umigon</h1>
+            <h2>Sentiment analysis for tweets, and more</h2>
+            <br></br>
+            <h:form>
+                <p:inputText id="twitterSearchArea" value="#{controllerBean.twitterStreamInput}"/>
+                <p:watermark for="twitterSearchArea" value="@microsoft"></p:watermark>
+                <p:commandButton value="classify" action="#{controllerBean.classifyViaAPI}"/>
+            </h:form>
+            <br></br>
+            <br></br>
+            <br></br>
+            <p>
+                Or:
+            </p>
 
-            <p:inputText id="twitterSearchArea" value="#{controllerBean.twitterStreamInput}"/>
-            <p:watermark for="twitterSearchArea" value="@microsoft"></p:watermark>
-            <p:commandButton value="classify" action="#{controllerBean.classifyViaAPI}"/>
-        </h:form>
-        <br></br>
-        <br></br>
-        <br></br>
-        <p style="font-size: 90%">
-            - Want to test Umigon with your own text? Copy-paste tweets in the text input zone below.<br></br>
-            - Then click "Classify"!<br></br>
-            <b>To get you started, some examples of tweets you can copy paste below:</b><br></br>
-            <br></br>
-            ******<br></br>   
-            Read this marvelous book! You will not regret it! #goodadvice<br></br>
-            @computershop arrived at your store 5mn b4 closing time, they did not let me in :(((<br></br>
-            @goodfriend are you in tomorrow? Would need your advice<br></br>
-            *******
-        </p>
+            <h:form>
+                <br></br>
+                <p:inputTextarea id="textArea" value="#{controllerBean.userInput}" rows="5" autoResize="true"/>
+                <p:watermark for="textArea" value="paste tweets here (one per line)"></p:watermark>
+                <p:commandButton style="position:relative;left:1em; bottom: 6em;" value="classify" action="#{controllerBean.classifyViaUserInput}"/>
 
-        <h:form>
-            <p:commandButton value="classify" action="#{controllerBean.classifyViaUserInput}"/>
-            <br></br>
-            <br></br>
-            <p:inputTextarea id="textArea" value="#{controllerBean.userInput}" rows="5" cols="140" autoResize="false"/>
-            <br></br>
-        </h:form>
-        <p>
-            This is an application by <a href="http://www.clementlevallois.net">Clement Levallois</a>.<br></br>
-            Can process millions of tweets in minutes<br></br>
-            Only tweets in English<br></br>
-            <br></br>
-
-            Code available in open source on <a href="https://github.com/seinecle/Umigon">Github</a>            
-        </p>
-        <p>
-            <br></br>
-            Interested in integrating this app in your products (via API etc.) or research projects? <a href="http://www.clementlevallois.net/contact.php">Contact me</a>.
-        </p>
+                <br></br>
+            </h:form>
+            <p style="font-size: 70%">
+                This is an application by <a href="http://www.clementlevallois.net">Clement Levallois</a>.<br></br>
+                Can process millions of tweets in minutes<br></br>
+                <a href="http://wwww.clementlevallois.net/download/umigon.pdf">Download the (not too technical) paper describing how Umigon works.</a><br></br>
+                Code available in open source on <a href="https://github.com/seinecle/Umigon">Github</a>            
+            </p>
+            <p>
+                Interested in integrating this app in your products (via API etc.) or research projects? <a href="http://www.clementlevallois.net/contact.php">Contact me</a>.
+            </p>
+        </div>
     </h:body>
 </html>
 

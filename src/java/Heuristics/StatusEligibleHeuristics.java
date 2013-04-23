@@ -27,7 +27,7 @@ public class StatusEligibleHeuristics {
 
     private void isStatusEmpty() {
         if (status.isEmpty()) {
-            tweet.addToSetCategories("002",-1);
+            tweet.addToListCategories("002",-1);
         }
     }
 

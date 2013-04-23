@@ -4,12 +4,17 @@
  */
 package Twitter;
 
+import Classifier.ClassifierMachine;
+import Utils.Clock;
 import com.csvreader.CsvReader;
+import com.cybozu.labs.langdetect.LangDetectException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
@@ -59,30 +64,55 @@ public class ExternalSourceTweetLoader {
         return tweets;
     }
 
-    public ArrayList<Tweet> sentimentBigSetLoader(int max, String term) throws FileNotFoundException, IOException {
+    public ArrayList<Tweet> sentimentBigSetLoader(int max, String term) throws FileNotFoundException, IOException, LangDetectException {
         String fieldDelimiter = ",";
         String textDelimiter = "\"";
         String fileName = "D:\\Docs Pro Clement\\E-humanities\\Sentiment Analysis\\datasets\\training.1600000.processed.noemoticon.csv";
-        CsvReader csvReader = new CsvReader(new BufferedReader(new FileReader(fileName)), fieldDelimiter.charAt(0));
-        csvReader.setTextQualifier(textDelimiter.charAt(0));
-        csvReader.setUseTextQualifier(true);
+//        CsvReader csvReader = new CsvReader(new BufferedReader(new FileReader(fileName)), fieldDelimiter.charAt(0));
+//        csvReader.setTextQualifier(textDelimiter.charAt(0));
+//        csvReader.setUseTextQualifier(true);
         Tweet tweet;
         String[] values;
         ArrayList<Tweet> setTweets = new ArrayList();
         int counter = 0;
+        ClassifierMachine cm = new ClassifierMachine(true);
 
-        while (csvReader.readRecord() && counter < max) {
-            values = csvReader.getValues();
-            if (!values[5].contains(term)) {
+        br = new BufferedReader(new FileReader(fileName));
+        String line;
+        int count = 0;
+        ArrayList<String> stringTweets = new ArrayList();
+        Clock timingImport = new Clock("import");
+        
+        while ((line = br.readLine()) != null & count < 2000000) {
+            if (count % 100000 == 0) {
+                System.out.println("count:" + count);
+                timingImport.printElapsedTime();
+            }
+            if (line.split(",", 6).length < 6) {
                 continue;
             }
-            tweet = new Tweet();
-            tweet.setTrainingSetCat(values[0]);
-            tweet.setText(values[5]);
-            setTweets.add(tweet);
-            counter++;
-
+            stringTweets.add(line);
+            count++;
         }
+        br.close();
+        timingImport.closeAndPrintClock();
+
+        Clock timing = new Clock("classifying");
+        for (String string : stringTweets) {
+            tweet = new Tweet();
+            tweet.setText(string.split(",", 6)[5]);
+            tweet = cm.classifySingleTweet(tweet);
+        }
+        timing.closeAndPrintClock();
+//        while (csvReader.readRecord() && counter < max) {
+//            values = csvReader.getValues();
+//            tweet = new Tweet();
+//            tweet.setTrainingSetCat(values[0]);
+//            tweet.setText(values[5]);
+//            setTweets.add(tweet);
+//            counter++;
+//
+//        }
         return setTweets;
     }
 

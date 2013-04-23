@@ -117,13 +117,13 @@ public class SpellCheckingMethods {
                     }
 
                     // and maybe that if they are just one, this is a match too? (as in "boredd" meaning "bored")
-                    toReplace = letter;
-                    subs = StringUtils.replace(toReturn, toBeReplaced, toReplace);
-                    if (ControllerBean.Hloader.getMapHeuristics().containsKey(subs.toLowerCase())) {
-                        toReturn = subs;
-                        loop = false;
-                        break;
-                    }
+//                    toReplace = letter;
+//                    subs = StringUtils.replace(toReturn, toBeReplaced, toReplace);
+//                    if (ControllerBean.Hloader.getMapHeuristics().containsKey(subs.toLowerCase())) {
+//                        toReturn = subs;
+//                        loop = false;
+//                        break;
+//                    }
                 } else {
                     loop = false;
                 }

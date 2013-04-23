@@ -105,7 +105,7 @@ public class Editor {
     }
 
     public void save(Tweet tweet) {
-        Set<String> updatedSetCategories = tweet.getSetCategories();
+        List<String> updatedSetCategories = tweet.getListCategories();
         updatedSetCategories.add(String.valueOf(optionChosen));
         updateQuery = controllerBean.dsLocal.createQuery(Tweet.class).field("text").equal(tweet.getText());
         ops = controllerBean.dsLocal.createUpdateOperations(Tweet.class).set("setCategories", updatedSetCategories);
