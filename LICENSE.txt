@@ -1,5 +1,5 @@
 	UMIGON - sentiment analyzer for Tweets and more.
-    Copyright (C) <year>  <name of author>
+    Copyright (C) 2013 Clement Levallois <www.clementlevallois.net>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
