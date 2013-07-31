@@ -7,7 +7,7 @@ package Twitter;
 import Classifier.ClassifierMachine;
 import Utils.Clock;
 import com.csvreader.CsvReader;
-import com.cybozu.labs.langdetect.LangDetectException;
+import LanguageDetection.Cyzoku.util.LangDetectException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;

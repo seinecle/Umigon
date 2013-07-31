@@ -16,7 +16,7 @@ import Twitter.Tweet;
 import Admin.ControllerBean;
 import Utils.Clock;
 import Utils.NGramFinder;
-import com.cybozu.labs.langdetect.LangDetectException;
+import LanguageDetection.Cyzoku.util.LangDetectException;
 import com.google.common.collect.HashMultiset;
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class ClassifierMachine {
     HashtagLevelHeuristics hashtagHeuristics;
     Tweet tweet;
     ArrayList<Tweet> setTweetsClassified;
-    LanguageDetector ld;
+//    LanguageDetector ld;
     boolean loadFromTrainingFile;
 
     public ClassifierMachine(boolean loadFromTrainingFile) {

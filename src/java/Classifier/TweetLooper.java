@@ -7,7 +7,7 @@ package Classifier;
 import Twitter.ResultsExporter;
 import Twitter.Tweet;
 import Utils.Clock;
-import com.cybozu.labs.langdetect.LangDetectException;
+import LanguageDetection.Cyzoku.util.LangDetectException;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multisets;

@@ -7,8 +7,6 @@ package Heuristics;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -245,6 +243,7 @@ public class HeuristicsLoader {
                 }
 
             }
+            br.close();
         }
 
 //        System.out.println(

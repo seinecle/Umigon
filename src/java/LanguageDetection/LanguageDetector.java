@@ -4,9 +4,9 @@
  */
 package LanguageDetection;
 
-import com.cybozu.labs.langdetect.Detector;
-import com.cybozu.labs.langdetect.DetectorFactory;
-import com.cybozu.labs.langdetect.LangDetectException;
+import LanguageDetection.Cyzoku.util.Detector;
+import LanguageDetection.Cyzoku.util.DetectorFactory;
+import LanguageDetection.Cyzoku.util.LangDetectException;
 
 /**
  *
@@ -18,13 +18,13 @@ public class LanguageDetector {
     String lang;
 
     public LanguageDetector() throws LangDetectException {
-        DetectorFactory.loadProfile("D:\\Docs Pro Clement\\NetBeansProjects\\Umigon\\profiles");
-
+        
     }
 
     public boolean detectEnglish(String status) throws LangDetectException {
         detector = DetectorFactory.create();
         detector.append(status);
+        System.out.println("status: " + status);
         try {
             lang = detector.detect();
             if (!lang.equals("en")) {
@@ -32,8 +32,8 @@ public class LanguageDetector {
             } else {
                 return true;
             }
-        } catch (LangDetectException e) {
-//            System.out.println("tweet without language detected: " + status);
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
 
