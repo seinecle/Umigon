@@ -40,8 +40,8 @@ public class TwitterAPIController {
                 .setOAuthConsumerKey("0HI78z6uScVkwQkwWWNA")
                 .setOAuthConsumerSecret(APIkeys.getTwitterConsumerSecret())
                 .setOAuthAccessToken("31805620-1QQsoAH98dSVRHXb21IBtLOrh8igwIov8NT2TvUCg")
-                .setOAuthAccessTokenSecret(APIkeys.getTwitterAccessTokenSecret());
-
+                .setOAuthAccessTokenSecret(APIkeys.getTwitterAccessTokenSecret())
+                .setUseSSL(true);
     }
 
     public ArrayList<Tweet> getTweetsFromSearchAPI(String string) throws TwitterException {

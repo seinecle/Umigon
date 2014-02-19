@@ -72,10 +72,6 @@ public class ControllerBean implements Serializable {
             System.out.println("UMIGON - semantic analyzer for large twitter accounts");
             Mongo m;
             Morphia morphia;
-            Mongo mLocal;
-            Morphia morphiaLocal;
-            mLocal = new Mongo();
-            morphiaLocal = new Morphia();
             setTweets = new ArrayList();
 
             if (dev) {
@@ -114,10 +110,6 @@ public class ControllerBean implements Serializable {
 
             }
 
-            if (saveOnDisk || analyzeAllFromDisk || loadTweetsFromLocal) {
-                dsLocal = morphiaLocal.createDatastore(mLocal, "hp");
-                morphiaLocal.map(Tweet.class);
-            }
 
             if (saveOnDisk) {
                 Iterator<Tweet> setTweetsIterator = setTweets.iterator();
@@ -187,11 +179,11 @@ public class ControllerBean implements Serializable {
             Logger.getLogger(ControllerBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(ControllerBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidFormatException ex) {
-            Logger.getLogger(ControllerBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MongoException ex) {
+        }  catch (MongoException ex) {
             Logger.getLogger(ControllerBean.class.getName()).log(Level.SEVERE, null, ex);
 
+        } catch (InvalidFormatException ex) {
+            Logger.getLogger(ControllerBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

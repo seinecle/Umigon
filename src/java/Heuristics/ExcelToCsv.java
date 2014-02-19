@@ -35,9 +35,10 @@ public class ExcelToCsv {
         }
     }
 
-    /**
-     * @param args the command line arguments
-     */
+
+
+    public ExcelToCsv() {
+    }
     public static void load () throws FileNotFoundException, IOException, InvalidFormatException {
         InputStream inp;
         inp = new FileInputStream("D:\\Docs Pro Clement\\NetBeansProjects\\Umigon\\private\\heuristics.xlsx");
