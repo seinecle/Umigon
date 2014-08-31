@@ -6,15 +6,12 @@ package Twitter;
  */
 import Classifier.Categories;
 import Utils.Pair;
-import com.google.code.morphia.annotations.Entity;
-import com.google.code.morphia.annotations.Id;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.bson.types.ObjectId;
 import twitter4j.HashtagEntity;
 import twitter4j.Status;
 import twitter4j.UserMentionEntity;
@@ -23,11 +20,8 @@ import twitter4j.UserMentionEntity;
  *
  * @author C. Levallois
  */
-@Entity
 public class Tweet implements Serializable {
 
-    @Id
-    private ObjectId id;
     private String text;
     private String user;
     private String language;
@@ -43,6 +37,7 @@ public class Tweet implements Serializable {
     private boolean isNegative;
     private Integer finalNote;
     private String semevalId;
+    private boolean signaled;
 
     public Tweet() {
         listCategories = new ArrayList();
@@ -50,6 +45,7 @@ public class Tweet implements Serializable {
         this.trainingSetCat = "";
 
         this.user = "";
+        this.signaled = false;
     }
 
     public Tweet(Status status) {
@@ -67,14 +63,6 @@ public class Tweet implements Serializable {
         }
         listCategories = new ArrayList();
         mapCategoriesToIndex = new ArrayList();
-    }
-
-    public ObjectId getId() {
-        return id;
-    }
-
-    public void setId(ObjectId id) {
-        this.id = id;
     }
 
     public String getText() {
@@ -254,6 +242,16 @@ public class Tweet implements Serializable {
     public void setSentiment(String sentiment) {
         this.sentiment = sentiment;
     }
+
+    public boolean isSignaled() {
+        return signaled;
+    }
+
+    public void setSignaled(boolean signaled) {
+        this.signaled = signaled;
+    }
+    
+    
 
     public String getOtherSemanticFeatures() {
         StringBuilder result = new StringBuilder();

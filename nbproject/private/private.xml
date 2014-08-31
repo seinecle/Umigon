@@ -3,15 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/web/index.xhtml</file>
-            <file>file:/D:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/build/web/WEB-INF/web.xml</file>
-            <file>file:/D:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/web/META-INF/context.xml</file>
-            <file>file:/D:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/src/java/Admin/ControllerBean.java</file>
-            <file>file:/D:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/src/java/Heuristics/ExcelToCsv.java</file>
-            <file>file:/D:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/nbproject/build-impl.xml~</file>
-            <file>file:/D:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/nbproject/build-impl.xml</file>
-            <file>file:/D:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/src/java/Editor/Editor.java</file>
-            <file>file:/D:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/web/WEB-INF/web.xml</file>
+            <file>file:/H:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/src/java/Classifier/ClassifierMachine.java</file>
+            <file>file:/H:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/src/java/Twitter/Tweet.java</file>
+            <file>file:/H:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/web/WEB-INF/web.xml</file>
+            <file>file:/H:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/src/java/Twitter/TwitterAPIController.java</file>
+            <file>file:/H:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/web/result.xhtml</file>
+            <file>file:/H:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/src/java/Admin/ControllerBean.java</file>
+            <file>file:/H:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/src/java/Classifier/TweetLooper.java</file>
+            <file>file:/H:/Docs%20Pro%20Clement/NetBeansProjects/Umigon/src/java/Editor/Editor.java</file>
         </group>
     </open-files>
 </project-private>

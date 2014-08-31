@@ -4,15 +4,12 @@ package Twitter;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-import Heuristics.HeuristicsLoader;
 import Utils.APIkeys;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import twitter4j.FilterQuery;
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -29,7 +26,7 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class TwitterAPIController {
 
-    private ArrayList<Tweet> listTweets;
+    private List<Tweet> listTweets;
     private int count = 0;
     private TwitterStream twitterStream;
     private ConfigurationBuilder cb;
@@ -44,8 +41,8 @@ public class TwitterAPIController {
                 .setUseSSL(true);
     }
 
-    public ArrayList<Tweet> getTweetsFromSearchAPI(String string) throws TwitterException {
-        listTweets = new ArrayList();
+    public List<Tweet> getTweetsFromSearchAPI(String string) throws TwitterException {
+         listTweets = new ArrayList();
 
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
@@ -60,10 +57,10 @@ public class TwitterAPIController {
 
     }
 
-    public ArrayList<Tweet> getTweetsFromStream(String keywords[]) throws UnknownHostException, FileNotFoundException, IOException, TwitterException {
+    public List<Tweet> getTweetsFromStream(String keywords[]) throws UnknownHostException, FileNotFoundException, IOException, TwitterException {
 
 
-        listTweets = new ArrayList();
+         listTweets= new ArrayList();
 
         TwitterStreamFactory tf = new TwitterStreamFactory(cb.build());
         twitterStream = tf.getInstance();

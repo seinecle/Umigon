@@ -4,9 +4,12 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Umigon - sentiment analyzer for Tweets</title>
+        <title>Umigon - free sentiment analysis for Tweets / Twitter</title>
+        <meta name="description" content="This is a free application to classify tweets according to positive, negative or neutral sentiment."/>
+        <meta name="keywords" content="free sentiment analysis, opinion mining, text mining on twitter"/>
     </h:head>
     <h:body>
+        <p:graphicImage name="img/twitter.png" width="100px" alt="Twitter logo" style="position:absolute;"/>
         <div style="margin-left:20%;">
             <h1>Umigon</h1>
             <h2>Sentiment analysis for tweets, and more</h2>
@@ -25,22 +28,44 @@
 
             <h:form>
                 <br></br>
-                <p:inputTextarea id="textArea" value="#{controllerBean.userInput}" rows="5" autoResize="true"/>
+                <p:inputTextarea id="textArea" value="#{controllerBean.userInput}" rows="5" cols="45" autoResize="true"/>
+
                 <p:watermark for="textArea" value="paste tweets here (one per line)"></p:watermark>
                 <p:commandButton style="position:relative;left:1em; bottom: 6em;" value="classify" action="#{controllerBean.classifyViaUserInput}"/>
 
                 <br></br>
             </h:form>
-            <p style="font-size: 70%">
-                This is an application by <a href="http://www.clementlevallois.net">Clement Levallois</a>.<br></br>
-                Can process millions of tweets in minutes<br></br>
-                <a href="http://www.clementlevallois.net/download/umigon.pdf">Download the (not too technical) paper describing how Umigon works.</a><br></br>
-                Code available in open source on <a href="https://github.com/seinecle/Umigon">Github</a>            
-            </p>
+            This is an application by <a href="http://www.clementlevallois.net">Clement Levallois</a>.<br></br>
+            Can process millions of tweets in minutes.<br></br>
+            <a href="http://www.clementlevallois.net/download/umigon.pdf">Download the (not too technical) paper describing how Umigon works.</a><br></br>
+            Code available in open source on <a href="https://github.com/seinecle/Umigon">Github</a>
             <p>
-                Interested in integrating this app in your products (via API etc.) or research projects? <a href="http://www.clementlevallois.net/contact.php">Contact me</a>.
+                <b>If you use this application, please reference it in your work:</b><br></br>
+                Levallois, Clement. “Umigon: sentiment analysis on Tweets based on terms lists and heuristics”. Proceedings of the 7th International Workshop on Semantic Evaluation (SemEval 2013), June 2013, Atlanta, Georgia.<br></br>
+                <br></br>
+                Interested in integrating this app in your products (via API etc.) or research projects? <a href="https://twitter.com/seinecle">Contact me</a>.
             </p>
         </div>
+        <br />
+        <!-- Start of StatCounter Code for Default Guide -->
+        <script type="text/javascript">
+            //<![CDATA[
+            var sc_project = 10001107;
+            var sc_invisible = 1;
+            var sc_security = "4d22797d";
+            var scJsHost = (("https:" == document.location.protocol) ?
+                    "https://secure." : "http://www.");
+            document.write("<sc" + "ript type='text/javascript' src='" +
+                    scJsHost +
+                    "statcounter.com/counter/counter_xhtml.js'></" + "script>");
+            //]]>
+        </script>
+        <noscript><div class="statcounter"><a title="shopify visitor
+                                              statistics" href="http://statcounter.com/shopify/"
+                                              class="statcounter"><img class="statcounter"
+                                         src="http://c.statcounter.com/10001107/0/4d22797d/1/"
+                                         alt="shopify visitor statistics" /></a></div></noscript>
+        <!-- End of StatCounter Code for Default Guide -->
     </h:body>
 </html>
 

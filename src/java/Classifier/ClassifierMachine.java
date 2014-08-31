@@ -4,22 +4,23 @@
  */
 package Classifier;
 
+import Admin.ControllerBean;
 import Heuristics.HashtagLevelHeuristics;
 import Heuristics.Heuristic;
 import Heuristics.SentenceLevelHeuristicsPost;
 import Heuristics.SentenceLevelHeuristicsPre;
 import Heuristics.StatusEligibleHeuristics;
+import LanguageDetection.Cyzoku.util.LangDetectException;
 import LanguageDetection.LanguageDetector;
 import TextCleaning.SpellCheckingMethods;
 import TextCleaning.StatusCleaner;
 import Twitter.Tweet;
-import Admin.ControllerBean;
 import Utils.Clock;
 import Utils.NGramFinder;
-import LanguageDetection.Cyzoku.util.LangDetectException;
 import com.google.common.collect.HashMultiset;
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -49,8 +50,8 @@ public class ClassifierMachine {
         this.loadFromTrainingFile = loadFromTrainingFile;
     }
 
-    public ArrayList<Tweet> classify(ArrayList<Tweet> setTweets) throws LangDetectException {
-        Iterator<Tweet> setTweetsIterator = setTweets.iterator();
+    public ArrayList<Tweet> classify(List<Tweet> listTweets) throws LangDetectException {
+        Iterator<Tweet> setTweetsIterator = listTweets.iterator();
 
         Clock heuristicsClock = new Clock("starting the analysis of tweets");
         setTweetsClassified = new ArrayList();
@@ -326,13 +327,6 @@ public class ClassifierMachine {
             return tweet;
         }
 
-//            if (!loadFromTrainingFile) {
-//                if (!ld.detectEnglish(status)) {
-//                    tweet.addToListCategories("001");
-//                    setTweetsClassified.add(tweet);
-//                    continue;
-//                }
-//            }
 
         StatusEligibleHeuristics seh = new StatusEligibleHeuristics(tweet, status);
         tweet = seh.applyRules();
