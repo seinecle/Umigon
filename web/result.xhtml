@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Umigon - results</title>
+        <meta name="description" content="This is a free application to classify tweets according to positive, negative or neutral sentiment."/>
+        <meta name="keywords" content="free sentiment analysis, opinion mining, text mining on twitter"/>
+
+    </h:head>
+    <h:body>
+        <h1>Umigon</h1>
+        <h3>Sentiment analysis for tweets, and more</h3>
+        <br></br>
+
+        <h:form>
+            <p:commandButton value="back to home page" action="#{controllerBean.reinit}"/>
+            <br></br>
+            <p:dataTable id ="table" value="#{controllerBean.listTweets}" paginator="true" rows ="500" var="t" >
+                <p:column><f:facet name="header">Tweet</f:facet>#{t.text}</p:column>
+                <p:column><f:facet name="header">Sentiment</f:facet>#{t.sentiment} <p:graphicImage name="img/red.png" rendered ="#{t.isNegative}" /><p:graphicImage name="img/green.png" rendered ="#{t.isPositive}" /></p:column>
+                <p:column><f:facet name="header">Semantic features</f:facet>#{t.otherSemanticFeatures}</p:column>
+                <p:column style="text-align:center;"><f:facet name="header">Signal error</f:facet><p:commandButton style="text-align: center;font-size: 80%" value="click to signal wrong sentiment" action="#{controllerBean.signal(t.text, t.sentiment)}" update="table" rendered ="#{!t.signaled}"></p:commandButton><p:outputLabel style="font-size: 80%" value="reported" rendered ="#{t.signaled}" /><p:graphicImage name="img/check.png" width="24px" rendered ="#{t.signaled}" /></p:column>
+            </p:dataTable>
+        </h:form>
+        <!-- Start of StatCounter Code for Default Guide -->
+        <script type="text/javascript">
+            //<![CDATA[
+            var sc_project = 10001107;
+            var sc_invisible = 1;
+            var sc_security = "4d22797d";
+            var scJsHost = (("https:" == document.location.protocol) ?
+                    "https://secure." : "http://www.");
+            document.write("<sc" + "ript type='text/javascript' src='" +
+                    scJsHost +
+                    "statcounter.com/counter/counter_xhtml.js'></" + "script>");
+            //]]>
+        </script>
+        <noscript><div class="statcounter"><a title="shopify visitor
+                                              statistics" href="http://statcounter.com/shopify/"
+                                              class="statcounter"><img class="statcounter"
+                                         src="http://c.statcounter.com/10001107/0/4d22797d/1/"
+                                         alt="shopify visitor statistics" /></a></div></noscript>
+        <!-- End of StatCounter Code for Default Guide -->
+    </h:body>
+</html>
+

@@ -1,0 +1,4 @@
+- relatives and superlatives
+- indirect discourse
+- comparisons ("but", "though"...)
+- better time detection
