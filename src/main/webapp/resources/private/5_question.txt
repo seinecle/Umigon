@@ -1,0 +1,25 @@
+ no?	null	040	
+ thoughts?	null	040	
+anyone	null	040	
+can	isFirstTermOfStatus	040	
+does anyone	null	040	
+follow	isFirstLetterCapitalized	040	
+have you	null	040	
+how	isFirstTermOfStatus	040	
+how do I	null	040	
+how do you	null	040	
+i am wondering	null	040	
+i was wondering	null	040	
+ideas?	null	040	
+is	isFirstTermOfStatus	040	
+join	isFirstLetterCapitalized	040	
+should	isFirstTermOfStatus+++isQuestionMarkAtEndOfStatus	A?(B?(040))	
+wait	isFirstTermOfStatus+++isQuestionMarkAtEndOfStatus	A?(B?(040))	
+wat	isFirstTermOfStatus	040	
+what	isFirstLetterCapitalized+++isQuestionMarkAtEndOfStatus	A?(B?(040))	
+what to do	null	040	
+what's		040	
+which is	isFirstLetterCapitalized	040	
+whom	isFirstLetterCapitalized	040	
+why	isFirstTermOfStatus	040	
+will	isFirstTermOfStatus	040	

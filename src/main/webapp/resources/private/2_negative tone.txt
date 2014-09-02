@@ -1,0 +1,626 @@
+*sigh*	null	012	
+@$$	null	012	
+a butt	isPrecededBySpecificTerm///is|are|be	012	
+a joke	null	012	
+a pity	!isImmediatelyPrecededByANegation	012|011	
+abandoned	!isImmediatelyPrecededByANegation	012|011	
+abhor	null	012	
+abominate	null	012	
+accidentally	null	012	
+accused of	!isImmediatelyPrecededByANegation	012|011	
+ache	!isImmediatelyPrecededByANegation	011|012	
+aching	!isImmediatelyPrecededByANegation	011|012	
+afraid	!isImmediatelyPrecededByANegation	011|012	
+again	isPrecededBySpecificTerm///never	012	
+again …	null	012	
+again…	null	012	
+agh	null	012	
+aholes	null	012	
+alarming	!isImmediatelyPrecededByANegation	012|011	
+angry	!isImmediatelyPrecededByANegation	012|011	
+angst	!isImmediatelyPrecededByANegation	012|011	
+annoyed	!isImmediatelyPrecededByANegation	012|011	
+annoying	!isImmediatelyPrecededByANegation	012|011	
+annoys	!isImmediatelyPrecededByANegation	012|011	
+anymore	null	012	
+are down	null	012	
+arg	null	012	
+argh	null	012	
+ashamed	!isImmediatelyPrecededByANegation	012|011	
+ass	!isPrecededBySpecificTerm///bad+++!isImmediatelyPrecededByANegation+++!isImmediatelyPrecededByPositive	A?(B?(C?(012:011):011):011)	
+asses	null	012	
+asshole	!isImmediatelyPrecededByANegation	012|011	
+assholes	!isImmediatelyPrecededByANegation	012|011	
+at odd	!isImmediatelyPrecededByANegation	012|011	
+at odds	!isImmediatelyPrecededByANegation	012|011	
+at risk	!isImmediatelyPrecededByANegation	012|011	
+avoid	isAllCaps	012	
+avoid	isAllCaps	012	
+awful	!isImmediatelyFollowedBySpecificTerm///lot	012	
+back to work	null	012	
+bad	!isPrecededBySpecificTerm///want+++!isImmediatelyPrecededByANegation	A?(B?(012:011):011)	
+badly	!isImmediatelyPrecededByANegation	012|011	
+bastard	!isImmediatelyPrecededByANegation	012|011	
+bastards	!isImmediatelyPrecededByANegation	012|011	
+battling	!isImmediatelyPrecededByANegation	012|011	
+be serious	!isImmediatelyPrecededByANegation	012|011	
+be ware	null	012	
+beat it	null	012	
+begging	!isImmediatelyPrecededByANegation	012	
+beware	null	012	
+bigotry	!isImmediatelyPrecededByANegation	012	
+bitchass	!isImmediatelyPrecededByANegation	012	
+bite	!isImmediatelyPrecededByANegation	012	
+bites	!isImmediatelyPrecededByANegation	012	
+bitter	!isImmediatelyPrecededByANegation	012	
+bitterly	!isImmediatelyPrecededByANegation	012	
+blah	null	012	
+blame	!isImmediatelyPrecededByANegation	012|011	
+blaming	!isImmediatelyPrecededByANegation	012|011	
+blistered	!isImmediatelyPrecededByANegation	012	
+bloatware	null	012	
+blow	!isFollowedBySpecificTerm///our minds|their minds	012|022	
+blows	!isFollowedBySpecificTerm///my mind	012|022	
+bogged	!isImmediatelyPrecededByANegation	012	
+boo	null	012	
+bored	!isImmediatelyPrecededByANegation	012|011	
+borez	null	012	
+boring	!isImmediatelyPrecededByANegation	012|011	
+broke	!isImmediatelyPrecededByANegation	012|011	
+broken	!isImmediatelyPrecededByANegation	012|011	
+bruised	!isImmediatelyPrecededByANegation	012	
+bs	!isImmediatelyPrecededByANegation	012|011	
+bugger	null	012	
+bullshit	!isImmediatelyPrecededByANegation	012|011	
+bummed	!isImmediatelyPrecededByANegation	012	
+bummer	null	012	
+bunch of	null	012	
+burned myself	!isImmediatelyPrecededByANegation	012	
+but i have	null	012	
+butchered	!isImmediatelyPrecededByANegation	012|011	
+butthurt	null	012	
+cancelled	!isImmediatelyPrecededByANegation	012	
+cancer	!isImmediatelyPrecededByANegation	012	
+cease	!isImmediatelyPrecededByANegation	012	
+cheat	!isImmediatelyPrecededByANegation	012	
+cheated	!isImmediatelyPrecededByANegation	012	
+cheating	!isImmediatelyPrecededByANegation	012	
+clunky	!isImmediatelyPrecededByANegation	012	
+clusterfuck	null	012	
+clusterfucks	null	012	
+complaining	!isImmediatelyPrecededByANegation	012|011	
+complaint	!isImmediatelyPrecededByANegation	012|011	
+complaints	!isImmediatelyPrecededByANegation	012|011	
+concussion	!isImmediatelyPrecededByANegation	012	
+conflicting	!isImmediatelyPrecededByANegation	012|011	
+confused	!isImmediatelyPrecededByANegation	012|011	
+coughing	!isImmediatelyPrecededByANegation	012	
+crap	!isImmediatelyPrecededByANegation	012|011	
+crappy	!isImmediatelyPrecededByANegation	012|011	
+crapware	!isImmediatelyPrecededByANegation	012|011	
+crash	!isImmediatelyPrecededByANegation	012|011	
+crashed	!isImmediatelyPrecededByANegation	012|011	
+crashes	!isImmediatelyPrecededByANegation	012|011	
+crashing	!isImmediatelyPrecededByANegation	012|011	
+creep	!isPrecededBySpecificTerm///im a|i am a	012	
+creepy	!isImmediatelyPrecededByANegation	012	
+crushed	!isImmediatelyPrecededByANegation	012	
+cry	!isImmediatelyPrecededByANegation	012|011	
+crying	!isImmediatelyPrecededByANegation	012|011	
+damaged	!isImmediatelyPrecededByANegation	012	
+damm	null	012	
+dammit	null	012	
+damn	!isImmediatelyFollowedByAPositiveOpinion	012|011	
+damn it	null	012	
+damnit	null	012	
+dang	null	012	
+dangerous	!isImmediatelyPrecededByANegation	012|011	
+darn	null	012	
+dbag 	null	012	
+d-bag 	null	012	
+dbags	null	012	
+dead	!isImmediatelyPrecededByANegation	012	
+deadly	!isImmediatelyPrecededByANegation	012|011	
+deceptive	!isImmediatelyPrecededByANegation	012|011	
+defective	!isImmediatelyPrecededByANegation	012|011	
+defects	null	012	
+deny	null	012	
+depressed	!isImmediatelyPrecededByANegation	012|011	
+depresses	!isImmediatelyPrecededByANegation	012|011	
+depressing	!isImmediatelyPrecededByANegation	012|011	
+depressingly	null	012	
+desolate	!isImmediatelyPrecededByANegation	012|011	
+desperate	!isImmediatelyPrecededByANegation	012|011	
+desperation	null	012	
+destroyed 	!isImmediatelyPrecededByANegation	012|011	
+detest	!isImmediatelyPrecededByANegation	012|011	
+dick	null	012	
+dicks	null	012	
+died	!isImmediatelyPrecededByANegation	012|011	
+dies	!isImmediatelyPrecededByANegation	012|011	
+disappointed	!isImmediatelyPrecededByANegation	012|011	
+disappointing	!isImmediatelyPrecededByANegation	012|011	
+disaster	!isImmediatelyPrecededByANegation	012|011	
+disaster	!isImmediatelyPrecededByANegation	012	
+disgusted	!isImmediatelyPrecededByANegation	012|011	
+disgusting	!isImmediatelyPrecededByANegation	012|011	
+dislike	!isImmediatelyPrecededByANegation	012|011	
+dismayed	null	012	
+disrespect	!isImmediatelyPrecededByANegation	012|011	
+dissapointed	!isImmediatelyPrecededByANegation	012|011	
+dissatisfied	!isImmediatelyPrecededByANegation	012|011	
+divisive	!isImmediatelyPrecededByANegation	012|011	
+divorcing	!isImmediatelyPrecededByANegation	012	
+dizzy	!isImmediatelyPrecededByANegation	012	
+do not	isAllCaps	012	
+dodgy	!isImmediatelyPrecededByANegation	012|011	
+does not get it	null	012	
+does not mean	null	012	
+doesnt get it	null	012	
+doesn't man	null	012	
+doesnt reply	null	012	
+dont	isAllCaps	012	
+dont get it	null	012	
+dont know what	null	012	
+dont like	null	012	
+dont reply	null	012	
+doubt it	!isImmediatelyPrecededByANegation	012|011	
+douche	!isImmediatelyPrecededByANegation	012|011	
+douchebag	!isImmediatelyPrecededByANegation	012|011	
+douchebaggery	null	012	
+douchebags	!isImmediatelyPrecededByANegation	012|011	
+doucheclown	null	011	
+doucheclowns	null	011	
+dread	null	012	
+dreading	!isImmediatelyPrecededByANegation	012|011	
+dull	!isImmediatelyPrecededByANegation	012|011	
+dumb	!isImmediatelyPrecededByANegation	012|011	
+dumbass	null	012	
+earache	!isImmediatelyPrecededByANegation	012	
+eek	null	012	
+embargoed	null	012	
+embarrassing	!isImmediatelyPrecededByANegation	012|011	
+error	!isImmediatelyPrecededByANegation	012|011	
+errors	!isImmediatelyPrecededByANegation	012|011	
+ever	isPrecededBySpecificTerm///never	012	
+excrement	null	012	
+execrate	null	012	
+expensive	!isImmediatelyPrecededByANegation+++!isImmediatelyPrecededBySpecificTerm///less	A?(B?(012:011):011)	
+experienced issues	!isImmediatelyPrecededByANegation	012|011	
+experiencing issues	!isImmediatelyPrecededByANegation	012|011	
+experiencing some issues	!isImmediatelyPrecededByANegation	012|011	
+f**king	isImmediatelyFollowedByAPositiveOpinion	011|012	
+f*ck	null	012	
+f*king	isImmediatelyFollowedByAPositiveOpinion	011|012	
+fail	null	012	
+failed	!isImmediatelyPrecededByANegation	012|011	
+fails	!isImmediatelyPrecededByANegation	012|011	
+failure	null	012	
+fake	null	012	
+faulty	!isImmediatelyPrecededByANegation	012|011	
+feeling down	!isImmediatelyPrecededByANegation	012|011	
+fell	!isImmediatelyPrecededByANegation	012|011	
+find	!isImmediatelyPrecededByANegation	012|011	
+fired	!isImmediatelyPrecededByANegation+++!isImmediatelyFollowedBySpecificTerm///up	A?(B?(012:011):011)	
+fml	null	012	
+fool	!isImmediatelyPrecededByANegation	012	
+fools	!isImmediatelyPrecededByANegation	012	
+forced	!isImmediatelyPrecededByANegation	012	
+forgot me	!isImmediatelyPrecededByANegation	012|011	
+forgot us	!isImmediatelyPrecededByANegation	012|011	
+fraud	!isImmediatelyPrecededByANegation	012|011	
+frauds	!isImmediatelyPrecededByANegation	012|011	
+freak	!isImmediatelyPrecededByANegation	012|011	
+frowny	null	012	
+frustrated	!isImmediatelyPrecededByANegation	012|011	
+frustrated	!isImmediatelyPrecededByANegation	012	
+frustrating	!isImmediatelyPrecededByANegation	012|011	
+fuck	null	012	
+fucked	!isImmediatelyPrecededByANegation	012|011	
+fucker	null	012	
+fuckers	null	012	
+fucks	null	012	
+fuming	null	012	
+furious	null	012	
+gah	null	012	
+garbage	null	012	
+garbages	null	012	
+glitch	!isImmediatelyPrecededByANegation	012|011	
+go to work	null	012	
+god sake	null	012	
+goddam	null	012	
+going crazy	null	012	
+greed	!isImmediatelyPrecededByANegation	012|011	
+greedy	!isImmediatelyPrecededByANegation	012|011	
+grossly	null	012	
+grr	null	012	
+grumpy	!isImmediatelyPrecededByANegation	012	
+h8	null	012	
+hacked	!isImmediatelyPrecededByANegation	012|011	
+had to	null	12	
+half-assed	null	012	
+harassed	null	012	
+hard	!isImmediatelyPrecededByANegation+++!isImmediatelyFollowedBySpecificTerm///work|disk	A?(B?(012:011):011)	
+harsh	null	012	
+hate	!isImmediatelyPrecededByANegation	012|011	
+hated	!isImmediatelyPrecededByANegation	012|011	
+hateful	!isImmediatelyPrecededByANegation	012|011	
+hater	null	012	
+haters	null	012	
+hating	!isImmediatelyPrecededByANegation	012|011	
+have to wait	null	012	
+have to work	null	012	
+headache	!isImmediatelyPrecededByANegation	012|011	
+headaches	!isImmediatelyPrecededByANegation	012|011	
+headachy	null	012	
+heart	isPrecededBySpecificTerm///break|breaking|broke	012	
+heartbroken	!isImmediatelyPrecededByANegation	012|011	
+hell	!isImmediatelyPrecededByANegation	012|011	
+helpless	!isImmediatelyPrecededByANegation	012|011	
+hideous	!isImmediatelyPrecededByANegation	012	
+hitch	!isPrecededBySpecificTerm///without a	012|011	
+hmm	null	012	
+hoax	!isImmediatelyPrecededByANegation	012|011	
+hoaxes	!isImmediatelyPrecededByANegation	012|011	
+homework	!isImmediatelyPrecededByANegation	012|011	
+hoped	null	012	
+hopeless	!isImmediatelyPrecededByANegation	012|011	
+horrible	!isImmediatelyPrecededByANegation	012|011	
+horrific	null	012	
+horrified	!isImmediatelyPrecededByANegation	012|011	
+hurt	!isImmediatelyPrecededByANegation	012|011	
+hurt	!isImmediatelyPrecededByANegation	012|011	
+hurts	!isImmediatelyPrecededByANegation	012	
+hurts	!isImmediatelyPrecededByANegation	012	
+i cant	null	012	
+i didnt get	null	012	
+i dont wanna	null	012	
+i had a	null	012	
+i have no	null	012	
+i have to	null	012	
+i miss my	null	012	
+i need to	null	012	
+i wish i	null	012	
+idiot	!isImmediatelyPrecededByANegation	012|011	
+idiots	!isImmediatelyPrecededByANegation	012	
+if only	null	012	
+ignored	isAllCaps	012	
+in hell	null	012	
+in the hell	null	012	
+incompatible	isAllCaps	012	
+incompetent	!isImmediatelyPrecededByANegation	012|011	
+incompetents	null	012	
+inept	!isImmediatelyPrecededByANegation	012|011	
+injuries	!isImmediatelyPrecededByANegation	012|011	
+injury	!isImmediatelyPrecededByANegation	012|011	
+insane	!isImmediatelyPrecededByANegation	012|011	
+interrupted	!isImmediatelyPrecededByANegation	012|011	
+ironically	null	012	
+irritating	!isImmediatelyPrecededByANegation	012|011	
+is down	null	012	
+is faulty	null	012	
+itchy	!isImmediatelyPrecededByANegation	012|011	
+jacked up	null	012	
+jammed	!isImmediatelyPrecededByANegation	012	
+joke	isPrecededByStrongWord	012	
+junk	null	012	
+kicked my butt	null	12	
+kidding, no?	null	012	
+kidding, right?	null	012	
+kill	null	012	
+lack of	!isImmediatelyPrecededByANegation	012|011	
+lame	null	012	
+layoff	!isImmediatelyPrecededByANegation	012	
+layoffs	!isImmediatelyPrecededByANegation	012	
+left wing	null	012	
+liar	null	012	
+loathe	null	012	
+lobbies	null	012	
+lobby	null	012	
+lobbyist	null	012	
+lonely	!isImmediatelyPrecededByANegation	012|011	
+loose	!isImmediatelyPrecededByANegation	012|011	
+looser	null	012	
+loosers	null	012	
+loser	null	012	
+losers	null	012	
+loses	!isImmediatelyPrecededByANegation	012|011	
+loss	null	012	
+low	isPrecededByStrongWord	012	
+mad	!isImmediatelyPrecededByANegation	012|011	
+malignious tumor	!isImmediatelyPrecededByANegation	012	
+mess	!isImmediatelyPrecededByANegation	012|011	
+mess up	!isImmediatelyPrecededByANegation	012|011	
+messed	!isImmediatelyPrecededByANegation	012|011	
+messed up	!isImmediatelyPrecededByANegation	012|011	
+messing up	null	012	
+messing with	!isImmediatelyPrecededByANegation	012|011	
+middle finger	null	012	
+midterms	null	012	
+migraine	!isImmediatelyPrecededByANegation	012|011	
+miserable	!isImmediatelyPrecededByANegation	012|011	
+misogynistic	null	012	
+misogyny	null	012	
+miss	!isImmediatelyPrecededByANegation	012|011	
+missed	!isImmediatelyPrecededByANegation	012|011	
+misses	null	012	
+missin	!isImmediatelyPrecededByANegation	012|011	
+missing	!isImmediatelyPrecededByANegation	012|011	
+missn	!isImmediatelyPrecededByANegation	012|011	
+mmh	null	012	
+mmmh	null	012	
+moron	null	012	
+motherfucker	null	012	
+motherfuckers	null	012	
+motherfucking	null	012	
+muthafucka	null	012	
+muthafuckas	null	012	
+my butt kicked	null	12	
+nasty	!isImmediatelyPrecededByANegation	012|011	
+nausea	null	012	
+need hugs	!isImmediatelyPrecededByANegation	012	
+need money	!isImmediatelyPrecededByANegation	012|011	
+need sleep	!isImmediatelyPrecededByANegation	012|011	
+need some money	null	12	
+need to sleep	!isImmediatelyPrecededByANegation	012|011	
+needs hug	!isImmediatelyPrecededByANegation	012	
+needs hugs	!isImmediatelyPrecededByANegation	012	
+neglect	!isImmediatelyPrecededByANegation	012|011	
+neglected	!isImmediatelyPrecededByANegation	012	
+never	isAllCaps	012	
+never again	null	012	
+never buy	null	012	
+nigga	isFollowedByAPositiveOpinion	011|012	
+niggas	isFollowedByAPositiveOpinion	011|012	
+nightmare	null	012	
+nightmares	null	012	
+no	isAllCaps	012	
+no apparent reason	null	012	
+no cash	!isImmediatelyPrecededByANegation	012	
+no money	!isImmediatelyPrecededByANegation	012	
+no no	null	012	
+no result	null	012	
+no results	null	012	
+no, no	null	012	
+none	isAllCaps	012	
+nonsense	null	012	
+not	isAllCaps	012	
+not be working	null	012	
+not exactly	null	012	
+not good	null	012	
+not happen	null	012	
+nothing to say	null	012	
+now only if	null	012	
+nuts	isPrecededBySpecificTerm///drive|droven|drove|driven|drived	012	
+nuts	!isImmediatelyPrecededByANegation	012	
+obsolete	null	012	
+offended	!isImmediatelyPrecededByANegation	012|011	
+offending	!isImmediatelyPrecededByANegation	012|011	
+ooops	null	012	
+oops	null	012	
+ouch	null	012	
+out	isPrecededBySpecificTerm///stressed|stresses	012	
+outraged	!isImmediatelyPrecededByANegation	012|011	
+overrated	!isImmediatelyPrecededByANegation	012|011	
+owe	!isImmediatelyFollowedBySpecificTerm///you	12	
+pain	null	012	
+painful	!isImmediatelyPrecededByANegation	012	
+paining	!isImmediatelyPrecededByANegation	012	
+panic	null	12	
+passed the buck	!isImmediatelyPrecededByANegation	012|011	
+passing the buck	!isImmediatelyPrecededByANegation	012|011	
+pathetic	null	012	
+pigshit	null	012	
+pissed	!isImmediatelyPrecededByANegation	012|011	
+pisses	null	012	
+pointless	!isImmediatelyPrecededByANegation	012|011	
+poor service	null	012	
+porn	null	012	
+pornographic	null	012	
+pray for	null	012	
+problem	!isPrecededBySpecificTerm///solve|solving|solve my|solving my|tackling+++!isImmediatelyPrecededByANegation	A?(B?(012:011):011)	
+problems	!isPrecededBySpecificTerm///solve|solving+++!isImmediatelyPrecededByANegation	A?(B?(012:011):011)	
+probs	null	012	
+profanity	null	012	
+prohibitive	null	012	
+puke	null	012	
+racism	null	012	
+racist	null	012	
+racists	null	012	
+ran out	null	12	
+rant	null	012	
+raped	null	012	
+refund	null	012	
+refuse	!isImmediatelyPrecededByANegation	012|011	
+regret	!isImmediatelyPrecededByANegation	012|011	
+reimburse	null	012	
+retarded	null	012	
+revolting	null	012	
+rid of	null	012	
+ridiculous	null	012	
+right wing	null	012	
+rip	null	012	
+risky	null	012	
+rubbish	null	012	
+rude	null	012	
+rudest	null	012	
+ruined	null	012	
+ruining	null	012	
+running late	null	12	
+running out	null	12	
+ruptured	!isImmediatelyPrecededByANegation	012	
+sacrificed	null	012	
+sad	!isImmediatelyPrecededByANegation	012|011	
+sadden	!isImmediatelyPrecededByANegation	012	
+saddest	null	012	
+sadfaced	null	012	
+sadly	null	012	
+scandal	null	012	
+scandale	null	012	
+scare	!isImmediatelyPrecededByANegation	012	
+scary	!isImmediatelyPrecededByANegation	012	
+scratched	!isImmediatelyPrecededByANegation	012	
+screw you	null	012	
+screwed	!isImmediatelyPrecededByANegation	012|011	
+scumbag	null	012	
+sentenced	!isImmediatelyPrecededByANegation	012|011	
+seriously?	null	012	
+sexist	!isImmediatelyPrecededByANegation	012|011	
+sexists	!isImmediatelyPrecededByANegation	012|011	
+sh*t	!isImmediatelyPrecededByPositive+++!isImmediatelyPrecededByANegation	A?(B?(012:011))	
+shame	null	012	
+shameful	null	012	
+sheesh	null	012	
+shit	!isImmediatelyPrecededByPositive+++!isImmediatelyPrecededByANegation	A?(B?(012:011))	
+shitter	null	012	
+shittest	null	012	
+shittiest	null	012	
+shitty	null	012	
+should have	null	012	
+should not	null	012	
+shrewd	null	012	
+shut up	null	012	
+shysty	null	012	
+sick	!isImmediatelyPrecededByANegation	012|011	
+sick of	!isImmediatelyPrecededByANegation	012|011	
+sigh	null	012	
+sighs	null	012	
+silly	null	012	
+slave	null	012	
+slavery	null	012	
+slaves	null	012	
+slut	null	012	
+sluts	null	012	
+smfh	null	012	
+smh	null	012	
+snarl	null	012	
+so behind	!isImmediatelyPrecededByANegation	012|011	
+sod	null	012	
+sore	null	012	
+sores	null	012	
+sorry	!isImmediatelyFollowedBySpecificTerm///to	012	
+sorry to hear	null	012	
+sowy	!isImmediatelyPrecededByANegation	012	
+spew	!isImmediatelyPrecededByANegation	012|011	
+spewing	null	012	
+spews	null	012	
+stern	null	012	
+stomachache	!isImmediatelyPrecededByANegation	012	
+strange	null	012	
+stuck	!isImmediatelyPrecededByANegation	012|011	
+stuffy	!isImmediatelyPrecededByANegation	012	
+stupid	!isImmediatelyPrecededByANegation	012|011	
+suck	!isImmediatelyPrecededByANegation	012|011	
+sucked	!isImmediatelyPrecededByANegation	012|011	
+sucker	!isImmediatelyPrecededByANegation	012|011	
+suckers	!isImmediatelyPrecededByANegation	012|011	
+sucking	null	012	
+sucks	!isImmediatelyPrecededByANegation	012|011	
+sucky	null	012	
+suckz	null	012	
+sue me	!isImmediatelyPrecededByANegation	012|011	
+sue them	null	012	
+sue us	!isImmediatelyPrecededByANegation	012|011	
+sue you	!isImmediatelyPrecededByANegation	012|011	
+suspended	!isImmediatelyPrecededByANegation	012|011	
+suspension	null	012	
+suspicious	null	012	
+sweatshop	null	012	
+sweatshops	null	012	
+swollen	!isImmediatelyPrecededByANegation	012	
+tacky	!isImmediatelyPrecededByANegation	012	
+taken forever	null	012	
+takes forever	null	012	
+terrible	!isImmediatelyPrecededByANegation	012	
+terrifying	null	012	
+that's it	null	012	
+this close	null	012	
+thisclose	null	012	
+threaten	null	012	
+threatens	null	012	
+throbbing	!isImmediatelyPrecededByANegation	012	
+thug	null	012	
+thugs	null	012	
+tired	!isImmediatelyPrecededByANegation	012|011	
+to be desired	isPrecededBySpecificTerm///leaves|left	012	
+to flawed to	null	012	
+to work	isPrecededBySpecificTerm///can't get	012	
+too late	!isImmediatelyPrecededByANegation	012	
+too much	null	012	
+toothache	!isImmediatelyPrecededByANegation	012	
+toxic	!isImmediatelyPrecededByANegation	012|011	
+toxicity	null	012	
+tragedy	!isImmediatelyPrecededByANegation	012|011	
+tromped	!isImmediatelyPrecededByANegation	012|011	
+trouble	!isImmediatelyPrecededByANegation	012	
+tummyache	!isImmediatelyPrecededByANegation	012	
+tumor	!isImmediatelyPrecededByANegation	012	
+twat	null	012	
+twats	null	012	
+ugh	null	012	
+ugh	null	012	
+ugly	null	012	
+uh oh	null	012	
+unacceptable	!isImmediatelyPrecededByANegation	012|011	
+uncool	!isImmediatelyPrecededByANegation	012|011	
+unfair	!isImmediatelyPrecededByANegation	012|011	
+unforgivable	!isImmediatelyPrecededByANegation	012|011	
+unfortunate	!isImmediatelyPrecededByANegation	012|011	
+unfortunately	null	012	
+unfortunetly	null	012	
+ungodly	!isImmediatelyPrecededByANegation	012|011	
+unhappy	!isImmediatelyPrecededByANegation	012|011	
+unloved	!isImmediatelyPrecededByANegation	012|011	
+unsatisfying	!isImmediatelyPrecededByANegation	012|011	
+unsolved	null	012	
+unsuccessful	null	012	
+unsuccessfully	null	012	
+unwanted	null	012	
+upset	!isImmediatelyPrecededByANegation	012|011	
+upsetting	!isImmediatelyPrecededByANegation	012	
+vexing	null	12	
+vomit	null	012	
+want to go	!isPrecededBySpecificTerm///do you	012	
+waste my time	!isImmediatelyPrecededByANegation	012|011	
+waste of my time	!isImmediatelyPrecededByANegation	012|011	
+waste our time	!isImmediatelyPrecededByANegation	012|011	
+wasted time	!isImmediatelyPrecededByANegation	012|011	
+wasteland	null	012	
+we lost	null	12	
+weird	!isImmediatelyPrecededByANegation	012|011	
+whats wrong	null	012	
+what's wrong	null	012	
+whore	null	012	
+whores	null	012	
+wish he	null	012	
+wish I	null	012	
+wish i had	null	012	
+wish she	null	012	
+wish they	null	012	
+wish we	null	012	
+won't be buying	null	012	
+won't buy	null	012	
+won't buy	null	012	
+wont let me	null	012	
+worried	!isImmediatelyPrecededByANegation	012|011	
+worries	!isImmediatelyPrecededByANegation	012	
+worry	!isImmediatelyPrecededByANegation	012|011	
+worrying	!isImmediatelyPrecededByANegation	012	
+worse	!isImmediatelyPrecededByANegation	012	
+worst	!isImmediatelyPrecededByANegation	012	
+wrenching	null	012	
+wrong	!isImmediatelyPrecededByANegation	012	
+wtf	null	012	
+yeah right	null	012	
+years behind	!isImmediatelyPrecededByANegation	012	
+yuck	null	012	
+yucky	!isImmediatelyPrecededByANegation	012	
+zero support	null	012	
+funeral	!isImmediatelyPrecededByANegation	012|011	
+shits	!isImmediatelyPrecededByANegation	012	
+shits	null	012	
+do they need	!isImmediatelyPrecededByANegation	012	
+boyed	!isImmediatelyPrecededByANegation	012	
+shouldn't exist	null	012	
+can't bear	null	012	
+shitfaced	null	012	
