@@ -3,3 +3,6 @@
 /dist/
 /web/resources/private/
 /src/java/Utils/
+/nbproject/
+/profiles/
+/src/java/Twitter/TwitterAPIController.java
