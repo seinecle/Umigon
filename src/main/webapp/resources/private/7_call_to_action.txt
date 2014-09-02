@@ -1,0 +1,51 @@
+adapt	isFirstLetterCapitalized	0521	
+apply	isFirstLetterCapitalized	0521	
+apply now	null	0521	
+break free	isFirstLetterCapitalized	0521	
+catch	isFirstLetterCapitalized	0521	
+check it out	null	0521	
+check out	isFirstLetterCapitalized	0521	
+create	isFirstLetterCapitalized	0521	
+do	isFirstLetterCapitalized	0521	
+don’t miss	isFirstLetterCapitalized	0521	
+don't miss	isFirstLetterCapitalized	0521	
+don't miss	isFirstLetterCapitalized	0521	
+find out	isFirstLetterCapitalized	0521	
+get	isFirstLetterCapitalized	0521	
+give	isFirstLetterCapitalized	0521	
+got	isFirstTermOfStatus+++isFollowedBySpecificTerm///?	A?(B?(052:052))	
+grab	isFirstLetterCapitalized	0521	
+hey	null	052	
+hi	isFirstTermOfStatus	052	
+join us	isFirstLetterCapitalized	0521	
+learn	isFirstTermOfStatus+++isFirstLetterCapitalized	A?(B?(0521:0521))	
+learn how	isFirstLetterCapitalized	0521	
+make	isFirstLetterCapitalized	0521	
+master	isFirstLetterCapitalized	0521	
+meet	isFirstLetterCapitalized	0521	
+navigate	isFirstLetterCapitalized	0521	
+play	isFirstLetterCapitalized	0521	
+please	null	052	
+read	isFirstLetterCapitalized	0521	
+ready for	plus question mark in the next 10 words	052	
+reduce	isFirstLetterCapitalized	0521	
+register	isFirstLetterCapitalized	0521	
+retweet	null	0521	
+see	isFirstLetterCapitalized	0521	
+spread the word	null	0521	
+swipe	isFirstLetterCapitalized	0521	
+tell us	isFirstLetterCapitalized	0521	
+touch	isFirstLetterCapitalized	0521	
+try	isFirstLetterCapitalized	0521	
+tweet your	null	0521	
+u	null	052	
+ur	null	052	
+vote now	null	0521	
+watch	isFirstLetterCapitalized	0521	
+yah know	null	052	
+you	null	052	
+your	null	052	
+you're	null	052	
+yourself	null	052	
+you've	null	052	
+ya'll	null	052	
