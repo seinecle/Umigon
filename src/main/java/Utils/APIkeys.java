@@ -25,6 +25,10 @@ public class APIkeys {
         return "testpass";
     }
     
+    public static String getElasticMailAPIKey(){
+        return "558fe3d8-10df-411e-a3fe-4b3f318aa644";
+    }
+    
     public static String getTwitterConsumerSecret() {
         return "VVsf4qT0DCBeLODRDnBlhwxrRG6KLm0TT2wiK2Q";
     }
