@@ -4,13 +4,12 @@
  */
 package Admin;
 
-import Classifier.Categories;
-import Classifier.TweetLooper;
-import Singletons.HeuristicsLoader;
-import LanguageDetection.Cyzoku.util.LangDetectException;
+import Classifier.ClassifierMachine;
 import Twitter.ExternalSourceTweetLoader;
 import Twitter.Tweet;
 import Twitter.TwitterAPIController;
+import Utils.APIkeys;
+import Utils.Clock;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,10 +23,10 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -48,36 +47,79 @@ public class ControllerBean implements Serializable {
     private String dummy;
     private String userInput;
     private String twitterStreamInput;
+    private boolean warning = false;
+    private boolean progressBarRendered = true;
+    private String stage = "Fetching tweets...";
 
-    @Inject TweetLooper hl1;
-    @Inject ExternalSourceTweetLoader comp;
+    private int countTweetsToClassify = 0;
+    private int sizeTweetsToClassify = 0;
+
+    @Inject
+    ExternalSourceTweetLoader comp;
+
+    @Inject
+    ClassifierMachine cm;
 
     public ControllerBean() {
     }
-    
-    
-    
-    public String classifyViaAPI() throws LangDetectException, UnknownHostException, FileNotFoundException, IOException, TwitterException {
+
+    public void msg() {
+        warning = true;
+    }
+
+    public boolean isWarning() {
+        return warning;
+    }
+
+    public void setWarning(boolean warning) {
+        this.warning = warning;
+    }
+
+    public String tweetsViaAPI() throws UnknownHostException, FileNotFoundException, IOException, TwitterException {
+        progressBarRendered = true;
         reportedClassificationErrors = new ArrayList();
         System.out.println("UMIGON - semantic analyzer for large twitter accounts");
         listTweets = new ArrayList();
 
         TwitterAPIController twitterAPIFetcher = new TwitterAPIController();
         listTweets = twitterAPIFetcher.getTweetsFromSearchAPI(this.getTwitterStreamInput());
-        if (listTweets.isEmpty()){
+        if (listTweets.isEmpty()) {
             return "error.xhtml?faces-redirect=true";
         }
-        listTweets = hl1.applyLevel1(listTweets);
+
+        stage = "computing sentiment: ";
+        listTweets = classify(listTweets);
+
         return "result.xhtml?faces-redirect=true";
 
     }
 
-    public String classifyViaUserInput() throws LangDetectException, UnknownHostException, FileNotFoundException, IOException, TwitterException {
-
+    public String tweetsViaUserInput() throws UnknownHostException, FileNotFoundException, IOException, TwitterException {
+        progressBarRendered = true;
+        reportedClassificationErrors = new ArrayList();
         listTweets = comp.userInputTweets(userInput);
-        listTweets = hl1.applyLevel1(listTweets);
+        if (listTweets.isEmpty()) {
+            return "error.xhtml?faces-redirect=true";
+        }
+        stage = "computing sentiment: ";
+        listTweets = classify(listTweets);
         return "result.xhtml?faces-redirect=true";
+    }
 
+    public List<Tweet> classify(List<Tweet> tweets) {
+
+        Iterator<Tweet> tweetsIterator = tweets.iterator();
+        sizeTweetsToClassify = tweets.size();
+
+        List<Tweet> tweetsClassified = new ArrayList();
+
+        Clock classificationClock = new Clock("starting the analysis of tweets");
+        while (tweetsIterator.hasNext()) {
+            countTweetsToClassify++;
+            tweetsClassified.add(cm.classify(tweetsIterator.next()));
+        }
+        classificationClock.closeAndPrintClock();
+        return tweetsClassified;
     }
 
     public String signal(String status, String sentiment) {
@@ -103,7 +145,7 @@ public class ControllerBean implements Serializable {
             }
 
             String data = "userName=" + URLEncoder.encode("clementlevallois@gmail.com", "UTF-8");
-            data += "&api_key=" + URLEncoder.encode("558fe3d8-10df-411e-a3fe-4b3f318aa644", "UTF-8");
+            data += "&api_key=" + URLEncoder.encode(APIkeys.getElasticMailAPIKey(), "UTF-8");
             data += "&from=" + URLEncoder.encode("info@exploreyourdata.com", "UTF-8");
             data += "&from_name=" + URLEncoder.encode("Exploreyourdata Umigon", "UTF-8");
             data += "&subject=" + URLEncoder.encode("Umigon error reported", "UTF-8");
@@ -176,5 +218,37 @@ public class ControllerBean implements Serializable {
 
     public void setTwitterStreamInput(String twitterStreamInput) {
         this.twitterStreamInput = twitterStreamInput;
+    }
+
+    public int getCountTweetsToClassify() {
+        return countTweetsToClassify;
+    }
+
+    public void setCountTweetsToClassify(int countTweetsToClassify) {
+        this.countTweetsToClassify = countTweetsToClassify;
+    }
+
+    public int getSizeTweetsToClassify() {
+        return sizeTweetsToClassify;
+    }
+
+    public void setSizeTweetsToClassify(int sizeTweetsToClassify) {
+        this.sizeTweetsToClassify = sizeTweetsToClassify;
+    }
+
+    public boolean isProgressBarRendered() {
+        return progressBarRendered;
+    }
+
+    public void setProgressBarRendered(boolean progressBarRendered) {
+        this.progressBarRendered = progressBarRendered;
+    }
+
+    public String getStage() {
+        return stage;
+    }
+
+    public void setStage(String stage) {
+        this.stage = stage;
     }
 }

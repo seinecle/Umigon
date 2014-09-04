@@ -3,8 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Admin;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 /*
  Copyright 2008-2013 Clement Levallois
@@ -45,8 +50,68 @@ package Admin;
  Contributor(s): Clement Levallois
 
  */
-public class Parameters {
+@ManagedBean
+@ViewScoped
 
-    public static boolean local = true;
+public class Pb {
+
+    int size = 0;
+    int count = 0;
+    boolean rendered = false;
+    private Integer progress = 0;
+    private String stage = "fetching tweets";
+
+    public Pb() {
+    }
+
+    @ManagedProperty(value = "#{controllerBean}")
+    ControllerBean controllerBean;
+
+    public void setControllerBean(ControllerBean controllerBean) {
+        this.controllerBean = controllerBean;
+    }
+
+    public boolean isRendered() {
+        return controllerBean.isProgressBarRendered();
+    }
+
+    public void setRendered(boolean rendered) {
+        this.rendered = rendered;
+    }
+
+    public String getStage() {
+        return controllerBean.getStage();
+    }
+
+    public void setStage(String stage) {
+        this.stage = stage;
+    }
     
+
+    public Integer getProgress() {
+        Float progressFloat = controllerBean.getCountTweetsToClassify() / (float) controllerBean.getSizeTweetsToClassify() * 100;
+        progress = progressFloat.intValue();
+        return progress;
+    }
+
+    public void setProgress(Integer progress) {
+        this.progress = progress;
+    }
+
+    public void onComplete() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Progress Completed"));
+    }
+
+    public void cancel() {
+        progress = null;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
 }

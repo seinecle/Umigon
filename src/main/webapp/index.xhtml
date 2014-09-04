@@ -9,15 +9,25 @@
         <meta name="keywords" content="free sentiment analysis, opinion mining, text mining on twitter"/>
     </h:head>
     <h:body>
+        <p:growl id="growl" />
         <p:graphicImage name="img/twitter.png" width="100px" alt="Twitter logo" style="position:absolute;"/>
         <div style="margin-left:20%;">
             <h1>Umigon</h1>
             <h2>Sentiment analysis for tweets, and more</h2>
             <br></br>
-            <h:form>
-                <p:inputText id="twitterSearchArea" value="#{controllerBean.twitterStreamInput}"/>
-                <p:watermark for="twitterSearchArea" value="@microsoft"></p:watermark>
-                <p:commandButton value="classify" action="#{controllerBean.classifyViaAPI()}"/>
+            <h:form >
+                <div style="width:430px; align:center;">
+                    <p:inputText id="twitterSearchArea" value="#{controllerBean.twitterStreamInput}"/>
+                    <p:watermark for="twitterSearchArea" value="@microsoft"></p:watermark>
+                    <p:commandButton value="classify" onclick="PF('pbAjax').start();
+                            PF('startButton').disable();" widgetVar="startButton" action="#{controllerBean.tweetsViaAPI()}" update="progressBarPanel"/>
+                    <h:panelGrid id="progressBarPanel">
+                        <p:progressBar widgetVar="pbAjax" style="width: 350px" ajax="true" rendered="#{pb.rendered}" value="#{pb.progress}" labelTemplate="{value}%" styleClass="animated" interval="1000">
+                            <p:ajax event="complete" listener="#{pb.onComplete()}" update=":growl" oncomplete="startButton.enable()"/>
+                        </p:progressBar>
+                    </h:panelGrid>
+                </div>
+                <br></br>
             </h:form>
             <br></br>
             <p>
@@ -29,12 +39,12 @@
                 <p:inputTextarea id="textArea" value="#{controllerBean.userInput}" rows="5" cols="45" autoResize="true"/>
 
                 <p:watermark for="textArea" value="paste tweets here (one per line)"></p:watermark>
-                <p:commandButton style="position:relative;left:1em; bottom: 6em;" value="classify" action="#{controllerBean.classifyViaUserInput()}"/>
+                <p:commandButton style="position:relative;left:1em; bottom: 6em;" value="classify" action="#{controllerBean.tweetsViaUserInput()}"/>
 
                 <br></br>
             </h:form>
             Application created by <a href="http://www.clementlevallois.net">Clement Levallois</a>. Can process millions of tweets in minutes. <a href="http://www.clementlevallois.net/download/umigon.pdf">Download the (not too technical) paper describing how Umigon works.</a><br></br>
-            Code available in open source on <a href="https://github.com/seinecle/Umigon">Github</a>. Interested in integrating this app in your products (via API etc.) or research projects? <a href="https://twitter.com/seinecle">Contact me</a>.
+            Code available in open source on <a href="https://github.com/seinecle/Umigon/tree/Umigon2.0">Github</a>. Interested in integrating this app in your products (via API etc.) or research projects? <a href="https://twitter.com/seinecle">Contact me</a>.
             <p>
                 <b>If you use this application, please reference it in your work:</b><br></br>
                 <span style="font-size: 0.8em">Levallois, Clement. "Umigon: sentiment analysis on Tweets based on terms lists and heuristics". Proceedings of the 7th International Workshop on Semantic Evaluation (SemEval 2013), June 2013, Atlanta, Georgia.</span>
@@ -53,6 +63,9 @@
             <a href="http://www.amazon.com/gp/product/193398838X/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=193398838X&amp;linkCode=as2&amp;tag=wwwumigoncom-20&amp;linkId=OYDFPII46RP26XK2"><p:graphicImage name="img/taming_text.jpg" width="113px"  alt="Taming text"/></a>
             <!-- ]]> -->
         </div>
+
+
+
         <!-- Start of StatCounter Code for Default Guide -->
         <script type="text/javascript">
             //<![CDATA[
@@ -72,5 +85,13 @@
                                          src="http://c.statcounter.com/10001107/0/4d22797d/1/"
                                          alt="shopify visitor statistics" /></a></div></noscript>
         <!-- End of StatCounter Code for Default Guide -->
+
+        <style tyle="text/css">
+            .animated .ui-progressbar-value { 
+                background-image: url("pbar-ani.gif.xhtml"); 
+            }
+        </style>
+
+
     </h:body>
 </html>

@@ -112,7 +112,7 @@ public class HeuristicsLoader {
 //        File file = new File ("/usr/sharedfilesapps/lexicons");
         File file;
         if (Parameters.local) {
-            file = new File("H:\\Docs Pro Clement\\NetBeansProjects\\Umigon_mavenized\\src\\main\\webapp\\resources\\private\\");
+            file = new File("H:\\Docs Pro Clement\\NetBeansProjects\\Umigon\\src\\main\\webapp\\resources\\private\\");
         } else {
             file = new File("/usr/sharedfilesapps/lexicons");
         }
