@@ -16,12 +16,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.cybozu.labs</groupId>
-            <artifactId>langdetect</artifactId>
-            <version>1.1-20120112</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
             <groupId>com.google.collections</groupId>
             <artifactId>google-collections</artifactId>
             <version>1.0</version>
@@ -43,12 +37,6 @@
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sourceforge.javacsv</groupId>
-            <artifactId>javacsv</artifactId>
-            <version>2.0</version>
-            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
