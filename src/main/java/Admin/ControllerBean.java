@@ -51,6 +51,16 @@ public class ControllerBean implements Serializable {
     private boolean progressBarRendered = true;
     private String stage = "Fetching tweets...";
 
+    private int neg = 0;
+    private int pos = 0;
+    private int neut = 0;
+    private int prom = 0;
+
+    private int negPC = 0;
+    private int posPC = 0;
+    private int neutPC = 0;
+    private int promPC = 0;
+
     private int countTweetsToClassify = 0;
     private int sizeTweetsToClassify = 0;
 
@@ -114,9 +124,21 @@ public class ControllerBean implements Serializable {
         List<Tweet> tweetsClassified = new ArrayList();
 
         Clock classificationClock = new Clock("starting the analysis of tweets");
+        Tweet tweet;
         while (tweetsIterator.hasNext()) {
             countTweetsToClassify++;
-            tweetsClassified.add(cm.classify(tweetsIterator.next()));
+            tweet = cm.classify(tweetsIterator.next());
+            tweetsClassified.add(tweet);
+            if (tweet.isIsNegative()) {
+                neg++;
+            } else if (tweet.isIsPositive()) {
+                pos++;
+            } else {
+                neut++;
+            }
+            if (tweet.getListCategories().contains("061")) {
+                prom++;
+            }
         }
         classificationClock.closeAndPrintClock();
         return tweetsClassified;
@@ -205,6 +227,13 @@ public class ControllerBean implements Serializable {
     }
 
     public String reinit() {
+        twitterStreamInput = "";
+        sizeTweetsToClassify = 0;
+        countTweetsToClassify = 0;
+        pos = 0;
+        neut = 0;
+        neg = 0;
+        prom = 0;
         return "index.xhtml?faces-redirect=true";
     }
 
@@ -251,4 +280,71 @@ public class ControllerBean implements Serializable {
     public void setStage(String stage) {
         this.stage = stage;
     }
+
+    public int getNeg() {
+        return neg;
+    }
+
+    public void setNeg(int neg) {
+        this.neg = neg;
+    }
+
+    public int getPos() {
+        return pos;
+    }
+
+    public void setPos(int pos) {
+        this.pos = pos;
+    }
+
+    public int getNeut() {
+        return neut;
+    }
+
+    public void setNeut(int neut) {
+        this.neut = neut;
+    }
+
+    public int getProm() {
+        return prom;
+    }
+
+    public void setProm(int prom) {
+        this.prom = prom;
+    }
+
+    public int getNegPC() {
+        return neg*100/sizeTweetsToClassify;
+    }
+
+    public void setNegPC(int negPC) {
+        this.negPC = negPC;
+    }
+
+    public int getPosPC() {
+        return pos*100/sizeTweetsToClassify;
+    }
+
+    public void setPosPC(int posPC) {
+        this.posPC = posPC;
+    }
+
+    public int getNeutPC() {
+        return neut*100/sizeTweetsToClassify;
+    }
+
+    public void setNeutPC(int neutPC) {
+        this.neutPC = neutPC;
+    }
+
+    public int getPromPC() {
+        return prom*100/sizeTweetsToClassify;
+    }
+
+    public void setPromPC(int promPC) {
+        this.promPC = promPC;
+    }
+    
+    
+
 }
