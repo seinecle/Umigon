@@ -18,6 +18,9 @@
         <h:form>
             <p:commandButton value="back to home page" action="#{controllerBean.reinit}"/>
             <br></br>
+            <p:commandButton value="export to Excel"
+                             onclick="PF('excelButton').disable();" widgetVar="excelButton" action="#{exportToExcel.export()}" oncomplete="excelButton.enable()"/>
+
             <br></br>
             <br></br>
             <p>Number of tweets: #{controllerBean.listTweets.size()}. <b>Positive:</b> #{controllerBean.pos} (#{controllerBean.posPC}%). <b>Negative:</b>  #{controllerBean.neg} (#{controllerBean.negPC}%). <b>Promoted:</b>  #{controllerBean.prom} (#{controllerBean.promPC}%)</p>

@@ -44,12 +44,13 @@ public class TwitterAPIController {
         int nbTweets = 0;
         int nbPages = 0;
         boolean finished = false;
+        Tweet tweet;
 
         Set<Long> ids = new HashSet();
         long lowestStatusId = Long.MAX_VALUE;
 
         while (!finished) {
-            if (nbPages++ > 5) {
+            if (nbPages++ > 8) {
                 return listTweets;
             }
             try {
@@ -59,6 +60,8 @@ public class TwitterAPIController {
             }
             for (Status status : result.getTweets()) {
                 if (!ids.contains(status.getId())) {
+                    tweet = new Tweet(status);
+                    tweet.setUser("@"+status.getUser().getScreenName());
                     listTweets.add(new Tweet(status));
                     ids.add(status.getId());
                 }
