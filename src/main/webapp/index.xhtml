@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Umigon - free sentiment analysis for Tweets / Twitter</title>
+        <meta name="description" content="This is a free application to classify tweets according to positive, negative or neutral sentiment."/>
+        <meta name="keywords" content="free sentiment analysis, opinion mining, text mining on twitter"/>
+    </h:head>
+    <h:body>
+        <p:graphicImage name="img/twitter.png" width="100px" alt="Twitter logo" style="position:absolute;"/>
+        <div style="margin-left:20%;">
+            <h1>Umigon</h1>
+            <h2>Sentiment analysis for tweets, and more</h2>
+            <br></br>
+            <h:form >
+                <div style="width:430px; align:center;">
+                    <p:inputText id="twitterSearchArea" value="#{controllerBean.twitterStreamInput}"/>
+                    <p:watermark for="twitterSearchArea" value="@microsoft"></p:watermark>
+                    <p:commandButton value="classify" onclick="PF('pbAjax').start();
+                            PF('startButton').disable();" widgetVar="startButton" action="#{controllerBean.tweetsViaAPI()}" update="progressBarPanel"/>
+                    <h:panelGrid id="progressBarPanel">
+                        <p:progressBar widgetVar="pbAjax" style="width: 350px" ajax="true" rendered="#{pb.rendered}" value="#{pb.progress}" labelTemplate="{value}%" styleClass="animated" interval="500">
+                            <p:ajax event="complete" listener="#{pb.onComplete()}" oncomplete="startButton.enable()"/>
+                        </p:progressBar>
+                    </h:panelGrid>
+                </div>
+                <br></br>
+            </h:form>
+            <br></br>
+            <p>
+                Or:
+            </p>
+
+            <h:form>
+                <br></br>
+                <p:inputTextarea id="textArea" value="#{controllerBean.userInput}" rows="5" cols="45" autoResize="true"/>
+
+                <p:watermark for="textArea" value="paste tweets here (one per line)"></p:watermark>
+                <p:commandButton style="position:relative;left:1em; bottom: 6em;" value="classify" action="#{controllerBean.tweetsViaUserInput()}"/>
+
+                <br></br>
+            </h:form>
+            Application created by <a href="http://www.clementlevallois.net">Clement Levallois</a>. Can process millions of tweets in minutes. <a href="http://www.clementlevallois.net/download/umigon.pdf">Download the (not too technical) paper describing how Umigon works.</a><br></br>
+            Code available in open source on <a href="https://github.com/seinecle/Umigon/tree/Umigon2.0">Github</a>. Interested in integrating this app in your products (via API etc.) or research projects? <a href="https://twitter.com/seinecle">Contact me</a>.
+            <p>
+                <b>If you use this application, please reference it in your work:</b><br></br>
+                <span style="font-size: 0.8em">Levallois, Clement. "Umigon: sentiment analysis on Tweets based on terms lists and heuristics". Proceedings of the 7th International Workshop on Semantic Evaluation (SemEval 2013), June 2013, Atlanta, Georgia.</span>
+            </p>
+            <b>Recommended references to explore the possibilities of text mining:</b><br></br>
+            <!-- <![CDATA[ -->
+            <!-- Data science for business -->
+            <a href="http://www.amazon.com/gp/product/1449361323/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1449361323&amp;linkCode=as2&amp;tag=wwwumigoncom-20&amp;linkId=RSEO7OIH5NKM3VDD"><p:graphicImage name="img/data_science_for_business.jpg" width="113px" alt="Data science for business"/></a>
+            <!-- Data smart -->
+            <a href="http://www.amazon.com/gp/product/111866146X/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=111866146X&amp;linkCode=as2&amp;tag=wwwumigoncom-20&amp;linkId=L7VZGZ5YGNDZYF67"><p:graphicImage name="img/data_smart.jpg" width="113px" alt="Data smart"/></a>
+
+            <!-- NLTK Cookbook -->
+            <a href="http://www.amazon.com/gp/product/1782167854/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1782167854&amp;linkCode=as2&amp;tag=wwwumigoncom-20&amp;linkId=QZLUGWAVYA52D6HY"><p:graphicImage name="img/nltk_cookbook.jpg" width="113px" alt="Python 3 and NLTK 3 cookbook"/></a>
+
+            <!-- Taming Text -->
+            <a href="http://www.amazon.com/gp/product/193398838X/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=193398838X&amp;linkCode=as2&amp;tag=wwwumigoncom-20&amp;linkId=OYDFPII46RP26XK2"><p:graphicImage name="img/taming_text.jpg" width="113px"  alt="Taming text"/></a>
+            <!-- ]]> -->
+        </div>
+
+
+
+        <!-- Start of StatCounter Code for Default Guide -->
+        <script type="text/javascript">
+            //<![CDATA[
+            var sc_project = 10001107;
+            var sc_invisible = 1;
+            var sc_security = "4d22797d";
+            var scJsHost = (("https:" == document.location.protocol) ?
+                    "https://secure." : "http://www.");
+            document.write("<sc" + "ript type='text/javascript' src='" +
+                    scJsHost +
+                    "statcounter.com/counter/counter_xhtml.js'></" + "script>");
+            //]]>
+        </script>
+        <noscript><div class="statcounter"><a title="shopify visitor
+                                              statistics" href="http://statcounter.com/shopify/"
+                                              class="statcounter"><img class="statcounter"
+                                         src="http://c.statcounter.com/10001107/0/4d22797d/1/"
+                                         alt="shopify visitor statistics" /></a></div></noscript>
+        <!-- End of StatCounter Code for Default Guide -->
+
+        <style tyle="text/css">
+            .animated .ui-progressbar-value { 
+                background-image: url("pbar-ani.gif.xhtml"); 
+            }
+        </style>
+
+
+    </h:body>
+</html>
