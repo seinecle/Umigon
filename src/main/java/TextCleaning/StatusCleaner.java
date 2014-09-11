@@ -4,6 +4,8 @@
  */
 package TextCleaning;
 
+import com.google.common.collect.Multiset;
+import java.util.Iterator;
 import javax.ejb.Stateless;
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,7 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 @Stateless
 public class StatusCleaner {
 
-public StatusCleaner(){}
+    public StatusCleaner() {
+    }
 
     public String clean(String status) {
         status = status.replace("...", " ");
@@ -39,4 +42,18 @@ public StatusCleaner(){}
         }
         return string.trim();
     }
+
+    public Multiset<String> removeSmallWords(Multiset<String> terms) {
+
+        Iterator<String> it = terms.iterator();
+        while (it.hasNext()) {
+            String string = it.next();
+            if (string.length() < 3 | string.matches(".*\\d.*")) {
+                it.remove();
+            }
+        }
+        return terms;
+
+    }
+
 }

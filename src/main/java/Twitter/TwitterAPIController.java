@@ -65,6 +65,9 @@ public class TwitterAPIController {
             }
             for (Status status : result.getTweets()) {
                 if (!ids.contains(status.getId())) {
+                    if (("@" + status.getUser().getScreenName()).equals(stringQueried)) {
+                        continue;
+                    }
                     user = new User();
                     user.setFavoritesCount(status.getUser().getFavouritesCount());
                     user.setFollowersCount(status.getUser().getFollowersCount());
@@ -94,10 +97,5 @@ public class TwitterAPIController {
     public Twitter getTwitter() {
         return twitter;
     }
-    
-    
 
-    
-    
-    
 }

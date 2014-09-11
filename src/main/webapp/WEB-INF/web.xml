@@ -21,9 +21,4 @@
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
-    <ejb-local-ref>
-        <ejb-ref-name>statusCleaner</ejb-ref-name>
-        <ejb-ref-type>Session</ejb-ref-type>
-        <ejb-link>Umigon-1#StatusCleaner</ejb-link>
-    </ejb-local-ref>
 </web-app>

@@ -108,7 +108,7 @@ public class ControllerBean implements Serializable {
         tweets = classify(tweets);
         label = controllerLabelsFinder.findFromTweets(tweets, twitterAPIFetcher.getTwitter(),twitterStreamInput);
         Summary sum = new Summary();
-        sum.init(twitterStreamInput, tweets);
+        sum.init(twitterStreamInput, tweets,label);
 
         return "result.xhtml?faces-redirect=true";
 

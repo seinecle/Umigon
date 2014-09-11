@@ -29,7 +29,7 @@
             <p>Number of tweets: #{controllerBean.tweets.size()}. <b>Positive:</b> #{controllerBean.pos} (#{controllerBean.posPC}%). <b>Negative:</b>  #{controllerBean.neg} (#{controllerBean.negPC}%). <b>Promoted:</b>  #{controllerBean.prom} (#{controllerBean.promPC}%)</p>
             <br></br>
             <p:dataTable id ="table" value="#{controllerBean.tweets}" paginator="true" rows ="500" var="t" >
-                <p:column><f:facet name="header">Author</f:facet>#{t.user.screenName}</p:column>
+                <p:column><f:facet name="header">Author</f:facet>@#{t.user.screenName}</p:column>
                 <p:column><f:facet name="header">Tweet</f:facet>#{t.text}</p:column>
                 <p:column><f:facet name="header">Sentiment</f:facet>#{t.sentiment} <p:graphicImage name="img/red.png" rendered ="#{t.isNegative}" /><p:graphicImage name="img/green.png" rendered ="#{t.isPositive}" /></p:column>
                 <p:column><f:facet name="header">Semantic features</f:facet>#{t.otherSemanticFeatures}</p:column>

@@ -27,6 +27,7 @@ public class SentenceLevelHeuristicsPost {
     final private String punctuation = "[\\!\\?\\.'\\\\\"\\-,\\(\\)\\#=]+";
     
     @Inject HeuristicsLoader HLoader;
+    @Inject StatusCleaner statusCleaner;
 
     public SentenceLevelHeuristicsPost() {
     }
@@ -62,7 +63,6 @@ public class SentenceLevelHeuristicsPost {
     }
 
     public void containsNegation() {
-        StatusCleaner statusCleaner = new StatusCleaner();
         status = statusCleaner.removePunctuationSigns(status).toLowerCase().trim();
 
         Set<String> termsInStatus = new HashSet();
@@ -78,7 +78,6 @@ public class SentenceLevelHeuristicsPost {
     }
 
     public void containsModerator() {
-        StatusCleaner statusCleaner = new StatusCleaner();
         int index;
         int indexPos = 0;
         int indexNeg = 0;
