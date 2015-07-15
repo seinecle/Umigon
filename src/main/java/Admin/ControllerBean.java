@@ -11,6 +11,7 @@ import Twitter.Tweet;
 import Twitter.TwitterAPIController;
 import Utils.APIkeys;
 import Utils.Clock;
+import Utils.SnowBall;
 import Utils.Summary;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -54,7 +55,7 @@ public class ControllerBean implements Serializable {
     private String stage = "Fetching tweets...";
 
     private String label;
-    
+
     private int neg = 0;
     private int pos = 0;
     private int neut = 0;
@@ -73,9 +74,12 @@ public class ControllerBean implements Serializable {
 
     @Inject
     ClassifierMachine cm;
-    
+
     @Inject
     ControllerLabelsFinder controllerLabelsFinder;
+
+    @Inject
+    SnowBall snowBall;
 
     public ControllerBean() {
     }
@@ -92,7 +96,11 @@ public class ControllerBean implements Serializable {
         this.warning = warning;
     }
 
-    public String tweetsViaAPI() throws UnknownHostException, FileNotFoundException, IOException, TwitterException {
+    public String tweetsViaAPI() throws UnknownHostException, FileNotFoundException, IOException, TwitterException, InterruptedException {
+        if (Parameters.test) {
+            snowBall.main(controllerLabelsFinder, twitterStreamInput);
+            return null;
+        }
         progressBarRendered = true;
         reportedClassificationErrors = new ArrayList();
         System.out.println("UMIGON - semantic analyzer for large twitter accounts");
@@ -106,9 +114,10 @@ public class ControllerBean implements Serializable {
 
         stage = "computing sentiment: ";
         tweets = classify(tweets);
-        label = controllerLabelsFinder.findFromTweets(tweets, twitterAPIFetcher.getTwitter(),twitterStreamInput);
+        controllerLabelsFinder.findLabelsFromTweets(tweets, twitterAPIFetcher.getTwitter(), twitterStreamInput);
+        label = controllerLabelsFinder.getLabelFinder().getMostFrequentLabels();
         Summary sum = new Summary();
-        sum.init(twitterStreamInput, tweets,label);
+        sum.init(twitterStreamInput, tweets, label);
 
         return "result.xhtml?faces-redirect=true";
 
@@ -167,7 +176,7 @@ public class ControllerBean implements Serializable {
 
     @PreDestroy
     public void sendErrorsByEmail() {
-        
+
         if (reportedClassificationErrors == null || reportedClassificationErrors.isEmpty()) {
             return;
         }

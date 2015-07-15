@@ -285,7 +285,7 @@ public class HeuristicsLoader {
                         setTimeTokens.add(term);
                         continue;
                     }
-                    //time indications
+                    //hashtag specific terms
                     if (map == 13) {
                         mapH13.put(term, heuristic);
                         continue;

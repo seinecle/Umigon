@@ -29,9 +29,11 @@ public class HashtagLevelHeuristics {
     private String hashtag;
     private String result;
     private List<String> listHashtags;
-    
-    @Inject HeuristicsLoader HLoader;
-    @Inject TermLevelHeuristics termLevelHeuristic;
+
+    @Inject
+    HeuristicsLoader HLoader;
+    @Inject
+    TermLevelHeuristics termLevelHeuristic;
 
     public HashtagLevelHeuristics() {
     }
@@ -50,7 +52,6 @@ public class HashtagLevelHeuristics {
             }
         }
 
-        
         if (listHashtags != null) {
             hashtags = new HashSet(listHashtags);
 //            System.out.println("tweet considered");
@@ -64,37 +65,46 @@ public class HashtagLevelHeuristics {
 //            if (hashtag.startsWith("stop")) {
 //                System.out.println("stop");
 //            }
-            isContainedInHashTagHeuristics();
+            if (isContainedInHashTagHeuristics()) {
+                return tweet;
+            }
             isHashTagContainingAnOpinion();
             isHashTagStartingWithAnOpinion();
         }
         return tweet;
     }
 
-    private void isContainedInHashTagHeuristics() {
+    private boolean isContainedInHashTagHeuristics() {
         for (String term : HLoader.getMapH13().keySet()) {
             if (hashtag.contains(term)) {
                 heuristic = HLoader.getMapH13().get(term);
-                result = termLevelHeuristic.checkFeatures(heuristic,tweet.getText(), hashtag);
+                result = termLevelHeuristic.checkFeatures(heuristic, tweet.getText(), hashtag);
                 // System.out.println("result: " + result);
                 if (result != null) {
                     tweet.addToListCategories(result, -2);
-                    break;
+                    return true;
                 }
 
             }
         }
+        return false;
     }
 
     private void isHashTagStartingWithAnOpinion() {
         boolean startsWithNegativeTerm = false;
         for (String term : HLoader.getMapH3().keySet()) {
+            if (term.length() < 4) {
+                continue;
+            }
             term = term.replace(" ", "");
             if (hashtag.startsWith(term)) {
                 hashtag = StringUtils.removeStart(hashtag, term);
             }
         }
         for (String term : HLoader.getSetNegations()) {
+            if (term.length() < 4) {
+                continue;
+            }
             term = term.replace(" ", "");
             if (hashtag.startsWith(term)) {
                 startsWithNegativeTerm = true;
@@ -102,6 +112,9 @@ public class HashtagLevelHeuristics {
             }
         }
         for (String term : HLoader.getMapH3().keySet()) {
+            if (term.length() < 4) {
+                continue;
+            }
             term = term.replace(" ", "");
             if (hashtag.startsWith(term)) {
                 hashtag = StringUtils.removeStart(hashtag, term);
@@ -109,6 +122,9 @@ public class HashtagLevelHeuristics {
         }
 
         for (String term : HLoader.getMapH1().keySet()) {
+            if (term.length() < 4) {
+                continue;
+            }
             term = term.replace(" ", "");
             if (hashtag.startsWith(term)) {
                 if (!HLoader.getSetFalsePositiveOpinions().contains(term)) {
@@ -123,6 +139,9 @@ public class HashtagLevelHeuristics {
             }
         }
         for (String term : HLoader.getMapH2().keySet()) {
+            if (term.length() < 4) {
+                continue;
+            }
             term = term.replace(" ", "");
             if (hashtag.startsWith(term)) {
                 if (!HLoader.getSetFalsePositiveOpinions().contains(term)) {
@@ -140,6 +159,9 @@ public class HashtagLevelHeuristics {
 
     private void isHashTagContainingAnOpinion() {
         for (String term : HLoader.getMapH1().keySet()) {
+            if (term.length() < 4) {
+                continue;
+            }
             term = term.replace(" ", "");
             if (hashtag.contains(term)) {
                 hashtag = StringUtils.removeEnd(hashtag, term);
@@ -167,6 +189,9 @@ public class HashtagLevelHeuristics {
             }
         }
         for (String term : HLoader.getMapH2().keySet()) {
+            if (term.length() < 4) {
+                continue;
+            }
             term = term.replace(" ", "");
             if (hashtag.contains(term)) {
                 hashtag = StringUtils.removeEnd(hashtag, term);

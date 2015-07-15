@@ -47,6 +47,7 @@ package Admin;
  */
 public class Parameters {
 
-    public static boolean local = false;
+    public static boolean local = true;
+    public static boolean test = true;
     
 }

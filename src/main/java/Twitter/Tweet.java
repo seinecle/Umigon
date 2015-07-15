@@ -40,10 +40,10 @@ public class Tweet implements Serializable {
     private boolean signaled;
 
     public Tweet() {
+        listCategories = new ArrayList();
+        mapCategoriesToIndex = new ArrayList();
     }
 
-    
-    
     //user
     public Tweet(User user) {
         listCategories = new ArrayList();

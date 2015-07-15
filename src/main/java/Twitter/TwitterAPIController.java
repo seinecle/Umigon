@@ -33,14 +33,15 @@ public class TwitterAPIController {
                 .setOAuthConsumerSecret(APIkeys.getTwitterConsumerSecret())
                 .setOAuthAccessToken("31805620-1QQsoAH98dSVRHXb21IBtLOrh8igwIov8NT2TvUCg")
                 .setOAuthAccessTokenSecret(APIkeys.getTwitterAccessTokenSecret());
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        twitter = tf.getInstance();
+
     }
 
     public List<Tweet> getTweetsFromSearchAPI(String string) throws TwitterException {
         tweets = new ArrayList();
         stringQueried = string;
 
-        TwitterFactory tf = new TwitterFactory(cb.build());
-        twitter = tf.getInstance();
         Query query = new Query(stringQueried);
         query.lang("en");
         query.count(100);
