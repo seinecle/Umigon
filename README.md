@@ -1,7 +1,8 @@
 **Umigon**
 ======  
-Branch "Umigon2.0" is the most recent version (Mavenized, improved version with JavaEE EJBs, etc).
+Branch "Umigon3.0" is the most recent version (Mavenized, improved version with JavaEE EJBs, etc).  
 
+The lexicons and associated heuristics are now online and available in: Umigon/src/main/java/Heuristics/heuristics.xlsx
 
 *Semantic analysis on Twitter*
 
