@@ -1,11 +1,8 @@
 **Umigon**
 ======  
-Branch "Umigon2.0" is the most recent version (Mavenized, improved version with JavaEE EJBs, etc).
+*Best of class Sentiment analysis on Twitter and social media*
 
-
-*Semantic analysis on Twitter*
-
-Try Umigon at [www.umigon.com](http://www.umigon.com)  
+Umigon is free to use and works on social media texts in English or French. It is available in "Nocode app", which provides other free functions for text analysis. [Find it here](https://seinecle.github.io/nocodeapp-mods/)  
 
 Read the tech paper [here](http://www.clementlevallois.net/download/umigon.pdf).
 
