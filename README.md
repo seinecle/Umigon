@@ -6,7 +6,7 @@ Umigon is free to use and works on social media texts in English or French. Init
 
 Read the original paper [here](http://www.clementlevallois.net/download/umigon.pdf).
 
-**The code base has moved to [new repositories -> there](https://github.com/seinecle/umigon-core). The repo you are visiting here is archived.**
+**The code base has moved to [new repositories -> there](https://github.com/seinecle/umigon-family). The repo you are visiting here is archived.**
 
 
 [Contact me](https://twitter.com/seinecle)!
